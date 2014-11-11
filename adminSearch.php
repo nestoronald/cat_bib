@@ -801,6 +801,7 @@ function editBook($idbook=0,$currentPage){
 		if (isset($temas_recovery)) {
 			$_SESSION["edit"]["temas_recovery"]=$temas_recovery;
 		}
+		$_SESSION["edit"]["sede"]=$result["sede"][0];
 
 		$objResponse->script("xajax_formPonenciasShow(".$idbook.")");
 		$objResponse->assign('paginator', 'style.display',"none");

@@ -3,7 +3,7 @@
 	require ('../class/ClassCombo.php');
 	require ('../class/ClassForm.php');
 	require ('../class/ClassPaginado.php');
-        require ('../class/ClassPaginator.php');
+    require ('../class/ClassPaginator.php');
 	require ('../class/dbconnect.php');
 	require ('../class/xajax_core/xajax.inc.php');
 	// require ('../class/RegisterInput.php');
@@ -180,14 +180,14 @@
                 $respuesta->assign("error", "innerHTML","<span class='span3 offset7 alert alert-error'><span class='add-on i-error'></span>Usuario y/o clave incorrectos</span>");
             break;
 			case 1:
-                                $idusers=$result["idusers"];
+                $idusers=$result["idusers"];
 				$users_name=$result["users_name"];
 				$area_description=$result["area_description"];
 				$users_type=$result["users_type"];
 				session_unset();
 				session_destroy();
 				session_start();
-                                $_SESSION["idusers"]=$idusers;
+                $_SESSION["idusers"]=$idusers;
 				$_SESSION["users_type"]=$users_type;
 				$_SESSION["idfrom"]=2;
 				$_SESSION["admin"]=$users_name;
@@ -196,29 +196,26 @@
 
 				if($_SESSION["idusers"]==8){
 					$respuesta->script("xajax_menuAAShow($idarea)");
-				}/*
-                                elseif($_SESSION["idarea"]==12){
-					$respuesta->script("xajax_menuGSShow($idarea)");
 				}
-                                */
 				else{
 					$respuesta->script("xajax_menuShow()");
+                    // $respuesta->alert(print_r($_SESSION, true));
 				}
 
 
-                                //$respuesta->alert(print_r($_SESSION, true));
 
-                                //$respuesta->script("xajax_crea_form();");
-                                $respuesta->script("xajax_inicio();");
-                                $enlace='<a id="new-clave" href="#" class="blanco" >Cambiar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
-                                $respuesta->assign("menu_d", "innerHTML","$enlace");
+
+                //$respuesta->script("xajax_crea_form();");
+                $respuesta->script("xajax_inicio();");
+                $enlace='<a id="new-clave" href="#" class="blanco" >Cambiar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
+                $respuesta->assign("menu_d", "innerHTML","$enlace");
 
 				//$respuesta->script("xajax_muestraFormGrafico()");
 				$respuesta->Assign("subcontent1","style.display","block");
 				//$respuesta->Assign("loginform","style.display","none");
-                                $respuesta->Assign("divformlogin","innerHTML","&nbsp");
-                                $respuesta->Assign("permiso","style.display","none");
-                                $respuesta->Assign("ingreso","style.display","block");
+                $respuesta->Assign("divformlogin","innerHTML","&nbsp");
+                $respuesta->Assign("permiso","style.display","none");
+                $respuesta->Assign("ingreso","style.display","block");
 
             break;
         }
@@ -433,28 +430,26 @@
 		$respuesta= new xajaxResponse();
 
                 $menu="";
-                if($_SESSION["admin"]=="admin"){
+        if(isset($_SESSION["admin"])){
 
-                    /*Menú de la nueva plantilla 2012*/
-                    switch($_SESSION["users_type"]){
-                        case 0: //el segundo parametro es el currentpage al ser cero utiliza el valor del formulario
-                            $menu.='<li><a id="new_register" href="#nuevo-registro" title="Nuevo Registro"> Nuevo </a></li>';
-                            $menu.="<li><a href='#Catalogo-busqueda' onclick='xajax_searchCategory(); return false;' > Consultas</a></li>";
-                            $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
-                            $form["demo"]="12";
-                            // $menu.="<li><a href='#Lista-registros' onclick='xajax_auxSearchShow(20,1,\"$form\"); return false;' ><img width='12px;' style='vertical-align:middle;' src='img/iconos/search_16.png' /> Lista de registros</a></li>";
-                            $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
-                    }
+            /*Menú de la nueva plantilla 2012*/
+            switch($_SESSION["users_type"]){
+            case 0: //el segundo parametro es el currentpage al ser cero utiliza el valor del formulario
+                $menu.='<li><a id="new_register" href="#nuevo-registro" title="Nuevo Registro"> Nuevo </a></li>';
+                $menu.="<li><a href='#Catalogo-busqueda' onclick='xajax_searchCategory(); return false;' > Consultas</a></li>";
+                $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
+                $form["demo"]="12";
+                // $menu.="<li><a href='#Lista-registros' onclick='xajax_auxSearchShow(20,1,\"$form\"); return false;' ><img width='12px;' style='vertical-align:middle;' src='img/iconos/search_16.png' /> Lista de registros</a></li>";
+                $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
+            }
 
-
-                    $menu.='<li><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
-                    $respuesta->assign("divformlogin", "style.display", "none");
-                    $html='<table><tr><td style="text-align: center;">';
-                    $html.='<img src="img/biblioteca.png" />';
-                    $html.='</td></tr></table>';
-
-                    $respuesta->assign("imghome", "innerHTML", $html);
-                }
+            $menu.='<li><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
+            $respuesta->assign("divformlogin", "style.display", "none");
+            $html='<table><tr><td style="text-align: center;">';
+            $html.='<img src="img/biblioteca.png" />';
+            $html.='</td></tr></table>';
+            $respuesta->assign("imghome", "innerHTML", $html);
+        }
 
 		$respuesta->assign("menu", "innerHTML", $menu);
 		$respuesta->script("
@@ -466,17 +461,13 @@
                     $(function(){
 
                         $("ul.dropdown li").hover(function(){
-
                             $(this).addClass("hover");
                             $("ul:first",this).css("visibility", "visible");
-
                         }, function(){
 
                             $(this).removeClass("hover");
                             $("ul:first",this).css("visibility", "hidden");
-
                         });
-
 
                         $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
 
@@ -954,7 +945,7 @@
 	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");
 
 	    // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
-	    $input_array = array("TypeMatBib","title","state","FxIng","Description","NoteGeneral","MatEntidad","temas_recovery");
+	    $input_array = array("TypeMatBib","title","state","FxIng","Description","NoteGeneral","MatEntidad","temas_recovery","sede");
 
 	    $titulo="Detalle";
 		if(isset($_SESSION["edit"])){
@@ -1118,6 +1109,14 @@
 				    <div class='control-group' id='25_state'>";
             $html .= $_SESSION["edit"]?$html_state:$html_state1;
 			$html .="</div>";
+            $sede_location = ($_SESSION["edit"]["sede"]==1)?"Mayorazgo":"Jicamarca";
+            $html .= "
+                    <div class='control-group'>
+                        <label class='control-label' for='title'>Sede</label>
+                        <div class='controls'>
+                        <input type='text' READONLY value=".$sede_location.">
+                        </div>
+                    </div>";
 
 	    // $objResponse->Assign("titulo_tipo_prepor","innerHTML","");
 	    $objResponse->Assign("titulo_tipo_prepor","innerHTML",$html);
@@ -1224,13 +1223,13 @@
 		// $objResponse->Assign("estadisticas", "style.display", "none");
         // $objResponse->script("xajax_cargaScriptDates()");
 
-/*		$years_help = "[";
+        /*$years_help = "[";
 		for ($i=1950; $i < (date('Y')-1); $i++) {
 			$years_help .= "'$i',";
 		}
 		$years_help = substr($years_help, 0,-1);
 		$years_help .= "]";*/
-	$years_help = generate_dictionary($type="date");
+	   $years_help = generate_dictionary($type="date");
         //diccionario de temas sugeridos
         $themes = tags_temas();
         $theme_dictionary = generate_dictionary($type="",$themes);
@@ -2144,472 +2143,7 @@
 		return $objResponse;
 
 	}
-    // function onclick_category(){
-    //     $objResponse = new xajaxResponse();
-    //     $objResponse->script('
-    //                     $(".searchSelect .span5").click(function(){
-    //                         if ($(this).attr("id")=="b_libros"){
-    //                             id = "b_libros";
-    //                         }
-    //                         else if($(this).attr("id")=="b_pub_periodica"){
-    //                             id = "b_pub_periodica";
-    //                         }
-    //                         else if($(this).attr("id")=="b_mapas"){
-    //                             id = "b_mapas";
-    //                         }
-    //                         else if($(this).attr("id")=="b_tesis"){
-    //                             id = "b_tesis";
-    //                         }
-    //                         else if($(this).attr("id")=="b_otros"){
-    //                             id = "b_otros";
-    //                         }
-    //                         else{
-    //                             id = "";
-    //                         }
-    //                         xajax_formConsultaShow("","admin","",id);
-    //                         //xajax_auxSearchShow(20,1,"");
 
-    //                     }).tooltip({
-    //                         trigger:"hover",
-    //                         placement:"top"
-    //                     });
-
-    //                     ');
-    //     return $objResponse;
-    // }
-	// function searchCategory(){
-	// 	$objResponse= new xajaxResponse();
- //        $diccionary = file_get_contents("js/diccionary.json");
- //        $diccionary_a = json_decode($diccionary,TRUE);
- //        $li ="";
- //        foreach ($diccionary_a["categoria"] as $key => $value) {
- //            $li .= "<li><a href='#".$key."' id='".$key."' class='span5' title='Busque en $value'><span>".$value."</span></a></li>";
- //        }
-	// 	$html ="
-	// 		<div class='nav_page'>
-	// 			<span>Consulta</span>
-	// 		</div>
-	//     	<div class='span7 searchSelect'>
-	//     	<h2 class='center'>Seleccione un catálogo</h2>
-	//     	<ul>".$li."</ul>
-	// 		</div>
-	//     	";
-	//     $objResponse->Assign("formulario","style.display","none");
- //  		$objResponse->assign('paginator', 'style.display',"none");
- //        $objResponse->assign("imghome", "style.display", "none");
- //        $objResponse->assign("option_category", "style.display", "none");
- //        $objResponse->assign("consultas", "style.display", "none");
- //        $objResponse->assign("author_section", "style.display", "none");
- //        $objResponse->assign("paginatorAuthor", "style.display", "none");
- //            //tempor...
- //     	$objResponse->assign("resultSearch1", "style.display", "none");
- //        $objResponse->assign("searchCat","style.display","block");
-	// 	$objResponse->assign("searchCat","innerHTML",$html);
-	// 	// $objResponse->script('
-	// 	// 				$(".searchSelect .span5").click(function(){
-	// 	// 					if ($(this).attr("id")=="b_libros"){
-	// 	// 						id = "b_libros";
-	// 	// 					}
-	// 	// 					else if($(this).attr("id")=="b_pub_periodica"){
-	// 	// 						id = "b_pub_periodica";
-	// 	// 					}
-	// 	// 					else if($(this).attr("id")=="b_mapas"){
-	// 	// 						id = "b_mapas";
-	// 	// 					}
-	// 	// 					else if($(this).attr("id")=="b_tesis"){
-	// 	// 						id = "b_tesis";
-	// 	// 					}
-	// 	// 					else if($(this).attr("id")=="b_otros"){
-	// 	// 						id = "b_otros";
-	// 	// 					}
-	// 	// 					else{
-	// 	// 						id = "";
-	// 	// 					}
-	// 	// 					xajax_formConsultaShow("","admin","",id);
-	// 	// 					//xajax_auxSearchShow(20,1,"");
-
-	// 	// 				}).tooltip({
-	// 	// 					trigger:"hover",
-	// 	// 					placement:"top"
-	// 	// 				});
-
-	// 	// 				');
- //        $objResponse->script("xajax_onclick_category()");
-
-	// 	return $objResponse;
-
-	// }
-	// function formConsultaShow($idbutton,$seccion="",$idarea=0,$id=""){
-	// 	$objResponse = new xajaxResponse();
-
-	// 	if(isset($_SESSION["edit"])){
-	// 	    unset($_SESSION["edit"]);
- //            unset($_SESSION["editar"]);
-	// 	    unset($_SESSION["publicaciones"]);
-	// 	}
-
-	// 	if ($id=='b_libros') {
-	// 		$html["title"] = "Libro";
-	// 		$form = array('author'=>'Autor','tema'=>'Tema');
-	// 	}
-	// 	if ($id=="b_tesis") {
-	// 		$html["title"] = "Tesis";
-	// 		$form = array('author'=>'Autor','tema'=>'Tema','univ'=>'Universidad');
-	// 	}
-	// 	if ($id=='b_pub_periodica') {
-	// 		$html["title"] = "Publicacion Periódicas";
-	// 		$form = array('resp_pub'=>'Responsable de la Publicación','tema'=>'Tema');
-	// 	}
-	// 	if ($id=='b_mapas') {
-	// 		$html["title"] = "Mapas";
-	// 		$form = array('author'=>'Autor','reg_geo'=>'Región Geográfica');
-	// 	}
-	// 	if ($id=='b_otros') {
-	// 		$html["title"] = "Otros Materiales";
-	// 		$form = array('author'=>'Autor','anio'=>'Año','tema'=>'Tema');
-	// 	}
-	// 	$j=1;
-	// 	$html_check = "";
-	// 	foreach ($form as $key => $value) {
-	// 		$html_check .= '<label class="checkbox inline">
-	// 				<input type="radio" id="query_type_'.$j.'" name="query_type" value="'.$key.'"> '.$value.'
-	// 				</label>';
-	// 		$j++;
-	// 	}
-
-	// 	$html='
-
-	// 		<div id="divformSearch">
-	// 		<div id="submenu_bar" class="nav_page">
-
-	// 		</div>
-	// 		<div class="span7 offset3">
-	// 		<span class="fright"><a class="txt-back" onclick="xajax_abstractShow(\'searchCat\'); xajax_abstractHide(\'consultas\'); xajax_abstractHide(\'paginator\');xajax_abstractHide(\'resultSearch1\');" href="#Catalogo-busqueda">Catálogo de Búsqueda</a></span>
-	// 		<h2 class="txt-azul">'.$html["title"].'</h2>
-	// 		<form id="formSearch">'.$formArea.'
-	// 				<p>Busqueda por los siguientes criterios:</p>
-	// 				<input type="hidden" id="search_cat" name="search_cat" value="'.$id.'" >
-	// 				<input type="hidden" id="search_option0" name="search_option" value="s_simple" >
-	// 			    <label class="checkbox inline">
-	// 				  <input type="radio" id="query_type_1" name="query_type" value="title" checked> Título
-	// 				</label>';
-	// 	$html .=	$html_check.'
-	// 				<label class="checkbox inline">
-	// 				  <input type="radio" id="query_type_3" name="query_type" value="b_all" >Todos Los campos
-	// 				</label>
-
-	// 			<div class="clear"></div>
-	// 			<div>
- //                    <div id="div_tituloSearch" class="contenedor-caja-buscador-1">
- //                        <input id="tituloSearch" name="tituloSearch" type="text" size="30" autocomplete="off" class="caja-buscador-1">
- //                    </div>
-	// 			</div>
- //                <button id="btn-search">Buscar</button>
- //                <button id="btn-clear">Limpiar</button>
- //                <p><a href="#search-advanced" id="search-advanced" onclick="xajax_search_advanced(); return false;" title="Clik aquí para una Búsqueda Avanzada">Busqueda Avanzada</a></p>
-
-	// 			<div class="clear"></div>
-	// 			<div id="msj_query_type"> <span>(Puede omitir las tildes, mayuscúlas)</span></div>
-	// 			<div id="moreOptions"></div>
-	// 		</form>
-	// 		</div>
-	// 		<div class="span3"></div>
-	// 		</div>
-
-	// 		<div id="div-search-advanced"></div>
-
-	// 		<!--div id="resultSearch" style="display: none;"></div-->
-	// 	';
-	//     $objResponse->Assign("consultas",'style.display',"block");
-	//     $objResponse->Assign("consultas","innerHTML",$html);
-	//     $objResponse->Assign("formulario","style.display","none");
-	//     $objResponse->Assign("searchCat","style.display","none");
-	//     //tempor...
-	//     // $objResponse->Assign("resultSearch1","style.display","block");
- //            $objResponse->assign('paginator', 'style.display',"none");
- //            $objResponse->assign("imghome", "style.display", "none");
- //            $objResponse->assign("option_category", "style.display", "none");
- //            $objResponse->assign("author_section", "style.display", "none");
- //            $objResponse->assign("paginatorAuthor", "style.display", "none");
-
- //        $data_sugerencia = file_get_contents("js/susgerencias.json");
-	// 	$sugerencia_a=json_decode($data_sugerencia,true);
-	// 	$sug = "[";
-
-	// 	foreach ($sugerencia_a["libro"]["title"] as $key => $value) {
-	// 		$sug .="'$value',";
-	// 	}
-	// 	$sug = substr($sug, 0,-1);
-	// 	$sug .= "]";
-	// 	// $objResponse->alert(print_r( $sug, TRUE));
-
-	//     //$objResponse->assign('botonGuardarEditar', 'innerHTML',$comboYear);
-	//     $objResponse->script('
- //            xajax_submenu_items("'.$id.'");
-	//     		function typesugerencias(cat,subcat){
-	//     			var sugerencias = new Array();
-	// 		    	$.getJSON("js/susgerencias.json", function(datos) {
-	// 	                $.each(datos[cat][subcat], function(idx,item) {
-	// 	                	sugerencias.push(item);
-	// 	                });
-	// 	            });
-	// 	            return sugerencias;
-	//     		}
-	//     		var subcat= $("input[name=query_type]").val();
-
-	//     		sug = typesugerencias("'.$id.'",subcat);
-	//     		$("input[name=query_type]").change(function(){
-
-	//     			var subcat= $(this).val();
-	//     			var sug = typesugerencias("'.$id.'",subcat);
-	//     			$("#tituloSearch").typeahead({source: sug});
-
-	//     		});
-	//     		$("#btn-search").button({
- //                    icons: {
- //                        primary: "ui-icon-search"
- //                    }
- //                }).
-	//     		click(function() {
- //                    xajax_auxSearchShow(20,1,xajax.getFormValues(formSearch));
- //                    return false;
-	//     		});
-
-	//     		$("#btn-clear").button()
-	//     		.click(function(){
-	//     			$("#tituloSearch").val("").focus();
-	//     			return false;
-	//     		});
-	//     		$("#search-advanced").tooltip({
-	//     			trigger:"hover",
-	//     			placement:"bottom"});
-
-	// 	');
-	// 	return $objResponse;
-	// }
-    // function submenu_items($type){
-    //     $objResponse = new xajaxResponse();
-    //     $diccionary = file_get_contents("js/diccionary.json");
-    //     $diccionary_a = json_decode($diccionary,TRUE);
-    //     $item="";
-    //     if (isset($type)) {
-    //         foreach ($diccionary_a["categoria"] as $key => $value) {
-    //             if ($key!=$type) {
-    //                 $item.="<li><a id='".$key."' onclick='xajax_formConsultaShow(\"\",\"admin\",\"\",\"$key\"); return false;' href='#".$key."'>".$value."</a></li>";
-    //             }
-    //         }
-    //     }
-
-    //     $html = '<div class="nav_page">
-    //                 <a href="#Catalogo-busqueda" onclick="xajax_abstractShow(\'searchCat\'); xajax_abstractHide(\'consultas\'); xajax_abstractHide(\'paginator\');xajax_abstractHide(\'resultSearch1\');">Consulta</a> >>
-    //                 <span class="realtive dropdown">
-    //                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    //                     '.$diccionary_a["categoria"][$type].'
-    //                     <b class="caret"></b>
-    //                     </a>
-    //                     <ul class="dropdown-menu">'.$item.'
-    //                     </ul></span>
-    //             </div>';
-    //     $objResponse->assign("submenu_bar","innerHTML",$html);
-    //     return $objResponse;
-    // }
-
-    // function search_advanced(){
-    // 	$objResponse = new xajaxResponse();
-    // 	$str_country = file_get_contents("./js/country.json");
-    // 	$country = json_decode($str_country,true);
-
-    // 	$html ='
-    // 		<div class="nav_page">
-    // 				<a href="#" onclick="xajax_abstractShow(\'searchCat\'); xajax_abstractHide(\'consultas\'); xajax_abstractHide(\'paginator\');xajax_abstractHide(\'resultSearch1\');">Consulta</a> >>
-    // 				<span>Busqueda Avanzadas</span>
-    // 		</div>
-    // 		<span class="fright"><a onclick="xajax_abstractShow(\'divformSearch\'); xajax_abstractHide(\'paginator\');xajax_abstractHide(\'div-search-advanced\'); " class="txt-back" href="#Catalogo-busqueda">Atras </a></span>
-    // 		<div class="block_1">
-    // 		<h2>Búsqueda Avanzada</h2>
-    // 		<p>Por favor rellene las casillas, seleccione los límites, y haga click en BUSCAR</p>
-
-    // 		<form class="form-horizontal" name="frm_search_ad" id="frm_search_ad">
-    // 		<div class="control-group">
-    // 		<input type="hidden" id="search_option1" name="search_option" value="s_advanced" >
-    // 		<label class="control-label" for="a_category">Buscar en</label>
-    // 		 <div class="controls">
-    // 		  <select name="a_category" class="span2">
-    // 			<option value="a_libros">Libros</option>
-    // 			<option value="a_tesis">Tesis</option>
-    // 			<option value="a_mapas">Mapas</option>
-    // 			<option value="a_pub_periodica">Publicaciones</option>
-    // 			<option value="a_otros">Otros</option>
-    // 		  </select>
-    // 		 </div>
-    // 		</div>
-    // 		<div class="control-group">
-    // 			<select name="a_fields_01" class="span2">
-    // 				<option value="a_all">Todos los campos</option>
-    // 				<option value="a_titulo">Título</option>
-    // 				<option value="a_author">Author</option>
-    // 				<option value="a_tema">Tema</option>
-    // 				<option value="a_editor">Editor</option>
-    // 			</select>
-    // 			<input type="text" name="a_text1">
-    // 			<select name="a_oper_1" class="span2">
-    // 				<option value="a_oper">Operadores</option>
-    // 				<option value="a_and">Y</option>
-    // 				<option value="a_or">OR</option>
-    // 				<option value="a_not">NO</option>
-    // 			</select>
-    // 		</div>
-    // 		<div class="control-group">
-    // 			<select name="a_fields_02" class="span2">
-    // 				<option value="a_all">Todos los campos</option>
-    // 				<option value="a_titulo">Título</option>
-    // 				<option value="a_author">Author</option>
-    // 				<option value="a_tema">Tema</option>
-    // 				<option value="a_editor">Editor</option>
-    // 			</select>
-    // 			<input type="text" name="a_text2">
-    // 			<select name="a_oper_2" class="span2">
-    // 				<option value="a_oper">Operadores</option>
-    // 				<option value="a_and">Y</option>
-    // 				<option value="a_or">OR</option>
-    // 				<option value="a_not">NO</option>
-    // 			</select>
-    // 		</div>
-    // 		<div class="control-group">
-    // 			<select name="a_fields_03" class="span2">
-    // 				<option value="a_all">Todos los campos</option>
-    // 				<option value="a_titulo">Título</option>
-    // 				<option value="a_author">Author</option>
-    // 				<option value="a_tema">Tema</option>
-    // 				<option value="a_editor">Editor</option>
-    // 			</select>
-    // 			<input type="text" name="a_text3">
-    // 		</div>
-    // 		<div class="control-group">
-    // 			<label class="control-label" for="a_languaje">Idioma</label>
-    // 			   <div class="controls">
-    // 				<select name="a_languaje" id="a_languaje" class="span2">
-    // 					<option value="l_all">Cualquiera</option>
-    // 					<option value="l_esp">Español</option>
-    // 					<option value="l_eng">Ingles</option>
-    // 					<option value="l_fr">Frances</option>
-    // 				</select>
-    // 		      </div>
-    // 		</div>
-    // 		<div class="control-group">
-    // 			<label class="control-label" for="a_country">Pais</label>
-    // 			  <div class="controls">
-    // 				<select name="a_country" id="a_country" class="span2">
-    // 					<option value="PE" selected >Perú</option>';
-    // 	foreach ($country as $key => $value) {
-    // 		$html .="<option value='$key'>$value</option>";
-    // 	}
-    // 	$html .='
-    // 				</select>
-    // 		      </div>
-    // 		</div>
-    // 		<div class="control-group">
-    // 		<label for="year" class="control-label"> Publicado entre los años: </label>';
-    // 	$year_present = date('Y'); 	$html_year_des=""; $html_year_asc ="";
-    // 	for ($i=1950; $i < ($year_present+1); $i++) {
-    // 		$html_year_asc .="<option value='$i'>$i</option>";
-    // 	}
-    // 	for ($i=$year_present; $i > 1949; $i--) {
-    // 		$html_year_des .="<option value='$i'>$i</option>";
-    // 	}
-    // 	$html .='
-    // 			<div class="controls">
-    // 			<select name="a_year_asc" id="a_year_asc" class="len1"> '.$html_year_asc.'</select> Y
-    // 			<select name="a_year_desc" id="a_year_desc" class="len1">'.$html_year_des.'</select>
-    // 			</div>
-
-    // 		</div>
-    // 		<span class="" separation=""></span>
-    // 		<div class="control-group">
-    // 		  <label class="control-label" for="a_list">Ver en Lista</label>
-    // 		    <div class="controls">
-    // 				<select name="a_list" id="a_list" class="span2">
-    // 					<option value="10">10</option>
-    // 					<option value="15">25</option>
-    // 					<option value="20">30</option>
-    // 				</select>
-    // 		    </div>
-    // 		</div>
-    // 		</form>
-    // 		<div class="control-group">
-    // 		<input type="button" id="btn_a_search" class="btn btn-search"  value="Buscar">
-    // 		<input type="button" id="btn_a_clear" class="btn" value="Limpiar"></div>
-    // 		<div class="control-group"><a href="#Catalogo-busqueda" onclick="xajax_abstractShow(\'searchCat\'); xajax_abstractHide(\'consultas\'); xajax_abstractHide(\'paginator\'); ">Busqueda simple</a></div>
-    // 		<span class="separator"></span>
-    // 	 </div>';
-    // 		$objResponse->assign("divformSearch","style.display","none");
-    // 		$objResponse->assign("author_section","style.display","none");
-    // 		$objResponse->assign("div-search-advanced","style.display","block");
-    // 		$objResponse->assign("div-search-advanced","innerHTML","$html");
-    // 		$objResponse->script('
-    // 			$("#btn_a_search").click(function() {
-    // 				var text1 = $("input[name=\'a_text1\']").val().trim();
-    // 				var text2 = $("input[name=\'a_text2\']").val().trim();
-    // 				var text3 = $("input[name=\'a_text3\']").val().trim();
-    // 				var oper1 = $("select[name=\'a_oper_1\']").val().trim();
-    // 				var oper2 = $("select[name=\'a_oper_2\']").val().trim();
-    // 				//l_text1 = text1.length;
-    // 				//alert(l_text1);
-    // 				if (text1=="") {
-    // 					// alert("Debe Ingresar el primer texto");
-    // 					if (text2=="") {
-    // 						if (text3=="") {
-    // 							alert("Los campos no deben estar vacios");
-    // 							$("input[name=\'a_text1\']").focus();
-    // 							return false;
-    // 						}
-    // 						else{
-    // 							alert("Debe Ingresar el primer texto y segundo");
-    // 							return false;
-    // 						}
-    // 					}
-    // 					else{
-    // 						alert("Debe Ingresar el primer texto ");
-    // 						return false;
-    // 					}
-    // 				}
-    // 				else{
-    // 					if (oper1=="a_oper") {
-    // 						alert("Debe seleccionar el primer operador AND u OR");
-    // 					}
-    // 					else{
-    // 						if (text2=="") {
-    // 							alert("Debe ingresar el segundo texto");
-    // 						}
-    // 						else{
-    // 							if (oper2=="a_oper") {
-    // 								if (text3=="") {
-    // 									xajax_auxSearchShow(20,1,xajax.getFormValues(frm_search_ad));
-    // 								}
-    // 								else{
-    // 									alert("Debe seleccionar el segundo operador AND u OR ")
-    // 								}
-    // 							}
-    // 							else{
-    // 								if (text3=="") {
-    // 									alert("Seleccionó el segundo operador entonces debe insertar el tercer campo ")
-    // 								}
-    // 								else{
-    // 									xajax_auxSearchShow(20,1,xajax.getFormValues(frm_search_ad));
-    // 								}
-    // 							}
-    // 						}
-    // 					}
-
-    // 				}
-
-    //                     // xajax_auxSearchShow(20,1,xajax.getFormValues(formSearch));
-    //                      // return false;
-    // 	    	});'
-    // 		);
-
-    // 		return $objResponse;
-    // }
     function ListReserva(){
         $objResponse = new xajaxResponse();
         $html ="
