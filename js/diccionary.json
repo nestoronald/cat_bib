@@ -1,0 +1,53 @@
+{
+    "categoria":
+    {
+        "b_libros":"Libros",
+        "b_mapas":"Mapas",
+        "b_pub_periodica":"Publicaciones periódicas",
+        "b_tesis":"Tesis",
+        "b_otros":"Otros materiales"
+    },
+    "campos":
+    {
+        "tipo":"Tipo de material bibliográfico",
+        "FxReg":"Fecha de registro",
+        "ISBN":"ISBN",
+        "languaje":"Idioma",
+        "NumLC":"Clasificación LC",
+        "NumDewey":"Clas. Dewey",
+        "Class_IGP":"Clasificación IGP",
+        "authorPRI":"Autor",
+        "title":"Titulo",
+        "numEdition":"Numero edición",
+        "Edition":"Edición",
+        "Description":"Descripción física",
+        "Serie":"Serie",
+        "NoteGeneral":"Notas Generales",
+        "NoteTesis":"Notas de tesis",
+        "NoteBiblio":"Notas bibliográficas",
+        "NoteConte":"Notas de contenido",
+        "Resumen":"Resumen",
+        "Theme":"Tema",
+        "CongSec": "Congresos secundarios",
+        "TitSec": "Títulos secundarios",
+    	"FxIng":"Fecha de ingreso",
+        "ModAdqui":"Modalidad adquisición",
+        "Catalogador":"Catalogador",
+        "UbicFis":"Ubicación física",
+        "NumIng":"Número de ingreso",
+        "UbicElect":"Ubicación electrónica",
+    	"state":"Estado",
+        "ax_files":" ",
+        "NumReg":"Numero de registro",
+        "EncMat":"Encabezamiento de materia",
+        "NumEjem":"Número de ejemplares"
+    },
+    "languaje":
+    {
+        "eng":"Ingles",
+        "spa":"Español",
+        "fre":"Frances",
+        "rus":"Ruso"
+    }
+
+}

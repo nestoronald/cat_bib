@@ -1,0 +1,35 @@
+{
+"sugerencias":
+		{
+			"b_libros":{
+				"title":["estudio","terremoto","institute","instituto geofisico del peru","peru", "lima","sismicidad","sismo","fisica","electronica","ciencia","tsunami","world","desastres",
+			    		"geofisica","vulnerabilidad","clima","volcanes","geophysical"],
+				"author":["tavera","alan"],
+				"tema":["marketing","mecanica"]
+			},
+			"b_mapas":{
+				"title":["mapa","geografia"],
+				"author":[],
+				"geographic":[]
+			},
+			"b_pub_periodica":{
+				"title":[""],
+				"resp_pub":[],
+				"tema":[]
+			},
+			"b_tesis":{
+				"title":[""],
+				"author":[],
+				"tema":[],
+				"university":[]
+			},
+			"b_otros":{
+				"title":[""],
+				"author":[],
+				"anio":[],
+				"university":[]
+			}
+		}
+
+}
+

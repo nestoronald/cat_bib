@@ -1,0 +1,9 @@
+#RewriteEngine On
+ 
+#RewriteRule ^admin.html admin.php
+
+##restringiendo accesos a directorios
+#AuthName "img"
+#AuthUserFile /ruta/.htpasswd
+#AuthType basic
+#Require valid-user    "img"
