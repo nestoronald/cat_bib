@@ -208,8 +208,14 @@
 
 				$titulo="<a  href='#' onclick='$f_evento' class='resultado' >".$titulo."</a>";
 				$del_order="";
+				if ($_SESSION["origin"]=="back") {
+
+				}
 				if (isset($_SESSION["idfrom"])) {
-					$del_order="<a class='del_register' href='#' onclick='xajax_delBook(".$result["idbook"][$i].",$currentPage); return false;' ><i class='icon-trash'></i>Eliminar</a>";
+					if ($_SESSION["users_sede"]==$result["sede"][$i]) {
+					   	$del_order="<a class='del_register' href='#' onclick='xajax_delBook(".$result["idbook"][$i].",$currentPage); return false;' ><i class='icon-trash'></i>Eliminar</a>";
+					}
+
 				}
 				else{
 					$del_order="<a class='give' href='#' onclick='xajax_Reservation(".$result["idbook"][$i]."); return false;' ><i class='icon-plus'></i>Reservar</a>";

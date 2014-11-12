@@ -196,11 +196,6 @@
 
 
 				$respuesta->script("xajax_menuShow()");
-                $respuesta->alert(print_r($_SESSION, true));
-
-
-
-
 
                 //$respuesta->script("xajax_crea_form();");
                 $respuesta->script("xajax_inicio();");
