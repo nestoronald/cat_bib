@@ -241,6 +241,7 @@
 			foreach($dbh->query($sql) as $row) {
 				$result["book_data"][$i]= $row["book_data"];
 				$result["idbook"][$i]= $row["idbook"];
+				$result["sede"][$i]= $row["sede"];
 				$i++;
 			}
 
@@ -1493,6 +1494,21 @@
 	        else{
 	        	return false;
 	        }
+	    }
+		$dbh = null;
+      }
+      function query_sede($idsede=0){
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+		if ($stmt = $dbh->prepare("SELECT * FROM sede WHERE id = ?")) {
+	        $stmt->execute(array($idsede));
+	        $result=$stmt->fetch(PDO::FETCH_ASSOC);
+			if($stmt->rowCount() == 1) {// sede existe
+				return $result;
+			}
+			else{
+				return -100;
+			}
 	    }
 		$dbh = null;
       }

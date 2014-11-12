@@ -45,7 +45,8 @@
 	            $iduser=$_SESSION["idusers"];
                     $respuesta->alert($iduser);
                     */
-                $sessionidarea="";
+        $_SESSION["origin"]="back";
+        $sessionidarea="";
 		if(isset($_SESSION["admin"])){
 		    if($_SESSION["admin"]!=""){
 		    	if($_SESSION["idarea"]!=8){
@@ -127,11 +128,8 @@
 					</div>
 					<input type="submit" name="Login" class="btn" value="Ingresar">
 					<div id="error"></div>
-
-
                 </form>
                 ';
-
 
 	    $respuesta->Assign("divformlogin","innerHTML",$form);
 	    return $respuesta;
@@ -184,6 +182,7 @@
 				$users_name=$result["users_name"];
 				$area_description=$result["area_description"];
 				$users_type=$result["users_type"];
+                $users_sede=$result["sede"];
 				session_unset();
 				session_destroy();
 				session_start();
@@ -191,16 +190,14 @@
 				$_SESSION["users_type"]=$users_type;
 				$_SESSION["idfrom"]=2;
 				$_SESSION["admin"]=$users_name;
+                $_SESSION["users_sede"]=$users_sede;
 				$_SESSION["authorPRI"] = array();
 				$_SESSION["authorSEC"] = array();
 
-				if($_SESSION["idusers"]==8){
-					$respuesta->script("xajax_menuAAShow($idarea)");
-				}
-				else{
-					$respuesta->script("xajax_menuShow()");
-                    // $respuesta->alert(print_r($_SESSION, true));
-				}
+
+				$respuesta->script("xajax_menuShow()");
+                $respuesta->alert(print_r($_SESSION, true));
+
 
 
 
@@ -433,15 +430,15 @@
         if(isset($_SESSION["admin"])){
 
             /*Menú de la nueva plantilla 2012*/
-            switch($_SESSION["users_type"]){
-            case 0: //el segundo parametro es el currentpage al ser cero utiliza el valor del formulario
+            //switch($_SESSION["users_type"]){
+            //case 0: //el segundo parametro es el currentpage al ser cero utiliza el valor del formulario
                 $menu.='<li><a id="new_register" href="#nuevo-registro" title="Nuevo Registro"> Nuevo </a></li>';
                 $menu.="<li><a href='#Catalogo-busqueda' onclick='xajax_searchCategory(); return false;' > Consultas</a></li>";
                 $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
                 $form["demo"]="12";
                 // $menu.="<li><a href='#Lista-registros' onclick='xajax_auxSearchShow(20,1,\"$form\"); return false;' ><img width='12px;' style='vertical-align:middle;' src='img/iconos/search_16.png' /> Lista de registros</a></li>";
                 $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
-            }
+            //}
 
             $menu.='<li><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
             $respuesta->assign("divformlogin", "style.display", "none");
@@ -662,8 +659,8 @@
 
 	    $_SESSION["tipoDocumento"]="ponencias";
 	    $_SESSION["subcategory"]="ponencia";
-            $_SESSION["idtypedocument"]=2;
-            $_SESSION["idsubcategory"]=0;
+        $_SESSION["idtypedocument"]=2;
+        $_SESSION["idsubcategory"]=0;
 
 
 
@@ -1069,6 +1066,7 @@
 			}
 			//resumen
 			$html .= "<div id='id_0520_c'></div>";
+            /*temas borrador
             $html .= "
                     <div class='control-group'>
                         <label class='control-label' for='title'>temas(borrador)</label>
@@ -1076,7 +1074,7 @@
                         <textarea class='textarea span7' >".$input["temas_recovery"]."</textarea>
                         <span id='title_error' class='msg_error color_red'></span>
                         </div>
-                    </div>";
+                    </div>";*/
 
             $Themes_1 = Query_input('016');
             $html .= $Themes_1["html"];
@@ -1109,12 +1107,16 @@
 				    <div class='control-group' id='25_state'>";
             $html .= $_SESSION["edit"]?$html_state:$html_state1;
 			$html .="</div>";
-            $sede_location = ($_SESSION["edit"]["sede"]==1)?"Mayorazgo":"Jicamarca";
+            $idsede = isset($_SESSION["edit"]["sede"])?$_SESSION["edit"]["sede"]:$_SESSION["users_sede"];
+            $result_sede = query_sede($idsede);
+            $location_sede=$result_sede!=-100?$result_sede["descripcion"]:"Sede desconocida";
+            //$location_sede = (isset($_SESSION["edit"]))?($_SESSION["edit"]["sede"]==1?"Mayorazgo":"Jicamarca"):($_SESSION["users_sede"]==1?"Mayorazgo":"Jicamarca");
             $html .= "
                     <div class='control-group'>
                         <label class='control-label' for='title'>Sede</label>
                         <div class='controls'>
-                        <input type='text' READONLY value=".$sede_location.">
+                        <input type='text' READONLY value='".$location_sede."'>
+                        <input type='hidden' name='sede' value=".$idsede.">
                         </div>
                     </div>";
 
@@ -3463,7 +3465,6 @@
 	$xajax->registerFunction('iniAreasAdministrativasShow');
 	$xajax->registerFunction('iniTitulo_Presentado');
 	$xajax->registerFunction('registerCompendioYear');
-	$xajax->registerFunction('iniNroCompendioYear');
 
 	$xajax->registerFunction('comboTipoAsuntosAcademicosShow');
 
@@ -3473,16 +3474,13 @@
 	$xajax->registerFunction('registerYearQuarter');
 	$xajax->registerFunction('comboYearRegisterShow');
 	$xajax->registerFunction('comboQuarter');
-	$xajax->registerFunction('iniYearQuarter');
 	$xajax->registerFunction('registerBoletinMagnitud');
-	$xajax->registerFunction('iniNroMagnitud');
 	$xajax->registerFunction('comboMagnitudShow');
 	$xajax->registerFunction('registerRegDepFechas');
 	$xajax->registerFunction('registerTitulo');
 	$xajax->registerFunction('iniTitulo');
 
 	$xajax->registerFunction('comboDepartamentoShow');
-	$xajax->registerFunction('iniRegionDepartamentoFechas');
 	$xajax->registerFunction('comboRegionShow');
 	$xajax->registerFunction('comboTipoInformacionInternaShow');
 	$xajax->registerFunction('formInformacionInternaShow');
@@ -3499,8 +3497,6 @@
 	$xajax->registerFunction('registerTipoPonencia');
 	$xajax->registerFunction('comboCategoriaEvento');
 	$xajax->registerFunction('comboTipoPonencia');
-	$xajax->registerFunction('iniEvento');
-	$xajax->registerFunction('iniLugarPais');
 	$xajax->registerFunction('iniTitulo_Tipo_Presentado');
 	$xajax->registerFunction('formPonenciasShow');
 	/*******Seccion Ponencias********************/
@@ -3516,9 +3512,7 @@
 
 	//Registramos funciones para formularios y selects
 
-	$xajax->registerFunction('newReferenceRegister');
 	$xajax->registerFunction('comboTipoTesisShow');
-	$xajax->registerFunction('seccionShow');
 	$xajax->registerFunction('comboTipoFechasShow');
 	$xajax->registerFunction('iniTitulo_Tipo_Presentado');
 	$xajax->registerFunction('registerLugarPais');
@@ -3528,10 +3522,8 @@
 	// Registramos funciones para las fechas, el estado y los permisos
 	// ------------------------------------------------------------------
 	$xajax->registerFunction('iniDateStatusPermission');
-	$xajax->registerFunction('iniStatus');
 	$xajax->registerFunction('iniDates');
 	$xajax->registerFunction('iniPermission');
-	$xajax->registerFunction('iniDatePermission');
 	$xajax->registerFunction('registerPermission');
 	$xajax->registerFunction('registerPermissionKey');
 	$xajax->registerFunction('registerStatus');
@@ -3573,8 +3565,6 @@
 
 	$xajax->registerFunction('iniTitulo_Resumen');
 	$xajax->registerFunction('iniTitulo_ResumenShow');
-	$xajax->registerFunction('iniEstadoShow');
-	$xajax->registerFunction('iniReferenciaShow');
 	$xajax->registerFunction('iniAuthorPriShow');
 	$xajax->registerFunction('iniAuthorSecShow');
 	$xajax->registerFunction('iniAreaShow');
@@ -3591,9 +3581,6 @@
 
 	$xajax->registerFunction('inicio');
 	$xajax->registerFunction('cerrarSesion');
-
-	$xajax->registerFunction('searchReferenciaShow');
-	$xajax->registerFunction('searchReferenciaResult');
 
 	/*************Registrar Funciones de Autores****************/
 	$xajax->registerFunction('searchAuthorSesionPriShow');
@@ -3617,13 +3604,9 @@
 
 
 	$xajax->registerFunction('busquedaReferenciaShow');
-	$xajax->registerFunction('nuevaReferenciaShow');
 
-
-	$xajax->registerFunction('editShow');
 	$xajax->registerFunction('formSubcategoryShow');
 	$xajax->registerFunction('formPublicacionShow');
-	$xajax->registerFunction('formEstadisticaShow');
 
 	$xajax->registerFunction('comboReferenciaShow');
 	$xajax->registerFunction('comboEstadoPublicacionShow');

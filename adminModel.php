@@ -319,7 +319,7 @@
 		$dbh->query("SET NAMES 'utf8'");
 
 	        //$sql="select a.idarea,a.area_description, u.idusers, u.users_name, u.users_type from area a, users u where a.idarea=u.idarea and u.users_name='$usuario' and users_password='$clave' and users_type='1'";
-                $sql="select idusers, users_name, users_type from users u where u.users_name='$usuario' and users_password='$clave' and users_state='1'";
+        $sql="select idusers, users_name, users_type, sede from users u where u.users_name='$usuario' and users_password='$clave' and users_state='1'";
 
 	    $i=0;
 	    if($dbh->query($sql)){
@@ -327,14 +327,16 @@
                 $result["idusers"][$i]=$row["idusers"];
 	            $result["users_name"][$i]=$row["users_name"];
 	            $result["users_type"][$i]=$row["users_type"];
+	            $result["sede"][$i]=$row["sede"];
 	            $i++;
 	        }
 
 	        if(isset($result["idusers"])){
 	                for($i=0;$i<count($result["idusers"]);$i++){
-                                $result["idusers"]=$result["idusers"][$i];
+                            $result["idusers"]=$result["idusers"][$i];
 	                        $result["users_name"]=$result["users_name"][$i];
 	                        $result["users_type"]=$result["users_type"][$i];
+	                        $result["sede"]=$result["sede"][$i];
 	                }
 	                $result["Count"]=count($result["idusers"]);
 	        }
@@ -535,7 +537,7 @@
 
 	}
 
-	function newPonenciaSQL($action,$iddata=0,$idsubcategory,$xml){
+	function newPonenciaSQL($action,$iddata=0,$idsubcategory,$xml,$sede=1){
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
 
@@ -565,8 +567,8 @@
 	        	$stmt->execute(array($iddata));
 	        	//comprobar que el registro existe
 	        	if($stmt->rowCount() == 0) {*/
-	        		$stmt = $dbh->prepare("INSERT INTO book(book_data, book_enabled) value(?,?) ");
-	        		$stmt->execute(array($xml,1));
+	        		$stmt = $dbh->prepare("INSERT INTO book(book_data, book_enabled,sede) value(?,?,?) ");
+	        		$stmt->execute(array($xml,1,$sede));
 	        		$result["Error"]=100;
 	        	/*}
 	        	else{
