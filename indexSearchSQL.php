@@ -225,6 +225,12 @@
 	    	$sql = "Select * from book where ExtractValue(book_data,'book/Theme/*/detalle') like '%$theme_tag' and idbook!=$idbook";
 	    }
 	  }
+	  elseif($_SESSION["origin"]=="back"){
+	  	if (isset($_SESSION["users_sede"])) {
+	  		$sql .= " AND sede =  '".$_SESSION["users_sede"]."'";
+	  	}
+	  }
+
 
 		//paginar
 		if($currentPage<>"" and $pageSize<>""){

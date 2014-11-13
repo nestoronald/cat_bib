@@ -2,8 +2,8 @@
 
 function editBook($idbook=0,$currentPage){
 
-		$objResponse = new xajaxResponse();
-		$result=searchPublication_iddataSQL($idbook);
+	$objResponse = new xajaxResponse();
+	$result=searchPublication_iddataSQL($idbook);
 		// $idCategory=$result["idcategory"][0];
 	if ($_SESSION["users_sede"]==$result["sede"][0]) {
 		$idCategory=2;
@@ -63,7 +63,9 @@ function editBook($idbook=0,$currentPage){
 		        if (isset($xmlt->tipo)) {
 		        	$TypeMatBib = (string)$xmlt->tipo;
 		        }
-		        else{$TypeMatBib = "Otro material";}
+		        else{
+		        	$TypeMatBib = "Otro material";
+		        }
 		        if (isset($xmlt->FxReg)) {
 		        	$FxReg = (string)$xmlt->FxReg;
 		        }
@@ -75,7 +77,7 @@ function editBook($idbook=0,$currentPage){
 		        }
 		        if (isset($xmlt->Edition)) {
 		        	$Edition = (array)$xmlt->Edition;
-				foreach ($Edition as $key => $value) {
+					foreach ($Edition as $key => $value) {
 		        		if (empty($value)) {
 		        			$Edition[$key] = (string)$xmlt->Edition->$key;
 		        		}
@@ -91,7 +93,7 @@ function editBook($idbook=0,$currentPage){
 		        if (isset($xmlt->Description)) {
 		        	// $Description = (string)$xmlt->Description;
 		        	$Description = (array)$xmlt->Description;
-				foreach ($Description as $key => $value) {
+					foreach ($Description as $key => $value) {
 		        		if (empty($value)) {
 		        			$Description[$key] = (string)$xmlt->Description->$key;
 		        		}
@@ -102,7 +104,7 @@ function editBook($idbook=0,$currentPage){
 
 		        	foreach ($Theme as $key => $value) {
 		        	 	$Theme[$key] =(array)$xmlt->Theme->$key;
-		        	 }
+		        	}
 		        }
 		        if (isset($xmlt->FxIng)) {
 		        	$FxIng = (string)$xmlt->FxIng;
@@ -115,19 +117,19 @@ function editBook($idbook=0,$currentPage){
 		        }
                 if (isset($xmlt->languaje)) {
                 	$languaje = (array)$xmlt->languaje;
-			foreach ($languaje as $key => $value) {
+					foreach ($languaje as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($languaje[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->NumLC)) {
                 	$NumLC = (array)$xmlt->NumLC;
-			foreach ($NumLC as $key => $value) {
+					foreach ($NumLC as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($NumLC[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->NumDewey)) {
                 	$NumDewey = (string)$xmlt->NumDewey;
@@ -137,39 +139,39 @@ function editBook($idbook=0,$currentPage){
                 }
                 if (isset($xmlt->EncMat)) {
                 	$EncMat = (array)$xmlt->EncMat;
-			foreach ($EncMat as $key => $value) {
+					foreach ($EncMat as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($EncMat[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->OtherTitles)) {
                 	$OtherTitles = (array)$xmlt->OtherTitles;
-			foreach ($OtherTitles as $key => $value) {
+					foreach ($OtherTitles as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($OtherTitles[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->Periodicidad)) {
                 	$Periodicidad = (string)$xmlt->Periodicidad;
                 }
                 if (isset($xmlt->Serie)) {
                 	$Serie = (array)$xmlt->Serie;
-			$Serie = (array)$xmlt->Serie;
+					$Serie = (array)$xmlt->Serie;
                 	foreach ($Serie as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($Serie[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->NoteGeneral)) {
                 	$NoteGeneral = (array)$xmlt->NoteGeneral;
-			foreach ($NoteGeneral as $key => $value) {
+					foreach ($NoteGeneral as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($NoteGeneral[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->NoteTesis)) {
                 	$NoteTesis = (string)$xmlt->NoteTesis;
@@ -182,81 +184,81 @@ function editBook($idbook=0,$currentPage){
                 }
                 if (isset($xmlt->DesPersonal)) {
                 	$DesPersonal = (array)$xmlt->DesPersonal;
-			foreach ($DesPersonal as $key => $value) {
+					foreach ($DesPersonal as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($DesPersonal[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->MatEntidad)) {
                 	$MatEntidad = (array)$xmlt->MatEntidad;
-			foreach ($MatEntidad as $key => $value) {
+					foreach ($MatEntidad as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($MatEntidad[$key]);
 		        		}
-		        }
+		        	}
                 }
                 if (isset($xmlt->Descriptor)) {
                 	$Descriptor = (array)$xmlt->Descriptor;
-			foreach ($Descriptor as $key => $value) {
+					foreach ($Descriptor as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($Descriptor[$key]);
 		        		}
-		        }
+		        	}
                 }
-               if (isset($xmlt->Descriptor_geo)) {
+                if (isset($xmlt->Descriptor_geo)) {
                 	$Descriptor_geo = (array)$xmlt->Descriptor_geo;
-			foreach ($Descriptor_geo as $key => $value) {
+					foreach ($Descriptor_geo as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($Descriptor_geo[$key]);
 		        		}
-		       }
+		       		}
                 }
-               if (isset($xmlt->CongSec)) {
+                if (isset($xmlt->CongSec)) {
                 	$CongSec = (string)$xmlt->CongSec;
                 }
-               if (isset($xmlt->TitSec)) {
+                if (isset($xmlt->TitSec)) {
                 	$TitSec = (array)$xmlt->TitSec;
                 }
-               if (isset($xmlt->Fuente)) {
+                if (isset($xmlt->Fuente)) {
                 	$Fuente = (array)$xmlt->Fuente;
-			foreach ($Fuente as $key => $value) {
+					foreach ($Fuente as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($Fuente[$key]);
 		        		}
-		        }
+		        	}
                 }
-               if (isset($xmlt->NumIng)) {
+                if (isset($xmlt->NumIng)) {
                 	$NumIng = (array)$xmlt->NumIng;
-			foreach ($NumIng as $key => $value) {
+					foreach ($NumIng as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($NumIng[$key]);
 		        		}
-		        }
+		        	}
                 }
-               if (isset($xmlt->UbicElect)) {
+                if (isset($xmlt->UbicElect)) {
                 	$UbicElect = (string)$xmlt->UbicElect;
                 }
-               if (isset($xmlt->ModAdqui)) {
+                if (isset($xmlt->ModAdqui)) {
                 	$ModAdqui = (string)$xmlt->ModAdqui;
                 }
-               if (isset($xmlt->Catalogador)) {
+                if (isset($xmlt->Catalogador)) {
                 	$Catalogador = (string)$xmlt->Catalogador;
                 }
-               if (isset($xmlt->NumEjem)) {
+                if (isset($xmlt->NumEjem)) {
                 	$NumEjem = (string)$xmlt->NumEjem;
                 }
-               if (isset($xmlt->state)) {
-	        	$state = (array)$xmlt->state;
-			foreach ($state as $key => $value) {
+                if (isset($xmlt->state)) {
+	        		$state = (array)$xmlt->state;
+					foreach ($state as $key => $value) {
 		        		if (empty($value)) {
 		        			unset($state[$key]);
 		        		}
-		        }
-	       }
-		       if (isset($xmlt->temas)) {
+		        	}
+	       		}
+		        if (isset($xmlt->temas)) {
 		        	$temas_recovery = (string)$xmlt->temas;
-		       }
+		        }
 
 		        //----------
 		        $autorPRI=(string)$xmlt->authorPRI->idauthor0;

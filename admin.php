@@ -142,6 +142,8 @@
 	function cerrarSesion(){
 		$respuesta = new xajaxResponse();
 		$_SESSION["admin"]="";
+        $_SESSION["users_sede"]="";
+        $_SESSION["idusers"]="";
 		$respuesta->redirect("admin.php", 0);
 		$respuesta->Assign("subcontent1","style.display","none");
 	    return $respuesta;

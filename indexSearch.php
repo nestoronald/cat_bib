@@ -22,32 +22,17 @@
 		$result=searchBookSQL($form);
 		$total=$result["Count"];
 		$idarea =1;
-		//if(isset($_SESSION["idfrom"])){
 
-			// if($form==""){
-				// //$result=searchPublicationSQL("","",$_SESSION["idfrom"],"","",$idarea);
-				// //$respuesta->script("xajax_formConsultaShow(".$_SESSION["idfrom"].")");
-				$respuesta->script("xajax_searchPublicationShow($form_get,'2','$currentPage','$pageSize','$idarea',$idauthor)");
-				$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,$form_get,$idarea);");
-
-				// $respuesta->alert($_SESSION["idfrom"]);
-			// }
-			// else{
-			// 	// $result=searchPublicationSQL("",$form,$_SESSION["idfrom"],"","",$idarea);
-			// 	$respuesta->script("xajax_searchPublicationShow($form_get,'2','$currentPage','$pageSize','$idarea','$action')");
-			// 	$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,$form_get,0)");
-			// 	// $respuesta->script("xajax_paginatorSearch($currentPage,20,400,$form_get,0)");
-			// }
-		//}
-		//$respuesta->assign('divformSearch', 'style.display',"none");
-                $respuesta->assign('paginator', 'style.display',"block");
-                $respuesta->assign('estadisticas', 'style.display','none');
-                // $respuesta->assign('divformSearch', 'style.display','none');
-                $respuesta->assign('author_section', 'style.display','none');
-                $respuesta->assign('paginatorAuthor', 'style.display','none');
-
-                $respuesta->assign('searchCat', 'style.display','none');
-                $respuesta->assign('div-search-advanced', 'style.display','none');
+		//$result=searchPublicationSQL("","",$_SESSION["idfrom"],"","",$idarea);
+		//$respuesta->script("xajax_formConsultaShow(".$_SESSION["idfrom"].")");
+		$respuesta->script("xajax_searchPublicationShow($form_get,'2','$currentPage','$pageSize','$idarea',$idauthor)");
+		$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,$form_get,$idarea);");
+		//$respuesta->alert($_SESSION["idfrom"]);
+        $respuesta->assign('paginator', 'style.display',"block");
+        $respuesta->assign('author_section', 'style.display','none');
+        $respuesta->assign('paginatorAuthor', 'style.display','none');
+        $respuesta->assign('searchCat', 'style.display','none');
+        $respuesta->assign('div-search-advanced', 'style.display','none');
 
          // $respuesta->alert(print_r($total,TRUE));
 
