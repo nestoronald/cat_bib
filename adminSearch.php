@@ -5,6 +5,7 @@ function editBook($idbook=0,$currentPage){
 	$objResponse = new xajaxResponse();
 	$result=searchPublication_iddataSQL($idbook);
 		// $idCategory=$result["idcategory"][0];
+
 	if ($_SESSION["users_sede"]==$result["sede"][0]) {
 		$idCategory=2;
 
@@ -14,8 +15,9 @@ function editBook($idbook=0,$currentPage){
 
         $_SESSION["edit"]["idbook"]=$idbook;
 
-		if($result["Count"]>0){
-		    $_SESSION["editar"]=1;
+		if($result["Count"]==1){
+
+
 
             if (isset($_SESSION["publicaciones"]["authorPRI"])){
                 unset($_SESSION["publicaciones"]["authorPRI"]);
@@ -424,8 +426,9 @@ function editBook($idbook=0,$currentPage){
 		if (isset($temas_recovery)) {
 			$_SESSION["edit"]["temas_recovery"]=$temas_recovery;
 		}
+		$_SESSION["editar"]=1;
 		$_SESSION["edit"]["sede"]=$result["sede"][0];
-
+		// $objResponse->alert(print_r($_SESSION,TRUE));
 		$objResponse->script("xajax_formPonenciasShow(".$idbook.")");
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");

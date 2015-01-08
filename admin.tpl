@@ -138,6 +138,7 @@
                             <div class="paginacion">
                                 <div id="paginator" class="wp-pagenavi"></div>
                             </div>
+                            <div id="conte_details"></div>
                     </div>
                 </div>
         </div>

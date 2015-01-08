@@ -884,7 +884,6 @@
 
 	function formConsultaShow($idbutton,$seccion="",$idarea=0,$id=""){
 		$objResponse = new xajaxResponse();
-
 		if(isset($_SESSION["edit"])){
 		    unset($_SESSION["edit"]);
             unset($_SESSION["editar"]);

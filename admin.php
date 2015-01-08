@@ -538,7 +538,8 @@
 		$respuesta->Assign("searchCat","style.display","none");
 		$respuesta->Assign("resultSearch1","style.display","none");
 		$respuesta->Assign("author_section","style.display","none");
-		$respuesta->Assign("paginatorAuthor","style.display","none");
+        $respuesta->Assign("paginatorAuthor","style.display","none");
+		$respuesta->Assign("conte_details","style.display","none");
 		$respuesta->Assign("option_category","style.display","block");
 		$respuesta->Assign("option_category","innerHTML",$html);
 
@@ -595,8 +596,11 @@
 		    unset($_SESSION["tmp"]);
 		    unset($_SESSION["publicaciones"]);
 		}
+        // $objResponse->alert(print_r($_SESSION,TRUE));
 		$result_book = searchBookSQL("","","");
+
 		if(isset($_SESSION["editar"])){
+
 		    if($_SESSION["editar"]==1){
 		        $action="UPD";
 		        $tituloBoton="ACTUALIZAR Y NUEVO";
@@ -2201,6 +2205,7 @@
         $objResponse->assign("consultas","style.display","none");
         $objResponse->assign("resultSearch1","style.display","none");
         $objResponse->assign("paginator","style.display","none");
+        $objResponse->assign("conte_details","style.display","none");
         $objResponse->assign("ListReserva","style.display","block");
         $objResponse->assign("ListReserva","innerHTML",$html);
         $objResponse->script("
@@ -2597,7 +2602,8 @@
     	$objResponse->assign("searchCat","style.display", "none");
     	$objResponse->assign("consultas","style.display", "none");
     	$objResponse->assign("resultSearch1","style.display", "none");
-    	$objResponse->assign("paginator","style.display", "none");
+        $objResponse->assign("paginator","style.display", "none");
+    	$objResponse->assign("conte_details","style.display", "none");
     	// $objResponse->assign("author_section","style.display", "block");
 
 
