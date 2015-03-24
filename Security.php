@@ -211,6 +211,34 @@ function newPassword($form) {
         }
     }
 }
+function newPasswordAdmin($form) {
+    // Using prepared Statements means that SQL injection is not possible.
+    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+    $dbh->query("SET NAMES 'utf8'");
+    if ($stmt = $dbh->prepare("SELECT * FROM users WHERE idusers = ? LIMIT 1")) {
+
+        $stmt->execute(array($form["iduser"])); // Execute the prepared query.
+        $result=$stmt->fetch(PDO::FETCH_ASSOC);
+        $pwd=$result["users_password"];
+        $pwd_frm=md5($form["pass"]);
+        $newpwd = md5($form["newpass"]);
+        if($stmt->rowCount() == 1) { // If the user exists
+            if($pwd_frm==$pwd){
+                $stmt = $dbh->prepare("UPDATE users SET users_password = ? WHERE idusers = ?");
+                $stmt->execute(array($newpwd,$form["iduser"]));
+                return true;
+            }
+            else{
+                return false;
+            }
+            // return true;
+        } else {
+            // No user exists.
+            return false;
+        }
+    }
+}
+
 function updateProfile($form="") {
     $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
     $dbh->query("SET NAMES 'utf8'");

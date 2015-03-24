@@ -83,6 +83,13 @@ function editBook($idbook=0,$currentPage){
 		        		if (empty($value)) {
 		        			$Edition[$key] = (string)$xmlt->Edition->$key;
 		        		}
+		        		if (is_array($value)) {
+		        			foreach ($value as $key1 => $value1) {
+		        				if (empty($value1)) {
+		        					$Edition[$key][$key1] = (string)$value1;
+		        				}
+		        			}
+		        		}
 		        	}
 		        }
 		        if (isset($xmlt->numEdition)) {
@@ -428,7 +435,7 @@ function editBook($idbook=0,$currentPage){
 		}
 		$_SESSION["editar"]=1;
 		$_SESSION["edit"]["sede"]=$result["sede"][0];
-		// $objResponse->alert(print_r($_SESSION,TRUE));
+		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
 		$objResponse->script("xajax_formPonenciasShow(".$idbook.")");
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");
@@ -488,7 +495,8 @@ function searchAuthorSesionPriResult($idauthor=""){
 function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor=""){
 
 	    $html="";
-	    $result= searchAuthorSesionPriResult($idauthor);
+        $result= searchAuthorSesionPriResult($idauthor);
+	    // $result= searchAuthorSesionSecResult($idauthor);
 		//Verificamos el array es null
         if($result["Error"]==2){
            $html="<table align='center'><tr><td>Añadir autor de la lista.</td></tr></table>";
@@ -509,9 +517,13 @@ function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor="
                         }
                     }
                     else{
-						    $_SESSION["tmp"]["authorPRI"]["idauthor"]=$idauthor;
-						    $_SESSION["tmp"]["authorPRI"]["author_name"]=$author_name;
-						    $_SESSION["tmp"]["authorPRI"]["author_surname"]=$author_surname;
+						    // $_SESSION["tmp"]["authorPRI"]["idauthor"]=$idauthor;
+						    // $_SESSION["tmp"]["authorPRI"]["author_name"]=$author_name;
+						    // $_SESSION["tmp"]["authorPRI"]["author_surname"]=$author_surname;
+                            // $_SESSION["tmp"]["authorPRI"]["idauthor"]=$idauthor;
+                            // $_SESSION["tmp"]["authorPRI"]["author_first_name"]=$author_first_name;
+                            // $_SESSION["tmp"]["authorPRI"]["author_second_name"]=$author_second_name;
+                            // $_SESSION["tmp"]["authorPRI"]["author_surname"]=$author_surname;
                     }
 
 		    //$objResponse->script("xajax_arrayAuthor()");
@@ -520,7 +532,7 @@ function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor="
 					<tr class="cab" style="text-align: left;">';
 		    $html.= "<td width='40px'>Nro</td>";
 		    $html.= "<td width='120px'>".$catAuthor_html."</td>";
-		    $html.= "<td width='40px'>Borrar</td>";
+		    $html.= "<td width='40px'>Borrar <span style='display:none'>".$query."</span></td>";
 		    $html.= "</tr>";
 
 
@@ -558,79 +570,79 @@ function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor="
 		    $recuperar=$_SESSION["tmp"];
 		}
 
-		$objResponse = new xajaxResponse();
-		if (isset($recuperar["authorPRI"]["idauthor"])){
-	            if (isset($_SESSION["publicaciones"]["authorPRI"])){
-	                unset($_SESSION["publicaciones"]["authorPRI"]);
-	            }
+		// $objResponse = new xajaxResponse();
+		// if (isset($recuperar["authorPRI"]["idauthor"])){
+	 //            if (isset($_SESSION["publicaciones"]["authorPRI"])){
+	 //                unset($_SESSION["publicaciones"]["authorPRI"]);
+	 //            }
 
-	            $idx=$recuperar["authorPRI"]["idauthor"];
-	            $i=0;
-	            foreach($idx as $key => $idauthor){
-	                $_SESSION["publicaciones"]["authorPRI"]["idauthor$i"]=$idauthor;
-	                $i++;
-	            }
+	 //            $idx=$recuperar["authorPRI"]["idauthor"];
+	 //            $i=0;
+	 //            foreach($idx as $key => $idauthor){
+	 //                $_SESSION["publicaciones"]["authorPRI"]["idauthor$i"]=$idauthor;
+	 //                $i++;
+	 //            }
 
-	            $firstx=$recuperar["authorPRI"]["author_first_name"];
-	            $i=0;
-	            foreach($firstx as $key => $author_first_name){
-	                $_SESSION["publicaciones"]["authorPRI"]["author_first_name$i"]=$author_first_name;
-	                $i++;
-	            }
+	 //            $firstx=$recuperar["authorPRI"]["author_first_name"];
+	 //            $i=0;
+	 //            foreach($firstx as $key => $author_first_name){
+	 //                $_SESSION["publicaciones"]["authorPRI"]["author_first_name$i"]=$author_first_name;
+	 //                $i++;
+	 //            }
 
-	            $secondx=$recuperar["authorPRI"]["author_second_name"];
-	            $i=0;
-	            foreach($secondx as $key => $author_second_name){
-	                $_SESSION["publicaciones"]["authorPRI"]["author_second_name$i"]=$author_second_name;
-	                $i++;
-	            }
+	 //            $secondx=$recuperar["authorPRI"]["author_second_name"];
+	 //            $i=0;
+	 //            foreach($secondx as $key => $author_second_name){
+	 //                $_SESSION["publicaciones"]["authorPRI"]["author_second_name$i"]=$author_second_name;
+	 //                $i++;
+	 //            }
 
-	            $surnamex=$recuperar["authorPRI"]["author_surname"];
-	            $i=0;
-	            foreach($surnamex as $key => $author_surname_name){
-	                $author_surname_name=(str_replace("'","*",$author_surname_name));
-	                $_SESSION["publicaciones"]["authorPRI"]["author_surname$i"]=$author_surname_name;
-	                $i++;
-	            }
+	 //            $surnamex=$recuperar["authorPRI"]["author_surname"];
+	 //            $i=0;
+	 //            foreach($surnamex as $key => $author_surname_name){
+	 //                $author_surname_name=(str_replace("'","*",$author_surname_name));
+	 //                $_SESSION["publicaciones"]["authorPRI"]["author_surname$i"]=$author_surname_name;
+	 //                $i++;
+	 //            }
 
-	        }
+	 //    }
 
-		if (isset($recuperar["authorSEC"]["idauthor"])){
-	            if (isset($_SESSION["publicaciones"]["authorSEC"])){
-	                unset($_SESSION["publicaciones"]["authorSEC"]);
-	            }
+		// if (isset($recuperar["authorSEC"]["idauthor"])){
+	 //            if (isset($_SESSION["publicaciones"]["authorSEC"])){
+	 //                unset($_SESSION["publicaciones"]["authorSEC"]);
+	 //            }
 
 
-	                $idx=$recuperar["authorSEC"]["idauthor"];
-	                $i=0;
-	                foreach($idx as $key => $idauthor){
-	                    $_SESSION["publicaciones"]["authorSEC"]["idauthor$i"]=$idauthor;
-	                    $i++;
-	                }
+	 //                $idx=$recuperar["authorSEC"]["idauthor"];
+	 //                $i=0;
+	 //                foreach($idx as $key => $idauthor){
+	 //                    $_SESSION["publicaciones"]["authorSEC"]["idauthor$i"]=$idauthor;
+	 //                    $i++;
+	 //                }
 
-	                $firstx=$recuperar["authorSEC"]["author_first_name"];
-	                $i=0;
-	                foreach($firstx as $key => $author_first_name){
-	                    $_SESSION["publicaciones"]["authorSEC"]["author_first_name$i"]=$author_first_name;
-	                    $i++;
-	                }
+	 //                $firstx=$recuperar["authorSEC"]["author_first_name"];
+	 //                $i=0;
+	 //                foreach($firstx as $key => $author_first_name){
+	 //                    $_SESSION["publicaciones"]["authorSEC"]["author_first_name$i"]=$author_first_name;
+	 //                    $i++;
+	 //                }
 
-	                $secondx=$recuperar["authorSEC"]["author_second_name"];
-	                $i=0;
-	                foreach($secondx as $key => $author_second_name){
-	                    $_SESSION["publicaciones"]["authorSEC"]["author_second_name$i"]=$author_second_name;
-	                    $i++;
-	                }
+	 //                $secondx=$recuperar["authorSEC"]["author_second_name"];
+	 //                $i=0;
+	 //                foreach($secondx as $key => $author_second_name){
+	 //                    $_SESSION["publicaciones"]["authorSEC"]["author_second_name$i"]=$author_second_name;
+	 //                    $i++;
+	 //                }
 
-	                $surnamex=$recuperar["authorSEC"]["author_surname"];
-	                $i=0;
-	                foreach($surnamex as $key => $author_surname_name){
-	                    $author_surname_name=(str_replace("'","*",$author_surname_name));
-	                    $_SESSION["publicaciones"]["authorSEC"]["author_surname$i"]=$author_surname_name;
-	                    $i++;
-	                }
+	 //                $surnamex=$recuperar["authorSEC"]["author_surname"];
+	 //                $i=0;
+	 //                foreach($surnamex as $key => $author_surname_name){
+	 //                    $author_surname_name=(str_replace("'","*",$author_surname_name));
+	 //                    $_SESSION["publicaciones"]["authorSEC"]["author_surname$i"]=$author_surname_name;
+	 //                    $i++;
+	 //                }
 
-	        }
+	 //    }
             /*****************arrayAuthor**************/
 
                 //$objResponse->alert(print_r($_SESSION["tmp"], true));
@@ -787,42 +799,42 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
                         }
                     }
                     else{
-                            $_SESSION["tmp"]["authorSEC"]["idauthor"]=$idauthor;
-                            $_SESSION["tmp"]["authorSEC"]["author_first_name"]=$author_first_name;
-                            $_SESSION["tmp"]["authorSEC"]["author_second_name"]=$author_second_name;
-                            $_SESSION["tmp"]["authorSEC"]["author_surname"]=$author_surname;
+                            // $_SESSION["tmp"]["authorSEC"]["idauthor"]=$idauthor;
+                            // $_SESSION["tmp"]["authorSEC"]["author_first_name"]=$author_first_name;
+                            // $_SESSION["tmp"]["authorSEC"]["author_second_name"]=$author_second_name;
+                            // $_SESSION["tmp"]["authorSEC"]["author_surname"]=$author_surname;
                     }
 
 		    //$objResponse->script("xajax_arrayAuthor()");
-            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Pais - Institución";
+            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Pais - Instituciónnnn";
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 						<tr class="cab" style="text-align: left;">';
 		    $html.= "<td>Nro</td>";
 		    $html.= "<td>".$catAuthor_html."</td>";
-		    $html.= "<td>Borrar</td>";
+		    $html.= "<td>Borrar <span style='display:none'>".$query."</span></td>";
 		    $html.= "</tr>";
 
 		    for($i=0;$i<$count;$i++){
 		            $nro=$i+1;
 		            $html.= "<tr class='impar'>";
 		            $html.= "<td>".$nro."</td>";
-	 if(ereg("'",$author_surname[$i])){
-	    $apellido=explode("'",$author_surname[$i]);
-	    $antes_caracter=ucfirst($apellido[0]);
-	    $despues_caracter=ucfirst($apellido[1]);
-	    $apellido=$antes_caracter."'".$despues_caracter;
-	}
-	else{
-	    $apellido=ucfirst($author_surname[$i]);
-	}
+            	if(ereg("'",$author_surname[$i])){
+            	    $apellido=explode("'",$author_surname[$i]);
+            	    $antes_caracter=ucfirst($apellido[0]);
+            	    $despues_caracter=ucfirst($apellido[1]);
+            	    $apellido=$antes_caracter."'".$despues_caracter;
+            	}
+            	else{
+            	    $apellido=ucfirst($author_surname[$i]);
+            	}
 
-		            $html.= "<td>".$apellido.", ".ucfirst($author_first_name[$i])."</td>";
+		        $html.= "<td>".$apellido.", ".ucfirst($author_first_name[$i])."</td>";
 
-		            $html.= "<td><a href='#formulario'><img alt='selet'  onclick='xajax_delSearchAuthorSesionSecShow(\"$idauthor[$i]\",\"".$action."\",\"".$catAuthor."\"); return false;' src='img/usersDEL.png'/></a></td>";
-		            $html.= "</tr>";
+		        $html.= "<td><a href='#formulario'><img alt='selet'  onclick='xajax_delSearchAuthorSesionSecShow(\"$idauthor[$i]\",\"".$action."\",\"".$catAuthor."\"); return false;' src='img/usersDEL.png'/></a></td>";
+		        $html.= "</tr>";
 		    }
 		    $html.= "</table>";
-		}
+	   }
 	    //$objResponse->assign('sesion_authorSEC', 'innerHTML',$html);
 
                                     /********arrayAuthor*************/
@@ -832,7 +844,7 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
 	elseif(isset($_SESSION["tmp"])){
 	    $recuperar=$_SESSION["tmp"];
 	}
-
+    //Edición: Recuperación rgistros de la base de datos
 	if (isset($recuperar["authorPRI"]["idauthor"])){
             if (isset($_SESSION["publicaciones"]["authorPRI"])){
                 unset($_SESSION["publicaciones"]["authorPRI"]);
@@ -867,7 +879,7 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
                 $i++;
             }
 
-        }
+    }
 
 	if (isset($recuperar["authorSEC"]["idauthor"])){
             if (isset($_SESSION["publicaciones"]["authorSEC"])){
@@ -904,10 +916,10 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
                     $i++;
                 }
 
-        }
+    }
             /*****************arrayAuthor**************/
 
-	    return $html;
+	return $html;
 }
 
 /*************************************************
@@ -1029,7 +1041,7 @@ function delSearchAuthorSesionPriShow($idauthor="",$action="",$catAuthor=""){
     $objResponse->assign("sesion_authorPRI","innerHTML",$html);
 
     // $objResponse->script("xajax_auxAuthorPriShow(5,1,xajax.getFormValues('autorPRI'))");
-    $objResponse->script("xajax_auxAuthorShow(5000,1,'','".$action."','','".$catAuthor."')");
+    //$objResponse->script("xajax_auxAuthorShow(5000,1,'','".$action."','','".$catAuthor."')");
     //$objResponse->script("xajax_auxAuthorSecShow(5,1,xajax.getFormValues('autorSEC'))");
     }
 
@@ -1940,7 +1952,7 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
 	//temporalmente
 	// unset($form["Descriptor"]);
 
-	// $objResponse->alert(print_r($form, TRUE));
+	$objResponse->alert(print_r($form["Theme"], TRUE));
 	// if (isset($form["ax-files"]) && !empty($form["ax-files"])) {
 	//    // $objResponse->alert(print_r("hola mundo", TRUE));
 	//    $form["ax_files"] = $form["ax-files"];

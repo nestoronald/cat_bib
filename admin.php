@@ -6,6 +6,7 @@
     require ('../class/ClassPaginator.php');
 	require ('../class/dbconnect.php');
 	require ('../class/xajax_core/xajax.inc.php');
+    require ('../class/smarty/Smarty.class.php');
 	// require ('../class/RegisterInput.php');
 	$xajax=new xajax();
         //$xajax->configure("debug", true);
@@ -19,10 +20,8 @@
 	require("indexSearch.php");
 
 	//Ejecutamos el modelo
-	require("adminModel.php");
-
-	//include ("graficos/FusionCharts.php");
-	//include("graficos/DBConn1.php");
+    require("adminModel.php");
+	require("Security.php");
 
 	if(isset($_GET["idarea"])){
 		$idarea=$_GET["idarea"];
@@ -33,8 +32,6 @@
 
 	session_name("bib");
 	session_start();
-
-
 
 	/************************************************************
 	Función que Verfica el Login
@@ -111,8 +108,75 @@
 
 		return $respuesta;
 	}
+    function aboutAdmin(){
+        $respuesta = new xajaxResponse();
+        $smarty = new Smarty;
+        $html= $smarty->fetch('tpl/about.tpl');
+        $respuesta->assign("imghome","style.display","none");
+        $respuesta->assign("author_section","style.display","none");
+        $respuesta->assign("paginatorAuthor","style.display","none");
+        $respuesta->assign("ListReserva","style.display","none");
+        $respuesta->assign("DivReserva","style.display","none");
+        $respuesta->assign("option_category","style.display","none");
+        $respuesta->assign("formulario","style.display","none");
+        $respuesta->assign("searchCat","style.display","none");
+        $respuesta->assign("consultas","style.display","none");
+        $respuesta->assign("resultSearch1","style.display","none");
+        $respuesta->assign("conte_details","style.display","none");
+        $respuesta->assign("paginator","style.display","none");
 
-
+        $respuesta->assign("about_admin","style.display","block");
+        $respuesta->assign("about_admin","innerHTML",$html);
+        $respuesta->script('
+            $(".nav-sidebar a").click(function(e){
+              $(".nav-sidebar li").removeClass("active");
+              $(this).parent("li").addClass("active");
+              conte = $(this).attr("href")
+              $(".reser").hide();
+              $(conte).show();
+            })
+            ');
+        return $respuesta;
+    }
+    function editPassAdmin($form){
+        $objResponse = new xajaxResponse();
+        $msj="";
+        $objResponse->alert(print_r($form,true));
+        if (isset($_SESSION["idusers"])) {
+            $pass = $form["pass"];
+            $newpass = $form["newpass"];
+            $renewpass = $form["renewpass"];
+            if (empty(trim($pass)) or empty(trim($newpass)) or empty(trim($renewpass))) {
+                $msj = "Ningun campo puede estar vacio";
+            }
+            else{
+                $pass = md5($pass);
+                $newpass = md5($newpass);
+                $renewpass = md5($renewpass);
+                if ($newpass!=$renewpass) {
+                    $msj = "Las contraseñas no coinciden";
+                    $objResponse->script("$('#renewpass').foucs(); return false;");
+                }
+                elseif ($pass==$newpass) {
+                    $msj = "La contraseña nueva debe ser diferente a la actual";
+                }
+                else{
+                    if (newPasswordAdmin($form)) {
+                        $html = "<div class='exito'>La Contraseña ha sido actualizado correctamente</div>";
+                        $objResponse->assign("modalbody","innerHTML",$html);
+                        $footer_html = '<button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>';
+                        $objResponse->assign("modalfooter","innerHTML",$footer_html);
+                        $objResponse->script("xajax_aboutAdmin();");
+                    }
+                    else{
+                        $msj="Verifique que la contraseña actual sea la correcta";
+                    }
+                }
+            }
+        }
+        $objResponse->assign("msj-pass","innerHTML",$msj);
+        return $objResponse;
+    }
 	function formLoginShow(){
 	    $respuesta = new xajaxResponse();
 
@@ -387,11 +451,6 @@
 							");
 
 					}
-					else{
-						// $objResponse->assign($nombre_titulos,"style.background","#FFFFFF");
-						// $objResponse->assign($nombre_titulos,"style.border","none");
-
-					}
 
 				}
 
@@ -426,18 +485,14 @@
                 $menu="";
         if(isset($_SESSION["admin"])){
 
-            /*Menú de la nueva plantilla 2012*/
-            //switch($_SESSION["users_type"]){
-            //case 0: //el segundo parametro es el currentpage al ser cero utiliza el valor del formulario
-                $menu.='<li><a id="new_register" href="#nuevo-registro" title="Nuevo Registro"> Nuevo </a></li>';
-                $menu.="<li><a href='#Catalogo-busqueda' onclick='xajax_searchCategory(); return false;' > Consultas</a></li>";
-                $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
-                $form["demo"]="12";
-                // $menu.="<li><a href='#Lista-registros' onclick='xajax_auxSearchShow(20,1,\"$form\"); return false;' ><img width='12px;' style='vertical-align:middle;' src='img/iconos/search_16.png' /> Lista de registros</a></li>";
-                $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
-            //}
-
-            $menu.='<li><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
+            $menu.='<li><a id="new_register" href="#nuevo-registro" title="Nuevo Registro"> Nuevo </a></li>';
+            $menu.="<li><a href='#Catalogo-busqueda' onclick='xajax_searchCategory(); return false;' > Consultas</a></li>";
+            $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
+            $form["demo"]="12";
+            $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
+            $medu_rigth.='<li class="fright"><a href="Instructivo_uso_Administrador.pdf" target="__blank"><b> ? </b> </a></li>';
+            $medu_rigth.='<li class="fright"><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
+            $medu_rigth.='<li class="fright"><a href="#perfil" onclick="xajax_aboutAdmin(); return false;">'.$_SESSION["admin"].'</a></li>';
             $respuesta->assign("divformlogin", "style.display", "none");
             $html='<table><tr><td style="text-align: center;">';
             $html.='<img src="img/biblioteca.png" />';
@@ -446,6 +501,7 @@
         }
 
 		$respuesta->assign("menu", "innerHTML", $menu);
+        $respuesta->assign("menu_rigth", "innerHTML", $medu_rigth);
 		$respuesta->script("
 					$('#new_register').click(function(){
 						xajax_formCategoryShow(2); return false;
@@ -539,7 +595,8 @@
 		$respuesta->Assign("resultSearch1","style.display","none");
 		$respuesta->Assign("author_section","style.display","none");
         $respuesta->Assign("paginatorAuthor","style.display","none");
-		$respuesta->Assign("conte_details","style.display","none");
+        $respuesta->Assign("conte_details","style.display","none");
+		$respuesta->Assign("about_admin","style.display","none");
 		$respuesta->Assign("option_category","style.display","block");
 		$respuesta->Assign("option_category","innerHTML",$html);
 
@@ -1533,7 +1590,7 @@
 		// $respuest["add"] = "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
 		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
 		$repetibles = array("id_0250","002","006","007","009","010","014","015","016","017","019","020","021");
-		$textarea = array("012","010","id_0520","011");
+		$textarea = array("013","012","010","id_0520","011");
 		switch ($id) {
 
 				case 'id_020':
@@ -1779,7 +1836,7 @@
 						$respuesta["html"] .= "
 							    <div class='controls' id='".$id."_1'> ";
 							    if (in_array($id, $textarea)) {
-									$respuesta["html"].="<textarea class='textarea' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'></textarea>";
+									$respuesta["html"].="<textarea class='textarea span7' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'></textarea>";
 								}
 								else{
 									$respuesta["html"].="<input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'  value=''>";
@@ -1813,7 +1870,7 @@
 								<div class='controls'>";
 
 						if (in_array($id, $textarea)) {
-							$respuesta["html"].="<textarea class='textarea' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'>$val_input</textarea>";
+							$respuesta["html"].="<textarea class='textarea span7' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'>$val_input</textarea>";
 						}
 						else{
 							$respuesta["html"].="<input type='text' placeholder='".$respuesta["labelinput"]."' value='$val_input' id='$idinput' name='$idinput'  />";
@@ -2122,7 +2179,7 @@
 	}
 	function delInput($idDiv,$labelinput="",$idinput=""){
 		$objResponse = new xajaxResponse();
-		// $objResponse->alert(print_r($idDiv, TRUE));
+		$objResponse->alert(print_r($labelinput, TRUE));
 		$objResponse->script("
 					var idDiv = $('#".$idDiv."').parents('div').attr('id');
 					$('#".$idDiv."').remove();
@@ -2137,11 +2194,14 @@
 							$(this).find('span.msg_error').attr('id','".$idinput."_'+(index)+'_error');
 						});
 					}
-					$('#themes_bib tbody tr').each(function(index){
-						$(this).children('td:eq(1)').find('input').attr('name','".$idinput."[pri0'+(index+1)+'][detalle]');
-						$(this).children('td:eq(2)').attr('id','idtd'+(index+1)).find('input').attr('name','".$idinput."[pri0'+(index+1)+'][secundary][]');
-						$(this).attr('id','idtr'+(index+1)).children('td:eq(0)').children('span:eq(0)').html(index+1);
-					});
+                    if (idDiv!='id_0250') {
+                        $('#themes_bib tbody tr').each(function(index){
+                            $(this).children('td:eq(1)').find('input').attr('name','".$idinput."[pri0'+(index+1)+'][detalle]');
+                            $(this).children('td:eq(2)').attr('id','idtd'+(index+1)).find('input').attr('name','".$idinput."[pri0'+(index+1)+'][secundary][]');
+                            $(this).attr('id','idtr'+(index+1)).children('td:eq(0)').children('span:eq(0)').html(index+1);
+                        });
+                    }
+
 			");
 		return $objResponse;
 
@@ -2206,6 +2266,7 @@
         $objResponse->assign("resultSearch1","style.display","none");
         $objResponse->assign("paginator","style.display","none");
         $objResponse->assign("conte_details","style.display","none");
+        $objResponse->assign("about_admin","style.display","none");
         $objResponse->assign("ListReserva","style.display","block");
         $objResponse->assign("ListReserva","innerHTML",$html);
         $objResponse->script("
@@ -2455,12 +2516,13 @@
     		        }
     		        else{
     		                //Limpiamos los valores de la sesión
-    		            unset($_SESSION["tmp"]["authorPRI"]);
+    		            // unset($_SESSION["tmp"]["authorPRI"]);
     		            $_SESSION["tmp"]["authorPRI"][$idauthor]=1;
     		        }
 
-    		        $_SESSION["autor"]=$idauthor;
+    		        // $_SESSION["autor"]=$idauthor;
     		        $html_pri=searchAuthorSesionPriShow_sinXajax($idauthor,$action,$catAuthor);
+                    $objResponse->alert(print_r($_SESSION["tmp"]["authorPRI"],true));
                 	$objResponse->Assign("sesion_authorPRI","innerHTML",$html_pri);
                 }
                 elseif ($typeAuthor=="secundary") {
@@ -2470,9 +2532,10 @@
     	            else{
     	                $_SESSION["tmp"]["authorSEC"][$idauthor]=1;
     	            }
-    	            $html_sec=searchAuthorSesionSecShow_sinXajax($idauthor);
+    	            $html_sec=searchAuthorSesionSecShow_sinXajax($idauthor,$action,$catAuthor);
     	            $objResponse->Assign("sesion_authorSEC","innerHTML",$html_sec);
                 }
+
             }
             elseif ($catAuthor=="AuthorInst") {
 
@@ -2518,7 +2581,7 @@
     	}
     	elseif ($catAuthor=="AuthorInst") {
     		$idtable="listtable_inst";
-    		$html_label="Pais - Institución ";
+    		$html_label="Pais - Institución";
     	}
     	else{
     		$idtable="listtable";
@@ -2603,7 +2666,8 @@
     	$objResponse->assign("consultas","style.display", "none");
     	$objResponse->assign("resultSearch1","style.display", "none");
         $objResponse->assign("paginator","style.display", "none");
-    	$objResponse->assign("conte_details","style.display", "none");
+        $objResponse->assign("conte_details","style.display", "none");
+    	$objResponse->assign("about_admin","style.display", "none");
     	// $objResponse->assign("author_section","style.display", "block");
 
 
@@ -3672,6 +3736,8 @@
     $xajax->registerFunction('ListReserva');
     $xajax->registerFunction('procesar_reserva');
     $xajax->registerFunction('delete_reserva');
+    $xajax->registerFunction('aboutAdmin');
+    $xajax->registerFunction('editPassAdmin');
 
     $xajax->registerFunction('cambiar_estado');
     $xajax->registerFunction('show_details_back');
@@ -3680,6 +3746,22 @@
 
 
 	//Mostramos la pagina
-	require("adminView.php");
+	// require("adminView.php");
+    $smarty = new Smarty;
+    $smarty->assign("xajax",$xajax->printJavascript());
+    if(isset($_GET["about"]) ){
+        if ($_GET["about"]=="admin") {
+            $smarty->display('tpl/about.tpl');
+        }
+            else{
+            $smarty->display('admin.tpl');
+        }
+    }
+    else{
+        $smarty->display('admin.tpl');
+    }
+
+
+
 
 ?>

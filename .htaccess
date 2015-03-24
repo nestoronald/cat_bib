@@ -1,6 +1,6 @@
-#RewriteEngine On
- 
-#RewriteRule ^admin.html admin.php
+RewriteEngine On
+
+RewriteRule ^admin admin.php
 
 ##restringiendo accesos a directorios
 #AuthName "img"

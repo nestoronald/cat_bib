@@ -870,7 +870,8 @@
 	        $objResponse->assign("author_section", "style.display", "none");
 	        $objResponse->assign("paginatorAuthor", "style.display", "none");
 	        $objResponse->assign("conte_details", "style.display", "none");
-	        $objResponse->assign("ListReserva","style.display","none");
+            $objResponse->assign("ListReserva","style.display","none");
+	        $objResponse->assign("about_admin","style.display","none");
 	            //tempor...
 	     	$objResponse->assign("resultSearch1", "style.display", "none");
 	        $objResponse->assign("searchCat","style.display","block");
