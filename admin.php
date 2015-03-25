@@ -2522,7 +2522,7 @@
 
     		        // $_SESSION["autor"]=$idauthor;
     		        $html_pri=searchAuthorSesionPriShow_sinXajax($idauthor,$action,$catAuthor);
-                    $objResponse->alert(print_r($_SESSION["tmp"]["authorPRI"],true));
+                    $objResponse->alert(print_r($html_pri,true));
                 	$objResponse->Assign("sesion_authorPRI","innerHTML",$html_pri);
                 }
                 elseif ($typeAuthor=="secundary") {
@@ -2594,6 +2594,7 @@
     		";
     	$html= '
     			<a href="#" id="newAuthor_'.$catAuthor.'" class="openNewAuthor fright"><span class="icon-plus-sign"></span>Nuevo</a>
+                <span style="display:none">'.$result["query_autor"].'</span>
     			<table id="'.$idtable.'" width="100%" class="listAuthor tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">
     			<thead>
     			<tr class="cab">

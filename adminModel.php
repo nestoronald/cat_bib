@@ -163,6 +163,7 @@
 	                if(isset($result["idauthor"])){
 	                    $result["Error"]=0;
 	                    $result["Query"]=$sql;
+                        $result["query_autor"]=$strSQL;
 	                    $result["Count"]=count($result["idauthor"]);
 
 	                }
@@ -186,6 +187,7 @@
 	    }
 	    else{
 	        $result["Error"]=2;
+            $result["query_autor"]=$strSQL;
 	        $result["Query"]=$sql;
 	    }
 
