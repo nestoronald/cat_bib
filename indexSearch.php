@@ -42,7 +42,7 @@
 	function searchPublicationShow($form,$searchFrom=0, $currentPage="", $pageSize="", $idarea=0,$idauthor=0, $idbook=0,$theme_tag=""){
 		$objResponse = new xajaxResponse();
 		//$objResponse->alert(arrayToXml($form,"search"));
-		// $objResponse->alert(print_r($form,TRUE));
+		//$objResponse->alert(print_r($form,TRUE));
 
 		if($searchFrom==2){
 			list($html,$total)=searchbook($form, $currentPage, $pageSize,$idauthor, $idbook,$theme_tag);
@@ -84,7 +84,7 @@
 		$result_exact = search_exact($form,$result);
 
 		$html = "<div class='clear'></div>";
-		// $sql = $result["Query"];
+		$sql = $result["Query"];
 		if ($form["search_cat"]=='b_libros' or $form["a_category"]=='a_libros') {
 			$ht["title"] = "Libros";
 		}
@@ -110,6 +110,7 @@
 			foreach ($result["book_data"] as $xmldata){
 
 				//libxml_use_internal_errors(true);
+                // $xmldata = utf8_decode($xmldata);
 				$xmlt = simplexml_load_string($xmldata);
 				if (!$xmlt) {
 
@@ -235,7 +236,7 @@
 						</span>
 						<span class='span10'>
 
-							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem;
+							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem.$sql;
 				$html.="</span>
 						<span class='span1 state'>".$estado.$del_order."</span>
 						<span class='msj-loan'></span>
