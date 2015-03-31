@@ -38,6 +38,7 @@ function editBook($idbook=0,$currentPage){
 			}
 
 			foreach ($result["book_data"] as $xmldata){
+                $xmldata = str_replace('&', '&amp;', $xmldata);
 				$xmlt = simplexml_load_string($xmldata);
 
 		        if (isset($xmlt->title)) {

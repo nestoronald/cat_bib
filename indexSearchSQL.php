@@ -85,7 +85,15 @@
 						//Otros
 						else /* ($form["query_type"]=="b_all")*/ {
 							$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
-							$sql .=	" AND (ExtractValue(book_data,'book/child::*') like '%".$form["tituloSearch"]."%')";
+                            $sql .= " AND (
+                               (ExtractValue(book_data,'book/title') != '".$form["tituloSearch"]."') AND
+                                   (
+                                    (ExtractValue(book_data,'book/child::*') like '%".$form["tituloSearch"]."%')";
+                            $sql .= " ";
+                            $sql .= " OR (ExtractValue(book_data,'book/*/child::*') like '%".$form["tituloSearch"]."%')";
+							$sql .=	" OR (ExtractValue(book_data,'book/*/*/child::*') like '%".$form["tituloSearch"]."%')
+                                   )
+                                )";
 						}
 					}
 

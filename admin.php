@@ -141,7 +141,6 @@
     function editPassAdmin($form){
         $objResponse = new xajaxResponse();
         $msj="";
-        $objResponse->alert(print_r($form,true));
         if (isset($_SESSION["idusers"])) {
             $pass = $form["pass"];
             $newpass = $form["newpass"];
@@ -155,7 +154,7 @@
                 $renewpass = md5($renewpass);
                 if ($newpass!=$renewpass) {
                     $msj = "Las contraseñas no coinciden";
-                    $objResponse->script("$('#renewpass').foucs(); return false;");
+                    $objResponse->script("$('#renewpass').focus(); return false;");
                 }
                 elseif ($pass==$newpass) {
                     $msj = "La contraseña nueva debe ser diferente a la actual";
@@ -164,9 +163,9 @@
                     if (newPasswordAdmin($form)) {
                         $html = "<div class='exito'>La Contraseña ha sido actualizado correctamente</div>";
                         $objResponse->assign("modalbody","innerHTML",$html);
-                        $footer_html = '<button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>';
+                        $footer_html = '<button class="btn exit"  data-dismiss="modal" aria-hidden="true">Cerrar</button>';
                         $objResponse->assign("modalfooter","innerHTML",$footer_html);
-                        $objResponse->script("xajax_aboutAdmin();");
+                        $objResponse->script("$('.exit').click(function(e){console.log('update password'); xajax_aboutAdmin();})");
                     }
                     else{
                         $msj="Verifique que la contraseña actual sea la correcta";

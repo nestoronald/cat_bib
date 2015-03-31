@@ -111,6 +111,7 @@
 
 				//libxml_use_internal_errors(true);
                 // $xmldata = utf8_decode($xmldata);
+                $xmldata = str_replace('&', '&amp;', $xmldata);
 				$xmlt = simplexml_load_string($xmldata);
 				if (!$xmlt) {
 
