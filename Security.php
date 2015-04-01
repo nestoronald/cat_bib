@@ -259,6 +259,24 @@ function updateProfile($form="") {
         }
     }
 }
+function updateDataSede($form="") {
+    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+    $dbh->query("SET NAMES 'utf8'");
+    if ($stmt = $dbh->prepare("SELECT * FROM sede WHERE id = ? LIMIT 1")) {
+        $stmt->execute(array($form["users_sede"])); // Execute the prepared query.
+        $data = arrayToXml_01($form,"details");
+        if($stmt->rowCount() == 1) { // If the user exists
+                $stmt = $dbh->prepare("UPDATE sede SET data = ? WHERE id = ?");
+                $stmt->execute(array($data,$form["users_sede"]));
+                return true;
+
+            // return true;
+        } else {
+            // No user exists.
+            return false;
+        }
+    }
+}
 
 function checkbrute($user_id, $dbh) {
     // Get timestamp of current time

@@ -8,7 +8,7 @@
 	 $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 	 $dbh->query("SET NAMES 'utf8'");
 	 $sql = "Select * from book";
-
+     $sede = " AND sede = '".$_SESSION['users_sede']."'";
 	 if (isset($form) and !empty($form)) {
 	 	$form["tituloSearch"]=trim($form["tituloSearch"]);
 	 }
@@ -37,6 +37,7 @@
 							  and  ExtractValue(book_data,'book/tipo') not like '%mapas%'";
 				}
 				$sql .=")";
+                $sql .= isset($_SESSION["users_sede"])?$sede:"";
 
 	  		}
 
@@ -126,6 +127,7 @@
 						and  ExtractValue(book_data,'book/tipo') not like '%mapas%  ";
 		  	}
 		  	$sql .=")";
+            $sql .= isset($_SESSION["users_sede"])?$sede:"";
 		}
 		$sql .= "and (";
 		if (isset($form["a_fields_01"]) and !empty($form["a_fields_01"])) {
@@ -222,7 +224,6 @@
 			// $sql .= "and (ExtractValue(book_data,'book/Edition/year') BETWEEN '".$form["a_year_asc"]."' AND '".$form["a_year_desc"]."')";
 			// $sql .= "and idbook=".$result["idbook"];
 		}
-
 		$sql .= ")"; //fin condicionales de categoria
 	  }
 	  	//busqueda de author por id

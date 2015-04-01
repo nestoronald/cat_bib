@@ -176,6 +176,24 @@
         $objResponse->assign("msj-pass","innerHTML",$msj);
         return $objResponse;
     }
+    function editDataSede($form){
+        $objResponse = new xajaxResponse();
+        $objResponse->alert(print_r($form,true));
+        if (isset($_SESSION["idusers"])) {
+            if (updateDataSede($form)) {
+                $html = "<div class='exito'><i class='icon-ok'></i>Tus datos han sido actualizados correctamente</div>";
+                $objResponse->assign("modalbody","innerHTML",$html);
+                $footer_html = '<button class="btn exit"  data-dismiss="modal" aria-hidden="true">Cerrar</button>';
+                $objResponse->assign("modalfooter","innerHTML",$footer_html);
+                $objResponse->script("$('.exit').click(function(e){console.log('update password'); xajax_aboutAdmin();})");
+            }
+            else{
+                $msj="Intente mas tarde, no se pudo actualizar tus datos";
+            }
+        }
+        $objResponse->assign("msj-sede","innerHTML",$msj);
+        return $objResponse;
+    }
 	function formLoginShow(){
 	    $respuesta = new xajaxResponse();
 
@@ -3741,6 +3759,7 @@
 
     $xajax->registerFunction('cambiar_estado');
     $xajax->registerFunction('show_details_back');
+    $xajax->registerFunction('editDataSede');
 
 	$xajax->processRequest();
 

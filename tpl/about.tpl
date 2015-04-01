@@ -41,40 +41,40 @@
             </div>
             <div class="reser hide" id="datos_personal">
                 <div class="block_igp">
-                    <h3>Información de usuario <span>(<a href="#editMyProfile" onclick="xajax_editMyProfile_frm();" data-toggle="modal"><i class="icon-pencil"></i></a>)</span></h3>
+                    <h3>Información de usuario <span>(<a href="#editDataSede" data-toggle="modal"><i class="icon-pencil"></i></a>)</span></h3>
                     <p> <span>Biblioteca:</span> {$details.biblioteca}</p>
                     <p> <span>Nombre Completo:</span> {$details.names}</p>
                     <p> <span>Email:</span> <span id="email_profile"> </span></p>
                     <p> <span>DNI:</span> {$details.dni}</p>
-                    <p> <span>Dirección:</span> {$details.dir} </p>
+                    <p> <span>Dirección:</span> {$details.address} </p>
                     <p> <span>Teléfono:</span> {$details.tel} </p>
                     <div id="profileconte"></div>
 
-                    <div id="editMyProfile" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div id="editDataSede" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Editar mi perfil</h3>
                           </div>
                           <div class="modal-body" id="modalbody_pro">
-                            <div id="msj-profile" class="error"></div>
-                            <form name="frmMyProfile" id="frmMyProfile">
-                                <input type="hidden" name="iduser" value="">
+                            <div id="msj-sede" class="error"></div>
+                            <form name="frmDataSede" id="frmDataSede">
+                                <input type="hidden" name="users_sede" value="$smarty.session.users_sede}">
                                 <p> <span>Biblioteca: </span>
                                 <input type="text" name="biblioteca" value="{$details.biblioteca}"></p>
                                 <p> <span>Nombre Completo:</span>
                                 <input type="text" name="names" value="{$details.names}"></p>
                                 <p> <span>Email:</span>
-                                <input type="text" name="dni" value="{$details.email}"></p>
+                                <input type="text" name="email" value="{$details.email}"></p>
                                 <p> <span>DNI:</span>
                                 <input type="text" name="dni" value="{$details.dni}"></p>
                                 <p> <span>Dirección:</span>
-                                <textarea name="dir" cols="10" >{$details.dir}</textarea></p>
+                                <textarea name="address" cols="10" >{$details.address}</textarea></p>
                                 <p> <span>Teléfono:</span>
                                 <input type="text" name="tel" value="{$details.tel}"></p>
                             </form>
                           </div>
                           <div class="modal-footer" id="modalfooter_pro">
-                            <button class="btn" onclick="xajax_editMyprofile(xajax.getFormValues('frmMyProfile'))">Guardar</button>
+                            <button class="btn" onclick="xajax_editDataSede(xajax.getFormValues('frmDataSede'))">Guardar</button>
                             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
                           </div>
                     </div>

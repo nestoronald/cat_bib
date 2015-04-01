@@ -42,7 +42,7 @@
 	function searchPublicationShow($form,$searchFrom=0, $currentPage="", $pageSize="", $idarea=0,$idauthor=0, $idbook=0,$theme_tag=""){
 		$objResponse = new xajaxResponse();
 		//$objResponse->alert(arrayToXml($form,"search"));
-		//$objResponse->alert(print_r($form,TRUE));
+		// $objResponse->alert(print_r($_SESSION,TRUE));
 
 		if($searchFrom==2){
 			list($html,$total)=searchbook($form, $currentPage, $pageSize,$idauthor, $idbook,$theme_tag);
