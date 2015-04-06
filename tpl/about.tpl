@@ -42,35 +42,35 @@
             <div class="reser hide" id="datos_personal">
                 <div class="block_igp">
                     <h3>Información de usuario <span>(<a href="#editDataSede" data-toggle="modal"><i class="icon-pencil"></i></a>)</span></h3>
-                    <p> <span>Biblioteca:</span> {$details.biblioteca}</p>
-                    <p> <span>Nombre Completo:</span> {$details.names}</p>
+                    <p> <span>Biblioteca:</span> {$smarty.session.profile.biblioteca}</p>
+                    <p> <span>Nombre Completo:</span> {$smarty.session.profile.names}</p>
                     <p> <span>Email:</span> <span id="email_profile"> </span></p>
-                    <p> <span>DNI:</span> {$details.dni}</p>
-                    <p> <span>Dirección:</span> {$details.address} </p>
-                    <p> <span>Teléfono:</span> {$details.tel} </p>
+                    <p> <span>DNI:</span> {$smarty.session.profile.dni}</p>
+                    <p> <span>Dirección:</span> {$smarty.session.profile.address} </p>
+                    <p> <span>Teléfono:</span> {$smarty.session.profile.tel} </p>
                     <div id="profileconte"></div>
 
                     <div id="editDataSede" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                           <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <button type="button" class="close exit" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Editar mi perfil</h3>
                           </div>
                           <div class="modal-body" id="modalbody_pro">
                             <div id="msj-sede" class="error"></div>
                             <form name="frmDataSede" id="frmDataSede">
-                                <input type="hidden" name="users_sede" value="$smarty.session.users_sede}">
+                                <input type="hidden" name="users_sede" value="{$smarty.session.users_sede}">
                                 <p> <span>Biblioteca: </span>
-                                <input type="text" name="biblioteca" value="{$details.biblioteca}"></p>
+                                <input type="text" name="biblioteca" value="{$smarty.session.profile.biblioteca}"></p>
                                 <p> <span>Nombre Completo:</span>
-                                <input type="text" name="names" value="{$details.names}"></p>
+                                <input type="text" name="names" value="{$smarty.session.profile.names}"></p>
                                 <p> <span>Email:</span>
-                                <input type="text" name="email" value="{$details.email}"></p>
+                                <input type="text" name="email" value="{$smarty.session.profile.email}"></p>
                                 <p> <span>DNI:</span>
-                                <input type="text" name="dni" value="{$details.dni}"></p>
+                                <input type="text" name="dni" value="{$smarty.session.profile.dni}"></p>
                                 <p> <span>Dirección:</span>
-                                <textarea name="address" cols="10" >{$details.address}</textarea></p>
+                                <textarea name="address" cols="10" >{$smarty.session.profile.address}</textarea></p>
                                 <p> <span>Teléfono:</span>
-                                <input type="text" name="tel" value="{$details.tel}"></p>
+                                <input type="text" name="tel" value="{$smarty.session.profile.tel}"></p>
                             </form>
                           </div>
                           <div class="modal-footer" id="modalfooter_pro">

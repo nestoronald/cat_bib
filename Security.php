@@ -277,6 +277,24 @@ function updateDataSede($form="") {
         }
     }
 }
+function QuerySede($idsede){
+    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+    $dbh->query("SET NAMES 'utf8'");
+    if ($stmt = $dbh->prepare("SELECT * FROM sede WHERE id = ? LIMIT 1")) {
+        $stmt->execute(array($idsede));
+        $result=$stmt->fetch(PDO::FETCH_ASSOC);
+        if($stmt->rowCount() == 1) {// member existe
+            return $result;
+        }
+        else{
+            return -100;
+        }
+    }
+    else{
+        return -100;
+    }
+    $dbh = null;
+}
 
 function checkbrute($user_id, $dbh) {
     // Get timestamp of current time

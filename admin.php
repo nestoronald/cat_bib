@@ -16,7 +16,6 @@
 	require("adminIni.php");
 	require("adminSearch.php");
 	// require("adminRegister.php");
-	require("adminStatistics.php");
 	require("indexSearch.php");
 
 	//Ejecutamos el modelo
@@ -51,9 +50,7 @@
 		            $cadena="xajax_menuShow($sessionidarea);";
                     $respuesta->script($cadena);
                 }
-
-                        /*muestra el enlace del formulario modal*/
-                $respuesta->script("xajax_crea_form('cambiar');");
+                /*muestra el enlace del formulario modal*/
                 $enlace='<a id="new-clave" href="#" class="blanco" >Cambiar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
                 $respuesta->assign("menu_d", "innerHTML","$enlace");
 
@@ -63,37 +60,25 @@
 			else{
 		    	$cadena="xajax_formLoginShow();";
 		    	$respuesta->script($cadena);
-
-                        $respuesta->script("xajax_crea_form('recuperar');");
-                        $enlace='<a id="recuparar-clave" href="#" class="blanco" >Recuperar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
-                        $respuesta->assign("menu_d", "innerHTML","$enlace");
-
+                $enlace='<a id="recuparar-clave" href="#" class="blanco" >Recuperar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
+                $respuesta->assign("menu_d", "innerHTML","$enlace");
 		    	$respuesta->assign("subcontent1", "style.display","none");
 		    	$respuesta->assign("loginform", "style.display","block");
+                $html='<table><tr><td style="text-align: center;">';
+                $html.='<img src="img/login.jpg" />';
+                $html.='</td></tr></table>';
 
-
-                        $html='<table><tr><td style="text-align: center;">';
-                        $html.='<img src="img/login.jpg" />';
-                        $html.='</td></tr></table>';
-
-                        $respuesta->assign("imghome", "innerHTML", $html);
+                $respuesta->assign("imghome", "innerHTML", $html);
 
 			}
 		}
 		else{
 			$cadena="xajax_formLoginShow();";
-
-                        $respuesta->script("xajax_crea_form('recuperar');");
-                        $enlace='<a id="recuparar-clave" href="#" class="blanco" >Recuperar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
-                        $respuesta->assign("menu_d", "innerHTML","$enlace");
-
+            $enlace='<a id="recuparar-clave" href="#" class="blanco" >Recuperar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
+            $respuesta->assign("menu_d", "innerHTML","$enlace");
             $respuesta->script($cadena);
             $respuesta->assign("subcontent1", "style.display","none");
             $respuesta->assign("loginform", "style.display","block");
-
-
-
-
 		}
 		//tab title tooltip
             $respuesta->script("$('[rel=propover]').popover({
@@ -111,6 +96,7 @@
     function aboutAdmin(){
         $respuesta = new xajaxResponse();
         $smarty = new Smarty;
+        detailsProfile();
         $html= $smarty->fetch('tpl/about.tpl');
         $respuesta->assign("imghome","style.display","none");
         $respuesta->assign("author_section","style.display","none");
@@ -135,8 +121,19 @@
               $(".reser").hide();
               $(conte).show();
             })
+             //$(".nav-list li").eq(1).find("a").trigger("click");
             ');
         return $respuesta;
+    }
+    function detailsProfile(){
+        $user = $_SESSION["users_sede"];
+        $data_array="";
+        if (QuerySede($user)!=-100) {
+            $result=QuerySede($user);
+            $data_array = xmlToArray($result["data"]);
+            $_SESSION["profile"]=$data_array;
+        }
+        return $data_array;
     }
     function editPassAdmin($form){
         $objResponse = new xajaxResponse();
@@ -178,18 +175,23 @@
     }
     function editDataSede($form){
         $objResponse = new xajaxResponse();
-        $objResponse->alert(print_r($form,true));
         if (isset($_SESSION["idusers"])) {
             if (updateDataSede($form)) {
                 $html = "<div class='exito'><i class='icon-ok'></i>Tus datos han sido actualizados correctamente</div>";
-                $objResponse->assign("modalbody","innerHTML",$html);
+                $objResponse->assign("modalbody_pro","innerHTML",$html);
                 $footer_html = '<button class="btn exit"  data-dismiss="modal" aria-hidden="true">Cerrar</button>';
-                $objResponse->assign("modalfooter","innerHTML",$footer_html);
-                $objResponse->script("$('.exit').click(function(e){console.log('update password'); xajax_aboutAdmin();})");
+                $objResponse->assign("modalfooter_pro","innerHTML",$footer_html);
+                $objResponse->script("$('.exit').click(function(e){console.log('update datasede');
+                                xajax_aboutAdmin();
+                                $('.nav-list li').eq(1).find('a').trigger('click');
+                                })");
             }
             else{
                 $msj="Intente mas tarde, no se pudo actualizar tus datos";
             }
+            $objResponse->script("$('.exit').click(function(e){console.log('update datasede');
+                                $('.nav-list li').eq(1).find('a').trigger('click');
+                                })");
         }
         $objResponse->assign("msj-sede","innerHTML",$msj);
         return $objResponse;
@@ -276,16 +278,11 @@
                 $_SESSION["users_sede"]=$users_sede;
 				$_SESSION["authorPRI"] = array();
 				$_SESSION["authorSEC"] = array();
-
-
 				$respuesta->script("xajax_menuShow()");
-
-                //$respuesta->script("xajax_crea_form();");
                 $respuesta->script("xajax_inicio();");
                 $enlace='<a id="new-clave" href="#" class="blanco" >Cambiar Clave<img src="img/iconos/candado_llave_24.png"></img></a>';
                 $respuesta->assign("menu_d", "innerHTML","$enlace");
 
-				//$respuesta->script("xajax_muestraFormGrafico()");
 				$respuesta->Assign("subcontent1","style.display","block");
 				//$respuesta->Assign("loginform","style.display","none");
                 $respuesta->Assign("divformlogin","innerHTML","&nbsp");
@@ -294,160 +291,6 @@
 
             break;
         }
-
-        return $respuesta;
-    }
-
-
-    function recuperarClaveResult($user,$correo){
-
-        $result=recuperarClaveSQL($user,$correo);
-
-        return $result;
-    }
-
-    function recuperarClave($user,$correo){
-        $respuesta = new xajaxResponse();
-
-        $result=recuperarClaveResult($user,$correo);
-        $count=$result["Count"];
-
-        if($count>0){
-
-                $iduser=$result["idusers"];
-                $user=$result["users_name"];
-                $correo=$result["users_email"];
-
-                $random=rand();
-                $clave_temp=$random;
-
-                $respuesta->script('xajax_sendemail("'.$iduser.'","'.$user.'","'.$correo.'","'.$clave_temp.'")');
-        }
-        else{
-                $respuesta->alert($result['Msg']);
-        }
-        //$respuesta->alert($result["Query_select"]);
-        //$respuesta->alert($result["Query_update"]);
-        //$respuesta->alert($result["Count"]);
-
-        return $respuesta;
-    }
-
-    function claveTempResult($iduser,$users,$correo,$clave_temp){
-
-        $result=cambiarTempClaveSQL($iduser,$users,$correo,$clave_temp);
-
-        return $result;
-
-    }
-
-    function sendemail($iduser="",$user="",$correo="",$clave_temp=""){
-        $respuesta = new xajaxResponse();
-
-        /*Cambiar la clave por una temporal*/
-        $resultTemp=claveTempResult($iduser,$users,$correo,$clave_temp);
-        //$respuesta->alert($resultTemp["Query_update"]);
-
-
-                        $connection = @ssh2_connect('mailer.igp.gob.pe', 22);
-                        ssh2_auth_password($connection, 'telematica', 'telematica');
-
-                        /*lo envia al span
-                        $connection = @ssh2_connect('geo.igp.gob.pe', 22);
-                        ssh2_auth_password($connection, 'sismo_responde', 'tavera');
-                        */
-
-                        $random=rand();
-
-
-		if (!$connection){
-			$sendEmail["error"]= 1;
-			$sendEmail["msg"]= "No se pudo conectar al servidor de correos";
-		}
-		else{
-
-			$message=  "
-			<h1 style='color:#0D648C;'>INSTITUTO GEOF&Iacute;SICO DEL PER&Uacute;</h1>
-		 	<h2>&Aacute;REA DE TELEM&Aacute;TICA</h2>
-			<h3>Módulo de Informaci&oacute;n Cient&iacute;fica T&eacute;cnica</h3>
-
-			<b>USUARIO</b>
-                        <br>
-			--------------------------------------------
-			<br><br>
-			<b>Usuario</b>   : <span style='color:#0D648C;'>".$user."</span><br>
-			<b>Correo</b>   : ".$correo."<br>
-			<b>Clave</b> : ".$clave_temp."<br>
-
-			";
-
-                        $gestor = fopen("tmp/mensaje$random.html", "w");
-			fwrite($gestor, utf8_decode($message));
-			fclose($gestor);
-                        ssh2_scp_send($connection, "tmp/mensaje$random.html", "mensaje$random.html", 0666);
-
-                        $bash='
-                        #!/bin/bash
-                        subject="Renovación de contraseña Módulo ITS"
-                        #cat mensaje.html | mail -s "$(echo -e "$subject\nContent-Type: text/html")" eddy.lecca3@gmail.com
-                        #Linea de codigo usada actualmente
-                        #cat mensaje'.$random.'.html | mail -s "$(echo -e "$subject\nContent-Type: text/html")" eddy.lecca3@gmail.com
-
-                        cat mensaje'.$random.'.html | mail -s "$(echo -e "$subject\nContent-Type: text/html")" '.$correo.'
-
-                        ';
-
-                        $gestor = fopen("tmp/mail$random.sh", "w");
-			fwrite($gestor, utf8_decode($bash));
-			fclose($gestor);
-                        ssh2_scp_send($connection, "tmp/mail$random.sh", "mail$random.sh", 0755);
-
-                        //Ejecutamos el archivo sh creado
-                        ssh2_exec($connection, "./mail$random.sh");
-
-                        //Borrar el archivo sh Remotamente y Localmente
-                        //ssh2_exec($connection, "rm mail$random.sh");
-                        //exec("rm tmp/mail$random.sh");
-
-                        //Borrar el archivo html Remotamente y Localmente
-                        //ssh2_exec($connection, "rm mensaje$random.html");
-                        //exec("rm tmp/mensaje$random.html");
-
-
-                        $sendEmail["error"]= 0;
-			$sendEmail["msg"]= "Se envió el correo";
-                        //$sendEmail["msg"]= "Consulta enviada correctamente";
-
-                }
-
-                $respuesta->alert($sendEmail["msg"]);
-
-      return $respuesta;
-
-    }
-
-    function cambiarClaveResult($clave_old,$clave_new,$correo,$idusers){
-
-        $result=cambiarClaveSQL($clave_old,$clave_new,$correo,$idusers);
-
-        return $result;
-    }
-
-    function cambiarClave($clave_old,$clave_new,$correo,$idusers){
-        $respuesta = new xajaxResponse();
-
-        //$respuesta->alert($idusers);
-        /*
-
-        $respuesta->alert($clave_old);
-        $respuesta->alert($clave_new);
-        */
-
-        $result=cambiarClaveResult($clave_old,$clave_new,$correo,$idusers);
-
-        $respuesta->alert($result["Msg"]);
-        //$respuesta->alert($result["Query_update"]);
-        //$respuesta->alert($result["Count"]);
 
         return $respuesta;
     }
@@ -1275,17 +1118,14 @@
         $objResponse->assign("newFormAuthor","innerHTML",formAuthorShow());
         $objResponse->assign("newFormAuthor_02","innerHTML",formAuthorShow());
 
-	    //###############################################################
-	    //$objResponse->script("xajax_iniAreaTheme('titulo5')");
+
 	    // Temas relacionados
 		$link="<a onclick=\"xajax_displaydiv('area_tema','titulo5'); return false;\" class='tab-title' href='#' rel='tooltip' title='Temas Relacionados'>Temas Relacionados</a>";
 		$objResponse->assign('titulo5',"innerHTML",$link);
 
 
-        // list($htmlArchivo,$link)=iniArchivoShow();
         $objResponse->Assign('titulo7',"innerHTML","<a class='tab-title' href='#1' onclick=\"xajax_displaydiv('archivo','titulo7'); return false;\" rel='tooltip' title='Imagen de Portada'>Imagen</a>");
-        // $objResponse->alert(print_r($htmlArchivo, true));
-    	// $objResponse->Assign("archivo","innerHTML",$htmlArchivo);
+        // $objResponse->Assign("archivo","innerHTML",$htmlArchivo);
     	$objResponse->Assign("archivo","innerHTML","<div id='carga_archivo'></div>");
     	$objResponse->script("xajax_carga_archivo()");
 
@@ -1298,7 +1138,6 @@
 		$objResponse->Assign("paginatorAuthor","style.display","none");
 
 		// $objResponse->Assign("estadisticas", "style.display", "none");
-        // $objResponse->script("xajax_cargaScriptDates()");
 
         /*$years_help = "[";
 		for ($i=1950; $i < (date('Y')-1); $i++) {
@@ -1428,7 +1267,7 @@
 		return $objResponse;
 
 	}
-      function generate_dictionary($type="", $array=array()){
+    function generate_dictionary($type="", $array=array()){
 
         $dictionary = "[";
         if ($type=="date") {
@@ -1444,8 +1283,8 @@
         $dictionary = substr($dictionary, 0,-1);
         $dictionary .= "]";
         return $dictionary;
-      }
-      function tags_temas(){
+    }
+    function tags_temas(){
         $temas = temas_query();
         $html = "";
         $theme = array(0 => "-");
@@ -2950,327 +2789,7 @@
     		//$objResponse->alert(print_r($formUM,TRUE));
     		$objResponse->assign("divNewAuthor","innerHTML",$html);
     		return $objResponse;
-
-    	}
-    function crea_form($accion){
-        $respuesta = new xajaxResponse();
-
-        $iduser=$_SESSION["idusers"];
-
-        switch($accion){
-            case "cambiar":
-
-            $html='
-            <div id="clave-form" title="Cambiar Clave">
-            	<p class="validateTips">Todos los campos son requeridos</p>
-    			<form id="myform">
-    			<fieldset>
-    				<label for="name">Clave actual</label>
-    				<input type="password" name="password_old" id="password_old" class="text ui-widget-content ui-corner-all" />
-
-    				<label for="name">Ingrese su nueva clave</label>
-    				<input type="password" name="password_new" id="password_new" class="text ui-widget-content ui-corner-all" />
-
-    				<label for="name">Reingrese su nueva clave </label>
-    				<input type="password" name="repasswordnew" id="repasswordnew" class="text ui-widget-content ui-corner-all" />
-
-    		                <p class="validateTips_correo">La siguiente dirección de correo que ingrese se utilizará en caso usted olvide la contraseña</p>
-    				<label for="name">Ingrese su E-mail </label>
-    				<input type="text" name="correo" id="correo" class="text ui-widget-content ui-corner-all" />
-
-    			</fieldset>
-    			</form>
-            </div>
-
-            ';
-
-            $respuesta->assign("form","innerHTML",$html);
-
-            $respuesta->script('
-    	$(function() {
-
-
-    		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
-    		$( "#dialog:ui-dialog" ).dialog( "destroy" );
-
-
-    		var password_old = $( "#password_old" ),
-                        password_new = $( "#password_new" ),
-                        repasswordnew = $( "#repasswordnew" ),
-                        correo = $( "#correo" ),
-
-                        allFields = $( [] ).add( password_old ).add( repasswordnew ).add( password_new ).add( correo ),
-                        tips = $( ".validateTips" );
-
-    		function updateTips( t ) {
-    			tips
-    				.text( t )
-    				.addClass( "ui-state-highlight" );
-    			setTimeout(function() {
-    				tips.removeClass( "ui-state-highlight", 1500 );
-    			}, 500 );
-    		}
-
-    		function checkLength( o, n, min, max ) {
-    			if ( o.val().length > max || o.val().length < min ) {
-    				o.addClass( "ui-state-error" );
-    				updateTips( "Longitud de " + n + " debe estar entre " +
-    					min + " y " + max + "." );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-    		function checkRegexp( o, regexp, n ) {
-    			if ( !( regexp.test( o.val() ) ) ) {
-    				o.addClass( "ui-state-error" );
-    				updateTips( n );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-    		function equal_pass( o, n ) {
-    			if ( o.val() != n.val() ) {
-    				n.addClass( "ui-state-error" );
-    				updateTips( "El nuevo password no coincide con el ingresado anteriormente." );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-
-
-       /********Dialogo Clave****************/
-       /*
-       Las dimensiones puedes obviarse solo sí el contenido en pequeño
-        height: 700,
-        width: 700,
-        */
-    		$( "#clave-form" ).dialog({
-    			autoOpen: false,
-    			modal: true,
-                            resizable: false,
-                            /*position: "top",*/
-    			buttons: {
-    				"Aceptar": function() {
-    					var bValid = true;
-    					allFields.removeClass( "ui-state-error" );
-
-    					bValid = bValid && checkLength( password_old, "password", 5, 16 );
-                                            bValid = bValid && checkLength( password_new, "password", 5, 16 );
-                                            bValid = bValid && checkLength( repasswordnew, "password", 5, 16 );
-                                            bValid = bValid && equal_pass( password_new, repasswordnew );
-                                            bValid = bValid && checkLength( correo, "email", 6, 80 );
-
-                                            bValid = bValid && checkRegexp( password_old, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-    					bValid = bValid && checkRegexp( repasswordnew, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                            bValid = bValid && checkRegexp( password_new, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-
-
-    					// From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
-                                            /*bValid = bValid && checkRegexp( correo, /^((([a-z]|\d|[!#\$%&\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );*/
-    					/*bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );*/
-
-                                                bValid = bValid && checkRegexp( correo, /^[A-Z|a-z|_|0-9|\.]+@([0-9a-zA-Z])+\.([0-9a-zA-Z])+$/i, "ejm. usuario@dominio.com" );
-                                            /*Para que acepte un correo parecido a eddy.leccca@yahoo.com.pe*/
-                                            /*bValid = bValid && checkRegexp( correo, /^[A-Z|a-z|_|0-9|\.]+@([0-9a-zA-Z])+\.([0-9a-zA-Z])+\.([0-9a-zA-Z])+$/i, "ejm. usuario@dominio.com" );*/
-
-    					if ( bValid ) {
-
-                                                    /*show(name.val());*/
-                                                    /*xajax_insertElement(\'instrument_type\',name.val());*/
-                                                    xajax_cambiarClave(password_old.val(),password_new.val(),correo.val(),'.$iduser.');
-                                                    /*
-    						$( "#users tbody" ).append( "<tr>" +
-    							"<td>" + name.val() + "</td>" +
-    							"<td>" + email.val() + "</td>" +
-    							"<td>" + password.val() + "</td>" +
-    						"</tr>" );
-                                                    */
-    						$( this ).dialog( "close" );
-    					}
-    				},
-    				Cancelar: function() {
-    					$( this ).dialog( "close" );
-    				}
-    			},
-    			close: function() {
-    				allFields.val( "" ).removeClass( "ui-state-error" );
-    			}
-    		});
-        /***************************************/
-
-        /**********Asignar a los divs el efecto*************/
-    		$( "#new-clave" )
-    			.click(function() {
-    				$( "#clave-form" ).dialog( "open" );
-    			});
-
-
-    	});
-
-        function show(val){
-                alert(val);
-            }
-            ');
-        break;
-
-        case "recuperar":
-
-            $html='
-            <div id="recuparar-form" title="Recuperar Clave">
-            <p class="validateTips">Todos los campos son requeridos</p>
-    	<form id="myform">
-    	<fieldset>
-    		<label for="name">Ingrese su Usuario</label>
-    		<input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
-
-    		<label for="name">Ingrese su Correo</label>
-    		<input type="text" name="correo" id="correo" class="text ui-widget-content ui-corner-all" />
-
-
-    	</fieldset>
-    	</form>
-            </div>
-
-
-
-
-            ';
-
-            $respuesta->assign("form","innerHTML",$html);
-
-            $respuesta->script('
-    	$(function() {
-
-
-    		// a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
-    		$( "#dialog:ui-dialog" ).dialog( "destroy" );
-
-
-    		var user = $( "#user" ),
-                        correo = $( "#correo" ),
-
-                        allFields = $( [] ).add( user ).add( correo ),
-                        tips = $( ".validateTips" );
-
-    		function updateTips( t ) {
-    			tips
-    				.text( t )
-    				.addClass( "ui-state-highlight" );
-    			setTimeout(function() {
-    				tips.removeClass( "ui-state-highlight", 1500 );
-    			}, 500 );
-    		}
-
-    		function checkLength( o, n, min, max ) {
-    			if ( o.val().length > max || o.val().length < min ) {
-    				o.addClass( "ui-state-error" );
-    				updateTips( "Longitud de " + n + " debe estar entre " +
-    					min + " y " + max + "." );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-    		function checkRegexp( o, regexp, n ) {
-    			if ( !( regexp.test( o.val() ) ) ) {
-    				o.addClass( "ui-state-error" );
-    				updateTips( n );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-    		function equal_pass( o, n ) {
-    			if ( o.val() != n.val() ) {
-    				n.addClass( "ui-state-error" );
-    				updateTips( "El nuevo password no coincide con el ingresado anteriormente." );
-    				return false;
-    			} else {
-    				return true;
-    			}
-    		}
-
-
-
-       /********Dialogo Clave****************/
-       /*
-        Las dimensiones puedes obviarse solo sí el contenido en pequeño
-        height: 700,
-        width: 700,
-        */
-    		$( "#recuparar-form" ).dialog({
-    			autoOpen: false,
-    			modal: true,
-                            resizable: false,
-                            /*position: "top",*/
-    			buttons: {
-    				"Aceptar": function() {
-    					var bValid = true;
-    					allFields.removeClass( "ui-state-error" );
-
-    					bValid = bValid && checkLength( user, "username", 3, 16 );
-                                            bValid = bValid && checkLength( correo, "email", 6, 80 );
-
-                                            bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "Usuario puede concistir  a-z, 0-9, comenzar con una letra." );
-    					// From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
-                                            bValid = bValid && checkRegexp( correo, /^[A-Z|a-z|_|0-9|\.]+@([0-9a-zA-Z])+\.([0-9a-zA-Z])+$/i, "ejm. usuario@dominio.com" );
-
-
-
-    					if ( bValid ) {
-
-                                                    /*show(name.val());*/
-                                                    /*xajax_insertElement(\'instrument_type\',name.val());*/
-                                                    /*xajax_cambiarClave(password_old.val(),password_new.val(),correo.val(),'.$iduser.');*/
-                                                    xajax_recuperarClave(user.val(),correo.val());
-                                                    /*
-    						$( "#users tbody" ).append( "<tr>" +
-    							"<td>" + name.val() + "</td>" +
-    							"<td>" + email.val() + "</td>" +
-    							"<td>" + password.val() + "</td>" +
-    						"</tr>" );
-                                                    */
-    						$( this ).dialog( "close" );
-    					}
-    				},
-    				Cancelar: function() {
-    					$( this ).dialog( "close" );
-    				}
-    			},
-    			close: function() {
-    				allFields.val( "" ).removeClass( "ui-state-error" );
-    			}
-    		});
-        /***************************************/
-
-        /**********Asignar a los divs el efecto*************/
-    		$( "#recuparar-clave" )
-    			.click(function() {
-    				$( "#recuparar-form" ).dialog( "open" );
-    			});
-
-
-    	});
-
-        function show(val){
-                alert(val);
-            }
-            ');
-        break;
-
-        }
-
-        return $respuesta;
     }
-
 
 
     function carga_archivo($img_portada=""){
@@ -3532,15 +3051,12 @@
 	$xajax->registerFunction('registerSubAreas');
 	$xajax->registerFunction('menuAAShow');
 	$xajax->registerFunction('formCategoryShow');
-	$xajax->registerFunction('detalleGraficosEstadisticos');
-	$xajax->registerFunction('graficosEstadisticos');
-	$xajax->registerFunction('muestraFormGrafico');
 
 	/*******Seccion Asuntos Academicos**********/
-        $xajax->registerFunction('registerYearPub');
-        $xajax->registerFunction('registerMonthPub');
-        $xajax->registerFunction('registerDayPub');
-        $xajax->registerFunction('registerDateIng');
+    $xajax->registerFunction('registerYearPub');
+    $xajax->registerFunction('registerMonthPub');
+    $xajax->registerFunction('registerDayPub');
+    $xajax->registerFunction('registerDateIng');
 
 	$xajax->registerFunction('registerAreaAdministrativa');
 	$xajax->registerFunction('iniAreasAdministrativasShow');
@@ -3548,7 +3064,6 @@
 	$xajax->registerFunction('registerInst_Ext');
 	$xajax->registerFunction('iniInstitucionExterna');
 	$xajax->registerFunction('iniAreasAdministrativasShow');
-	$xajax->registerFunction('iniTitulo_Presentado');
 	$xajax->registerFunction('registerCompendioYear');
 
 	$xajax->registerFunction('comboTipoAsuntosAcademicosShow');
@@ -3569,76 +3084,14 @@
 	$xajax->registerFunction('comboRegionShow');
 	$xajax->registerFunction('comboTipoInformacionInternaShow');
 	$xajax->registerFunction('formInformacionInternaShow');
-	/*******Seccion Informacion Interna**********/
 
 
-	/*******Seccion Ponencias********************/
-	$xajax->registerFunction('registerCatEvento');
-	$xajax->registerFunction('registerNomEvento');
-	$xajax->registerFunction('registerLugar');
-	$xajax->registerFunction('registerPais');
-	$xajax->registerFunction('registerPrePorNombre');
-	$xajax->registerFunction('registerPrePorApellido');
-	$xajax->registerFunction('registerTipoPonencia');
-	$xajax->registerFunction('comboCategoriaEvento');
-	$xajax->registerFunction('comboTipoPonencia');
-	$xajax->registerFunction('iniTitulo_Tipo_Presentado');
 	$xajax->registerFunction('formPonenciasShow');
-	/*******Seccion Ponencias********************/
-
-	/*******Sección Publicaciones****************/
-
 	$xajax->registerFunction('arrayAuthor');
-
 	$xajax->registerFunction('newPonencia');
-
 	$xajax->registerFunction('displaydiv');
-	$xajax->registerFunction('comboTypeSubcategoryShow');
-
-	//Registramos funciones para formularios y selects
-
-	$xajax->registerFunction('comboTipoTesisShow');
-	$xajax->registerFunction('comboTipoFechasShow');
-	$xajax->registerFunction('iniTitulo_Tipo_Presentado');
-	$xajax->registerFunction('registerLugarPais');
-	$xajax->registerFunction('registerEventoTipo');
-    $xajax->registerFunction('registerClaseEvento');
-
-	// Registramos funciones para las fechas, el estado y los permisos
-	// ------------------------------------------------------------------
-	$xajax->registerFunction('iniDateStatusPermission');
-	$xajax->registerFunction('iniDates');
-	$xajax->registerFunction('iniPermission');
-	$xajax->registerFunction('registerPermission');
-	$xajax->registerFunction('registerPermissionKey');
-	$xajax->registerFunction('registerStatus');
-	$xajax->registerFunction('registerDatePub');
-    $xajax->registerFunction('registerYearCompendio');
-
-	// Registramos funciones para areas asociadas y temas
-	// ------------------------------------------------------------------
-
-	$xajax->registerFunction('iniAreaTheme');
-	$xajax->registerFunction('iniOtrosTemasShow');
-	$xajax->registerFunction('iniAreas');
-	$xajax->registerFunction('newThemeRegister');
-	$xajax->registerFunction('newThemeInsert');
-	$xajax->registerFunction('newThemeShow');
-	$xajax->registerFunction('otrosTemasShow');
-	$xajax->registerFunction('registerTheme');
-	$xajax->registerFunction('registerArea');
-	$xajax->registerFunction('iniOtrasAreasShow');
-	$xajax->registerFunction('iniAreaShow');
-
-
-
-
-	$xajax->registerFunction('iniArchivoShow');
-	$xajax->registerFunction('guardarSesiones');
 
 	/*Registrar las sesiones*/
-	$xajax->registerFunction('registerTitRes');
-	$xajax->registerFunction('registerTitTipo');
 	$xajax->registerFunction('registerReference');
 
 	$xajax->registerFunction('iniAuthorShow');
@@ -3652,11 +3105,9 @@
 	$xajax->registerFunction('iniTitulo_ResumenShow');
 	$xajax->registerFunction('iniAuthorPriShow');
 	$xajax->registerFunction('iniAuthorSecShow');
-	$xajax->registerFunction('iniAreaShow');
 
 	$xajax->registerFunction('paginatorShow');
 
-	$xajax->registerFunction('registraReferenciaShow');
 	$xajax->registerFunction('registraReferenciaResult');
 
 	$xajax->registerFunction('formAuthorShow');
@@ -3685,45 +3136,13 @@
 
 	$xajax->registerFunction('searchAuthorSecShow');
 	$xajax->registerFunction('searchAuthorSecResult');
+
 	/*************Registrar Funciones de Autores****************/
-
-
-	$xajax->registerFunction('busquedaReferenciaShow');
-
-	$xajax->registerFunction('formSubcategoryShow');
-	$xajax->registerFunction('formPublicacionShow');
-
-	$xajax->registerFunction('comboReferenciaShow');
-	$xajax->registerFunction('comboEstadoPublicacionShow');
-	$xajax->registerFunction('comboTipoPublicacionShow');
-
 	$xajax->registerFunction('menuShow');
-        $xajax->registerFunction('menuGSShow');
-
 	$xajax->registerFunction('formLoginShow');
 	$xajax->registerFunction('verificaUsuarioShow');
-
-	$xajax->registerFunction('cargaScriptDates');
-        $xajax->registerFunction('cargaScriptReferencia');
-        $xajax->registerFunction('obtenerIdDescripcion');
-        $xajax->registerFunction('cargaScriptMostrarAutores');
-        $xajax->registerFunction('cargaScriptOcultarAutores');
-        $xajax->registerFunction('mostrarBusquedaAutores');
-        $xajax->registerFunction('ocultarBusquedaAutores');
-        $xajax->registerFunction('verFile');
-        $xajax->registerFunction('cambiarClave');
-        $xajax->registerFunction('crea_form');
-        $xajax->registerFunction('recuperarClave');
-        $xajax->registerFunction('sendemail');
-
-    $xajax->registerFunction('registerfbook');
-    $xajax->registerFunction('registerISBN');
-    $xajax->registerFunction('registerCallNumber');
-    $xajax->registerFunction('registerPublication');
-    $xajax->registerFunction('registerEdition');
-    $xajax->registerFunction('registerSubject');
-    $xajax->registerFunction('registerSumary');
-    $xajax->registerFunction('registerISSN');
+    $xajax->registerFunction('mostrarBusquedaAutores');
+    $xajax->registerFunction('ocultarBusquedaAutores');
 
     $xajax->registerFunction('click_checked');
     $xajax->registerFunction('carga_archivo');
