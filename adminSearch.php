@@ -463,7 +463,6 @@ function editBook($idbook=0,$currentPage){
 		}
 		$_SESSION["editar"]=1;
 		$_SESSION["edit"]["sede"]=$result["sede"][0];
-		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
 		$objResponse->script("xajax_formPonenciasShow(".$idbook.")");
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");
@@ -1126,18 +1125,13 @@ function delSearchAuthorSesionSecShow($idauthor=""){
     $html="";
     if(!isset($recuperar["authorSEC"])){
         $objResponse->assign('sesion_authorSEC', 'innerHTML',$html);
-
     }
     else{
-
         //$objResponse->script("xajax_searchAuthorSesionSecShow()");
-
-    $html=searchAuthorSesionSecShow_sinXajax($idauthor);
-    $objResponse->assign("sesion_authorSEC","innerHTML",$html);
-
+        $html=searchAuthorSesionSecShow_sinXajax($idauthor);
+        $objResponse->assign("sesion_authorSEC","innerHTML",$html);
         //$objResponse->script("xajax_auxAuthorSecShow(5,1,xajax.getFormValues('autorSEC'))");
         $objResponse->script("xajax_auxAuthorPriShow(5,1,xajax.getFormValues('autorPRI'))");
-
     }
 
     //$objResponse->alert(print_r($_SESSION,true));

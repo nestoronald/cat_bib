@@ -41,9 +41,9 @@
             </div>
             <div class="reser hide" id="datos_personal">
                 <div class="block_igp">
-                    <h3>Información de usuario <span>(<a href="#editDataSede" data-toggle="modal"><i class="icon-pencil"></i></a>)</span></h3>
-                    <p> <span>Biblioteca:</span> {$smarty.session.profile.biblioteca}</p>
-                    <p> <span>Nombre Completo:</span> {$smarty.session.profile.names}</p>
+                    <h3>Datos de Biblioteca <span>(<a href="#editDataSede" data-toggle="modal"><i class="icon-pencil"></i></a>)</span></h3>
+                    <p> <span>Sede:</span> {$smarty.session.profile.biblioteca}</p>
+                    <p> <span>Adminsitrador:</span> {$smarty.session.profile.names}</p>
                     <p> <span>Email:</span> <span id="email_profile"> </span></p>
                     <p> <span>DNI:</span> {$smarty.session.profile.dni}</p>
                     <p> <span>Dirección:</span> {$smarty.session.profile.address} </p>
@@ -60,7 +60,7 @@
                             <form name="frmDataSede" id="frmDataSede">
                                 <input type="hidden" name="users_sede" value="{$smarty.session.users_sede}">
                                 <p> <span>Biblioteca: </span>
-                                <input type="text" name="biblioteca" value="{$smarty.session.profile.biblioteca}"></p>
+                                <input type="text" name="biblioteca" value="{$smarty.session.profile.biblioteca}" readonly></p>
                                 <p> <span>Nombre Completo:</span>
                                 <input type="text" name="names" value="{$smarty.session.profile.names}"></p>
                                 <p> <span>Email:</span>

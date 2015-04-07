@@ -572,9 +572,7 @@
 			$iddata=($result_book["Count"]+1);
 		}
 
-        $objResponse->script("xajax_registerDateIng()");
-	    $tipoDocumento="ponencias";
-
+        $tipoDocumento="ponencias";
 	    $_SESSION["tipoDocumento"]="ponencias";
 	    $_SESSION["subcategory"]="ponencia";
         $_SESSION["idtypedocument"]=2;
@@ -844,22 +842,13 @@
 		        </div>
 
 		    <!-- fin form conte -->	';
-		//$html_tpl .= file_get_contents('0001.tpl');
-
-    	//###############################################################
-		//PRIMERO COLOCAMOS EL FORMULARIO QUE CONTIENE LAS DEMAS CAPAS
-		// $objResponse->alert(print_r($_SESSION["editar"],TRUE));
 	    $objResponse->assign("formulario","style.display","block");
 	    $objResponse->assign("formulario","innerHTML",$html);
-	    // $objResponse->script("xajax_auxAuthorShow(5000,1,'Array','int')");
 
 	    $objResponse->script("xajax_auxAuthorShow(5000,1,'Array','int','','AuthorInst')");
 	    $objResponse->script("xajax_auxAuthorShow(5000,1,'Array','int','','AuthorPer')");
-
-		// Muestra los tabs por default
 	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");
 
-	    // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 	    $input_array = array("TypeMatBib","title","state","FxIng","Description","NoteGeneral","MatEntidad","temas_recovery","sede");
 
 	    $titulo="Detalle";
@@ -1106,7 +1095,6 @@
 
     	//###############################################################
 		//PARA EL AUTOR
-	    //$objResponse->script("xajax_iniAuthorShow('titulo2')");
 
     	$objResponse->assign("titulo2","innerHTML","<a class='tab-title' href='#' onclick=\"xajax_displaydiv('author','titulo2'); return false;\" rel='tooltip' data-toggle='tooltip' title='Gestione Autores aqui!' >Autor Personal</a>");
     	$objResponse->assign("titulo2_A","innerHTML","<a class='tab-title' href='#' onclick=\"xajax_displaydiv('author_inst','titulo2_A'); return false;\" rel='tooltip' data-toggle='tooltip' title='Gestione Autores aqui!' >Autor Institucional</a>");
@@ -2359,15 +2347,13 @@
     	// $result= xajax_auxAuthorPriShow(5,1,"");
     	if($idauthor!=""){
             //$respuesta->script("xajax_searchAuthorSesionPriShow(".$idauthor.")");
-
-
             // $objResponse->script("xajax_arrayAuthor()");
             if ($catAuthor=="AuthorPer") {
 
                 if ($typeAuthor=="primary") {
                 	if(isset($_SESSION["edit"]["authorPRI"])){
     		                //Limpiamos los valores de la sesión
-    		            unset($_SESSION["edit"]["authorPRI"]);
+    		            //unset($_SESSION["edit"]["authorPRI"]);
     		            $_SESSION["edit"]["authorPRI"][$idauthor]=1;
     		        }
     		        else{
@@ -2375,10 +2361,8 @@
     		            // unset($_SESSION["tmp"]["authorPRI"]);
     		            $_SESSION["tmp"]["authorPRI"][$idauthor]=1;
     		        }
-
     		        // $_SESSION["autor"]=$idauthor;
     		        $html_pri=searchAuthorSesionPriShow_sinXajax($idauthor,$action,$catAuthor);
-                    $objResponse->alert(print_r($html_pri,true));
                 	$objResponse->Assign("sesion_authorPRI","innerHTML",$html_pri);
                 }
                 elseif ($typeAuthor=="secundary") {
@@ -3052,57 +3036,16 @@
 	$xajax->registerFunction('menuAAShow');
 	$xajax->registerFunction('formCategoryShow');
 
-	/*******Seccion Asuntos Academicos**********/
-    $xajax->registerFunction('registerYearPub');
-    $xajax->registerFunction('registerMonthPub');
-    $xajax->registerFunction('registerDayPub');
-    $xajax->registerFunction('registerDateIng');
-
-	$xajax->registerFunction('registerAreaAdministrativa');
-	$xajax->registerFunction('iniAreasAdministrativasShow');
-	$xajax->registerFunction('registerTitPrePor');
-	$xajax->registerFunction('registerInst_Ext');
-	$xajax->registerFunction('iniInstitucionExterna');
-	$xajax->registerFunction('iniAreasAdministrativasShow');
-	$xajax->registerFunction('registerCompendioYear');
-
-	$xajax->registerFunction('comboTipoAsuntosAcademicosShow');
-
-    /*******Seccion Informacion Interna**********/
-
-	$xajax->registerFunction('iniAreas');
-	$xajax->registerFunction('registerYearQuarter');
-	$xajax->registerFunction('comboYearRegisterShow');
-	$xajax->registerFunction('comboQuarter');
-	$xajax->registerFunction('registerBoletinMagnitud');
-	$xajax->registerFunction('comboMagnitudShow');
-	$xajax->registerFunction('registerRegDepFechas');
-	$xajax->registerFunction('registerTitulo');
-	$xajax->registerFunction('iniTitulo');
-
-	$xajax->registerFunction('comboDepartamentoShow');
-	$xajax->registerFunction('comboRegionShow');
-	$xajax->registerFunction('comboTipoInformacionInternaShow');
-	$xajax->registerFunction('formInformacionInternaShow');
-
-
-	$xajax->registerFunction('formPonenciasShow');
+    $xajax->registerFunction('formPonenciasShow');
 	$xajax->registerFunction('arrayAuthor');
 	$xajax->registerFunction('newPonencia');
 	$xajax->registerFunction('displaydiv');
 
-	/*Registrar las sesiones*/
-	$xajax->registerFunction('registerReference');
-
 	$xajax->registerFunction('iniAuthorShow');
-	$xajax->registerFunction('auxAuthorPriShow');
 	$xajax->registerFunction('auxAuthorSecShow');
-
 	// $xajax->registerFunction('searchAuthorPriResult');
 	$xajax->registerFunction('searchAuthorPriShow');
 
-	$xajax->registerFunction('iniTitulo_Resumen');
-	$xajax->registerFunction('iniTitulo_ResumenShow');
 	$xajax->registerFunction('iniAuthorPriShow');
 	$xajax->registerFunction('iniAuthorSecShow');
 
@@ -3156,7 +3099,6 @@
     $xajax->registerFunction('ListCampos');
     $xajax->registerFunction('delCampos');
     $xajax->registerFunction('registerlanguaje');
-    $xajax->registerFunction('register_input');
     $xajax->registerFunction('AddInput');
     $xajax->registerFunction('delInput');
     $xajax->registerFunction('PubLanguaje');
@@ -3181,7 +3123,6 @@
     $xajax->registerFunction('editDataSede');
 
 	$xajax->processRequest();
-
 
 	//Mostramos la pagina
 	// require("adminView.php");
