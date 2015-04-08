@@ -142,7 +142,7 @@
             $pass = $form["pass"];
             $newpass = $form["newpass"];
             $renewpass = $form["renewpass"];
-            if (empty(trim($pass)==NULL) or empty(trim($newpass)==NULL) or empty(trim($renewpass)==NULL)) {
+            if (empty(trim($pass)) || empty(trim($newpass)) || empty(trim($renewpass))) {
                 $msj = "Ningun campo puede estar vacio";
             }
             else{
