@@ -556,12 +556,12 @@ function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor="
                     }
 
 		    //$objResponse->script("xajax_arrayAuthor()");
-            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Pais - Institución";
+            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Jurisdicción - Institución";
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="200px">
 					<tr class="cab" style="text-align: left;">';
-		    $html.= "<td width='40px'>Nro</td>";
+		    $html.= "<td width='20px'>N°</td>";
 		    $html.= "<td width='120px'>".$catAuthor_html."</td>";
-		    $html.= "<td width='40px'>Borrar <span style='display:none'>".$query."</span></td>";
+		    $html.= "<td width='15px'>Quitar</td>";
 		    $html.= "</tr>";
 
 
@@ -579,8 +579,8 @@ function searchAuthorSesionPriShow_sinXajax($idauthor="",$action="",$catAuthor="
 				else{
 				    $apellido=ucfirst($author_surname[$i]);
 				}
-
-		            $html.= "<td>".$apellido.", ".ucfirst($author_name[$i])."
+                    $surname = !empty($apellido)?$apellido.", ":"";
+		            $html.= "<td>".$surname." ".ucfirst($author_name[$i])."
 		            		<!--input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
 		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/-->
 		            		</td>";
@@ -723,18 +723,19 @@ function searchAuthorSesionPriShow($idauthor=""){
 		    $objResponse->script("xajax_arrayAuthor()");
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="200px">
 					<tr class="cab" style="text-align: left;">';
-		    $html.= "<td width='40px'>Nro</td>";
+		    $html.= "<td width='20px'>N°</td>";
 		    $html.= "<td width='120px'>Apellidos y  Nombres</td>";
-		    $html.= "<td width='40px'>Borrar</td>";
+		    $html.= "<td width='15px'>Quitar</td>";
 		    $html.= "</tr>";
 
 
 		    for($i=0;$i<$count;$i++){
+                    $surname = !empty($author_surname[$i])?$author_surname[$i].", ":"";
 		            $nro=$i+1;
 		            $id_author = $idauthor[$i];
 		    		$html.= "<tr class='impar'>";
 		            $html.= "<td>".$nro."</td>";
-		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."
+		            $html.= "<td>".ucfirst($surname)." ".ucfirst($author_first_name[$i])."
 		            		<!--input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
 		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/-->
 		            		</td>";
@@ -835,12 +836,12 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
                     }
 
 		    //$objResponse->script("xajax_arrayAuthor()");
-            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Pais - Instituciónnnn";
+            $catAuthor_html = ($catAuthor=="AuthorPer") ? "Apellidos y Nombres" : "Jurisdicción - Institución";
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 						<tr class="cab" style="text-align: left;">';
-		    $html.= "<td>Nro</td>";
+		    $html.= "<td width='20px'>N°</td>";
 		    $html.= "<td>".$catAuthor_html."</td>";
-		    $html.= "<td>Borrar <span style='display:none'>".$query."</span></td>";
+		    $html.= "<td width='15px'>Quitar</td>";
 		    $html.= "</tr>";
 
 		    for($i=0;$i<$count;$i++){
@@ -856,9 +857,8 @@ function searchAuthorSesionSecShow_sinXajax($idauthor="",$action="",$catAuthor="
             	else{
             	    $apellido=ucfirst($author_surname[$i]);
             	}
-
-		        $html.= "<td>".$apellido.", ".ucfirst($author_first_name[$i])."</td>";
-
+                $surname = !empty($apellido)?$apellido.", ":"";
+		        $html.= "<td>".$surname." ".ucfirst($author_first_name[$i])."</td>";
 		        $html.= "<td><a href='#formulario'><img alt='selet'  onclick='xajax_delSearchAuthorSesionSecShow(\"$idauthor[$i]\",\"".$action."\",\"".$catAuthor."\"); return false;' src='img/usersDEL.png'/></a></td>";
 		        $html.= "</tr>";
 		    }
@@ -993,16 +993,17 @@ function searchAuthorSesionSecShow($idauthor=""){
 		    $objResponse->script("xajax_arrayAuthor()");
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 						<tr class="cab" style="text-align: left;">';
-		    $html.= "<td>Nro</td>";
+		    $html.= "<td width='20px'>N°</td>";
 		    $html.= "<td>Apellidos Nombres</td>";
-		    $html.= "<td>Borrar</td>";
+		    $html.= "<td width='15px'>Quitar</td>";
 		    $html.= "</tr>";
 
 		    for($i=0;$i<$count;$i++){
+                    $surname = !empty($author_surname[$i])?$author_surname[$i].", ":"";
 		            $nro=$i+1;
 		            $html.= "<tr class='impar'>";
 		            $html.= "<td>".$nro." </td>";
-		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."</td>";
+		            $html.= "<td>".ucfirst($surname)." ".ucfirst($author_first_name[$i])."</td>";
 
 		            $html.= "<td><a href='#formulario'><img alt='selet' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionSecShow(\"$idauthor[$i]\"); return false;' src='img/usersDEL.png'/></a></td>";
 		            $html.= "</tr>";

@@ -1215,7 +1215,7 @@ select[name="b_navigation"]{
     height: 35px;
 }
 #author_inst #author_section_int_02, #author #author_section_int{
-    width: 54%;
+    width: 70%;
     float: left;
 }
 .cols1{
@@ -1226,7 +1226,7 @@ select[name="b_navigation"]{
 .author_select{
     float: left;
     margin: 10% 13px 1%;
-    width: 43%;
+    width: 27%;
 }
 #author_inst, #author {
     position: relative;

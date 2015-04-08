@@ -157,7 +157,11 @@
 	            $result["idauthor"][$i]= $row["idauthor"];
 	            $result["author_name"][$i]= $row["author_name"];
 	            $result["author_surname"][$i]= $row["author_surname"];
-	            $result["author_type"][$i]= $row["author_type"];
+                $result["author_type"][$i]= $row["author_type"];
+                $result["fx_asoc"][$i]= $row["fx_asoc"];
+                $result["tag_relation"][$i]= $row["tag_relation"];
+                $result["unid_sub"][$i]= $row["unid_sub"];
+                $result["affiliate"][$i]= $row["affiliate"];
 	            $i++;
 	        }
 	                if(isset($result["idauthor"])){

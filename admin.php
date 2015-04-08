@@ -2023,7 +2023,6 @@
 	}
 	function delInput($idDiv,$labelinput="",$idinput=""){
 		$objResponse = new xajaxResponse();
-		$objResponse->alert(print_r($labelinput, TRUE));
 		$objResponse->script("
 					var idDiv = $('#".$idDiv."').parents('div').attr('id');
 					$('#".$idDiv."').remove();
@@ -2417,15 +2416,21 @@
 
     	if ($catAuthor=="AuthorPer") {
     		$idtable="listtable_per";
-    		$html_label= "Apellidos y Nombres";
+            $html_label= "Apellidos y Nombres";
+            $html_label_1= "Fechas asociadas";
+    		$html_label_2= "Termino de relación";
     	}
     	elseif ($catAuthor=="AuthorInst") {
     		$idtable="listtable_inst";
-    		$html_label="Pais - Institución";
+            $html_label="Jurisdicción - Institución";
+            $html_label_1="Unidad Subordinada";
+    		$html_label_2="Afiliación";
     	}
     	else{
     		$idtable="listtable";
-    		$html_label ="Apellidos y Nombres / Pais - Institución";
+    		$html_label ="Apellidos y Nombres / Jurisdicción - Institución";
+            $html_label_1="Fechas asociadas / Unidad Subordinada";
+            $html_label_2="Termino de relación / Afiliación";
     	}
 
     	$html_search="
@@ -2438,8 +2443,10 @@
     			<table id="'.$idtable.'" width="100%" class="listAuthor tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">
     			<thead>
     			<tr class="cab">
-    				<th>Numero</th>
-    				<th>'.$html_label.'</th>';
+    				<th>N°</th>
+                    <th>'.$html_label.'</th>
+                    <th>'.$html_label_1.'</th>
+    				<th>'.$html_label_2.'</th>';
     	if ($action=="int") {
     		$html.='<th>Principal</th>
     				<th>Secundario</th>';
@@ -2468,13 +2475,19 @@
     		    $apellidoArray=$author_surname[$i];
     		}
     		//$html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst(substr($author_first_name[$i],0,2))."</td>";
+            $html_date_1 = ($result["author_type"][$i]==0) ? $result["fx_asoc"][$i] : $result["unid_sub"][$i];
+            $html_date_2 = ($result["author_type"][$i]==0) ? $result["tag_relation"][$i] : $result["affiliate"][$i];
+            $surname = !empty($apellido)?$apellido.", ":"";
             $html.= "<td>
                         <input type='hidden' name='author_type[".$idauthor[$i]."]' value='".$author_type[$i]."'>
             			<input type='hidden' name='author_surname[".$idauthor[$i]."]' value='".$apellido."'>
                         <input type='hidden' name='author_name[".$idauthor[$i]."]' value='".$author_name[$i]."'>
-                        ".$apellido.",
+                        ".$surname."
             		    ".$author_name[$i]."
-                    </td>";
+                    </td>
+                    <td>".$html_date_1."</td>
+                    <td>".$html_date_2."</td>
+                    ";
             if ($action=="int") {
            		$html.= "<td><a href=\"#formulario\"><img alt=\"autor primario\" onclick=\"xajax_auxAuthorShow($pageSize,$currentPage,'','int',".$idauthor[$i].",'".$catAuthor."','primary');return false;\" src=\"img/iconos/userPRI.png\" /></a></td>";
     			$html.= "<td>

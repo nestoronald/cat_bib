@@ -998,13 +998,11 @@
 	    		var subcat= $("input[name=query_type]").val();
 
 	    		sug = typesugerencias("'.$id.'",subcat);
-	    		$("input[name=query_type]").change(function(){
-
-	    			var subcat= $(this).val();
-	    			var sug = typesugerencias("'.$id.'",subcat);
-	    			$("#tituloSearch").typeahead({source: sug});
-
-	    		});
+	    		// $("input[name=query_type]").change(function(){
+	    		// 	var subcat= $(this).val();
+	    		// 	var sug = typesugerencias("'.$id.'",subcat);
+	    		// 	$("#tituloSearch").typeahead({source: sug});
+	    		// });
 	    		$("#btn-search").button({
                     icons: {
                         primary: "ui-icon-search"
@@ -1391,8 +1389,14 @@
 		    }
 		    return "Error cargando XML \n";
 		}
-		$json = json_encode($xmlt);
-		$array= json_decode($json,TRUE);
+		// $json = json_encode($xmlt);
+		// $array= json_decode($json,TRUE);
+        foreach ($xmlt as $key => $value) {
+            $array[$key] = $xmlt->$key;
+            if (!is_array($value)) {
+                $array[$key] = (string)$xmlt->$key;
+            }
+        }
 		return $array;
 	}
 
