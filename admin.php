@@ -135,7 +135,7 @@
         }
         return $data_array;
     }
-    function editPassAdmin($form){
+    function editPassAdmin($form=""){
         $objResponse = new xajaxResponse();
         $msj="";
         if (isset($_SESSION["idusers"])) {
@@ -173,7 +173,7 @@
         $objResponse->assign("msj-pass","innerHTML",$msj);
         return $objResponse;
     }
-    function editDataSede($form){
+    function editDataSede($form=""){
         $objResponse = new xajaxResponse();
         if (isset($_SESSION["idusers"])) {
             if (updateDataSede($form)) {
@@ -232,7 +232,7 @@
 	    return $respuesta;
 	}
 
-	function checkDataForm($form){
+	function checkDataForm($form=""){
 
 	    $check["Error"]=0;
 	    if($form["author_name"]==""){
@@ -247,7 +247,7 @@
 	    return $check;
 	}
 
-	function verificaUsuarioShow($form_entrada){
+	function verificaUsuarioShow($form_entrada=""){
         $respuesta = new xajaxResponse();
 
         //$usuario=$form_entrada["usuario"];
@@ -295,7 +295,7 @@
         return $respuesta;
     }
 
-	function displaydiv($div,$idtitle) {
+	function displaydiv($div="",$idtitle="") {
 	    $objResponse = new xajaxResponse();
 	    $array=array("titulo_resumen","titulo_tipo_prepor","author","author_inst","evento","lugarPais","referencia","tipoTesis_pais_universidad","area_tema","fecha_estado_permisos","archivo","region_departamento","titulo","nro_magnitud","fecha_permisos","year_quarter","areas","compendio","titulo_presentado","areasAdministrativas","institucion_externa");
 		$titulos=array("titulo1","titulo2","titulo2_A","titulo3","titulo4","titulo5","titulo6","titulo7");
@@ -427,7 +427,7 @@
 	Función que muestra un Menú en el Template
 	*******************************************/
 
-	function formCategoryShow($idcategory,$idSubcategory=0){
+	function formCategoryShow($idcategory=0,$idSubcategory=0){
 	    $respuesta = new xajaxResponse();
 		if(isset($_SESSION["editar"])){
 			if($_SESSION["editar"]==1){
@@ -1312,7 +1312,7 @@
             </div>';
         return $html;
     }
-	function ListCampos($id){
+	function ListCampos($id=""){
 		$objResponse = new xajaxResponse();
 
 		$result = Query_input($id);
@@ -1422,7 +1422,7 @@
 		return $objResponse;
 	}
 
-	function Query_input($id) {
+	function Query_input($id="") {
 
 		// $recuperar = (isset($_SESSION["edit"])?$_SESSION["edit"]:"");
 		if (isset($_SESSION["edit"])) {
@@ -1734,7 +1734,7 @@
 		return $respuesta;
 
 	}
-	function optionEdition($id,$idinput,$label,$labelSec){
+	function optionEdition($id="",$idinput="",$label="",$labelSec=""){
 		// $recuperar = (isset($_SESSION["edit"])?$_SESSION["edit"]:"");
 		if (isset($_SESSION["edit"])) {
 			$recuperar = $_SESSION["edit"];
@@ -1803,7 +1803,7 @@
 		}
 		return $html;
 	}
-	function optionTheme($id,$idinput,$label,$labelSec){
+	function optionTheme($id="",$idinput="",$label="",$labelSec=""){
 		$html = "<table id='themes_bib' class='table table-striped table-bordered'>
 				    <thead>
 					    <tr>
@@ -2021,7 +2021,7 @@
 		// }
 		return $objResponse;
 	}
-	function delInput($idDiv,$labelinput="",$idinput=""){
+	function delInput($idDiv="",$labelinput="",$idinput=""){
 		$objResponse = new xajaxResponse();
 		$objResponse->script("
 					var idDiv = $('#".$idDiv."').parents('div').attr('id');
@@ -2288,7 +2288,7 @@
         // $html = $title;
         return $html;
     }
-    function cambiar_estado($idloan,$state){
+    function cambiar_estado($idloan="",$state=""){
     	$objResponse = new xajaxResponse();
     	$result = loanBookQuery($idloan);
     	$c  = 0;
@@ -2311,14 +2311,14 @@
     	return $objResponse;
 	}
 
-	function update_book_state($book_data,$state) {
+	function update_book_state($book_data="",$state="") {
 		$array_data = xmlToArray($book_data);
 		$array_data["state"] = $state;
 		$xml_data = arrayToXml($array_data,"book");
 		return $xml_data;
 	}
 
-    function procesar_reserva($idloan,$idbook,$state) {
+    function procesar_reserva($idloan="",$idbook="",$state="") {
         $objResponse = new xajaxResponse();
         if (updateLoanBookState($idloan,$idbook,$state)) {
             $objResponse->alert(print_r("Actualizado correctamente",TRUE));
@@ -2328,7 +2328,7 @@
         }
         return $objResponse;
     }
-    function delete_reserva($idbook){
+    function delete_reserva($idbook=""){
         $objResponse = new xajaxResponse();
         if (updateBookState($idbook,0)) {
             $objResponse->alert(print_r(updateBookState($idbook),TRUE));
@@ -2340,7 +2340,7 @@
         return $objResponse;
     }
 
-    function auxAuthorShow($pageSize,$currentPage,$iddiv="",$action="",$idauthor="",$catAuthor="",$typeAuthor=""){
+    function auxAuthorShow($pageSize="",$currentPage="",$iddiv="",$action="",$idauthor="",$catAuthor="",$typeAuthor=""){
     	$objResponse = new xajaxResponse();
     	// $result= searchAuthorPriResult($idSearch,$currentPage,$pageSize,$sAuthor,$idauthor);
     	// $result= xajax_auxAuthorPriShow(5,1,"");
@@ -2623,7 +2623,7 @@
 
     	return $objResponse;
     }
-    function editAuthor($idauthor,$surname,$action="",$catAuthor=""){
+    function editAuthor($idauthor="",$surname="",$action="",$catAuthor=""){
     	$objResponse = new xajaxResponse();
     	// 	$objResponse->alert(print_r($form, TRUE));
     	$html = "<form name='eFrmAuthor' id='eFrmAuthor'>
@@ -2691,7 +2691,7 @@
     	return $objResponse;
     }
 
-    function deleteAuthor($idauthor,$action="",$catAuthor=""){
+    function deleteAuthor($idauthor="",$action="",$catAuthor=""){
     	$objResponse = new xajaxResponse();
     	$html="<p class='msj'>Está seguro que desea eliminar el Author.</p>
     	   <div class='btnActions'>
@@ -2706,7 +2706,7 @@
     	return $objResponse;
     }
 
-    function ConfirmdeleteAuthor($idauthor,$action="",$catAuthor=""){
+    function ConfirmdeleteAuthor($idauthor="",$action="",$catAuthor=""){
     	$objResponse = new xajaxResponse();
     	$result = deleteAuthor_sql($idauthor);
     	if ($result["Error"]==0) {
@@ -2772,7 +2772,7 @@
     	');
     	return $objResponse;
     		}
-    function saveAuthor($form,$catAuthor,$action){
+    function saveAuthor($form="",$catAuthor="",$action=""){
     		$objResponse= new xajaxResponse();
     		$result = registraAuthorSQL($form);
 
@@ -2928,7 +2928,7 @@
     }
 
 
-    function save_files($namefile){
+    function save_files($namefile=""){
         $respuesta = new xajaxResponse();
 
         if(isset($_SESSION["edit"])){
@@ -2951,7 +2951,7 @@
         return $respuesta;
     }
 
-    function delete_file($namefile){
+    function delete_file($namefile=""){
         $respuesta = new xajaxResponse();
 
         $car_especiales = array(':','?','"','\\');
@@ -3007,7 +3007,7 @@
         return $objResponse;
     }
 
-    function ConfirmDeleteImg($namefile,$id){
+    function ConfirmDeleteImg($namefile="",$id=""){
     	$objResponse = new xajaxResponse();
     	$dir="librerias/ax-jquery-multiuploader/examples/uploaded/";
 
@@ -3152,8 +3152,5 @@
     else{
         $smarty->display('admin.tpl');
     }
-
-
-
 
 ?>
