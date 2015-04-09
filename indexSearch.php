@@ -220,7 +220,9 @@
 				// 	$class_list = "list_block_0";
 				// }
 				$class_list = (($i+1)%2==0) ? "list_block" : "list_block_0";
-
+                $result_sede = query_sede($result["sede"][0]);
+                $sede=$result_sede!=-100?$result_sede["descripcion"]:"-";
+                $sede = "<p>Sede: ".$sede."</p>";
 				$html.="<div class='resultado-busqueda ".$class_list."'>";
 				$pag=($currentPage-1)*$pageSize+($i+1);
 				$html.="<span class='span1 number'>
@@ -228,7 +230,7 @@
 						</span>
 						<span class='span10'>
 
-							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem.$sql;
+							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem.$sede.$sql;
 				$html.="</span>
 						<span class='span1 state'>".$estado.$del_order."</span>
 						<span class='msj-loan'></span>
@@ -337,7 +339,7 @@
                            $idauthor = $data_array["authorPRI"]["idauthor0"];
                            $result_author = searchAuthorID($idauthor);
                            $html_details .= "<dt><b>".$value."<span class='t-right'>:</span></b> </dt>
-					     <dd>
+					        <dd>
                                                 <a href='#' title='Verifique si el author tiene mas registro bibliográficos' id='author_details'>
                                                 ".$result_author["author_surname"][0].", ".$result_author["author_name"][0]."
                                                 <input type='hidden' value=$idauthor  name='idauthor'/>
@@ -357,6 +359,7 @@
                         }
 
                         else{
+
                             $html_details .= "<dt><b>".$value."<span class='t-right'> :</span> </b> </dt> <dd>";
                             $h=1;$j=1;$k=1;
                             foreach ($data_array[$key] as $key1 => $value1) {
@@ -397,14 +400,12 @@
                                     $html_details .= $data_array[$key][$key1]." ";
                                 }
 
-
-
                             }
                             $html_details .="</dd>";
                         }
 
                     }
-                    else{
+                    elseif(isset($data_array[$key])){
 
                         if ($key=="state") {
                             $html_state_1 = ($data_array[$key]==1 or $data_array[$key]==2)?"No Disponible":"Disponible";
@@ -421,16 +422,19 @@
                             }
                         }
 
-                        else{
+                        elseif(trim($data_array[$key])!=""){
                             $html_details .= "<dt><b>".$value." <span class='t-right'>:</span></b> </dt> <dd> ";
                             $html_details .= $data_array[$key];
-                            $html_details .= " </dd>";
+                            $html_details .= " &nbsp</dd>";
                         }
 
                     }
                 }
             }
         }
+        $result_sede = query_sede($result["sede"][0]);
+        $sede=$result_sede!=-100?$result_sede["descripcion"]:"Desconocido";
+        $html_details .= "<dt><b> Sede: <span class='t-right'>:</span></b> </dt> <dd> ".$sede."</dd>";
 		$html_details .= "</dl>";
         if (trim($div_details)!="") {
         	$divConte = "divDetails_back";
