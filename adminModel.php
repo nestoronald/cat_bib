@@ -234,8 +234,16 @@
 
 
 		    if($result["Count"]==0){
-		        $sql='insert into author(author_name,author_surname,author_type,author_enabled)
-		        values ("'.$author_name.'","'.$author_surname.'","'.$form_entrada["newAuthor_type"].'",1)';
+                if ($form_entrada["newAuthor_type"]==0) {
+                    $fx_asoc = $form_entrada["sDate1"];
+                    $tag_relation = $form_entrada["sDate2"];
+                }
+                else{
+                    $unid_sub = $form_entrada["sDate1"];
+                    $affiliate = $form_entrada["sDate2"];
+                }
+		        $sql='insert into author(author_name,author_surname,author_type,author_enabled, fx_asoc, tag_relation, unid_sub, affiliate )
+		        values ("'.$author_name.'","'.$author_surname.'","'.$form_entrada["newAuthor_type"].'",1,"'.$fx_asoc.'","'.$tag_relation.'","'.$unid_sub.'","'.$affiliate.'")';
 
 		        $dbh->query($sql);
 
@@ -246,7 +254,7 @@
 		        }
 
 		        if(isset($result["idauthorultimo"])){
-		                        $result["idauthorultimo"]=$result["idauthorultimo"][0];
+		          $result["idauthorultimo"]=$result["idauthorultimo"][0];
 		        }
 				/************/
 
@@ -259,22 +267,15 @@
 		        //$result["Error"]=3;
 		        $result["Error"]="existe";
                 $result["Msg"]="Existe Autor";
-
 		    }
-
-
 	    }
 	    else{
 	        $result["Error"]=4;
-                $result["Msg"]="Error en la consulta de existencia";
+            $result["Msg"]="Error en la consulta de existencia";
 	    }
-
 	    $dbh = null;
 	    $result["Query"]=$sql;
-
 	    return $result;
-
-
 	}
 
 	function searchPublication_iddataSQL($iddata=0){
@@ -555,27 +556,30 @@
 
 	}
 	function updateAuthor_sql($form){
-
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
-		$sql = "UPDATE author SET ";
-		$sql .= "author_name='".$form["nAuthor"]."',";
-		$sql .= " author_surname ='".$form["sAuthor"]."',";
-		$sql .= " author_type ='".$form["editAuthor_type"]."'";
-		$sql .= " WHERE idauthor=".$form["sidauthor"];
-
-
-		if($dbh->query($sql)){
-			$result["Error"]=0;
-		}
-		else{
-			$result["Error"]=1;
-		}
-
-		$dbh = null;
-		$result["Query"]=$sql;
-		return $result;
-
+        if ($stmt = $dbh->prepare("SELECT * FROM author WHERE idauthor = ? LIMIT 1")) {
+            if ($form["editAuthor_type"]==0) {
+                $fx_asoc = $form["sDate1"];
+                $tag_relation = $form["sDate2"];
+            }
+            else{
+                $unid_sub = $form["sDate1"];
+                $affiliate = $form["sDate2"];
+            }
+            $stmt->execute(array($form["sidauthor"])); // Execute the prepared query.
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);
+            if($stmt->rowCount() == 1) { // If the user exists
+                $stmt = $dbh->prepare("UPDATE author SET author_name = ?, author_surname = ?, author_type = ?, fx_asoc = ?, tag_relation = ?, unid_sub = ?, affiliate = ?  WHERE idauthor = ?");
+                $stmt->execute(array($form["nAuthor"], $form["sAuthor"], $form["editAuthor_type"], $fx_asoc, $tag_relation, $unid_sub, $affiliate, $form["sidauthor"]));
+                return true;
+                // return true;
+            } else {
+                // No user exists.
+                return false;
+            }
+        }
+        $dbh = null;
 	}
 	function deleteAuthor_sql($idauthor){
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");

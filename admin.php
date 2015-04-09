@@ -2482,6 +2482,8 @@
                         <input type='hidden' name='author_type[".$idauthor[$i]."]' value='".$author_type[$i]."'>
             			<input type='hidden' name='author_surname[".$idauthor[$i]."]' value='".$apellido."'>
                         <input type='hidden' name='author_name[".$idauthor[$i]."]' value='".$author_name[$i]."'>
+                        <input type='hidden' name='author_date_1[".$idauthor[$i]."]' value='".$html_date_1."'>
+                        <input type='hidden' name='author_date_2[".$idauthor[$i]."]' value='".$html_date_2."'>
                         ".$surname."
             		    ".$author_name[$i]."
                     </td>
@@ -2633,8 +2635,10 @@
     				<option value='1'>Institucional</option>
     			</select>
     			<input type='hidden' value='$idauthor' name='sidauthor' READONLY>
-    			<label class='label_01' for='nAuthor'>Nombre: </label><input type='text' class='nameAuthor' name='nAuthor' id='nAuthor' value=''>
-    			<label class='label_02' for='sAuthor'>Apellido: </label><input type='text' class='surnameAuthor' name='sAuthor' id='sAuthor'>
+    			<label class='label_01' for='nAuthor'>Nombre: </label><input type='text' class='nameAuthor span5' name='nAuthor' id='nAuthor' value=''>
+                <label class='label_02' for='sAuthor'>Apellido: </label><input type='text' class='surnameAuthor span5' name='sAuthor' id='sAuthor'>
+                <label class='label_03' for='sAuthor'>Fecha Asociada: </label><input type='text' class='span5' name='sDate1' id='sAuthor'>
+    			<label class='label_04' for='sAuthor'>Térrmino Referencia: </label><input type='text'  class='span5' name='sDate2' id='sAuthor'>
     			<div class='btnActions'>
                 <input type=\"button\" value=\"Guardar\" class='btn'
                 onclick=\"xajax_updateAuthor(xajax.getFormValues('eFrmAuthor'),$idauthor,'".$action."','".$catAuthor."')\">
@@ -2648,28 +2652,40 @@
     					$('#eAuthor').dialog('close')
     				});
     			var val_name = $('input[name=\"author_name[$idauthor]\"]').val();
-    	        var val_surname = $('input[name=\"author_surname[$idauthor]\"]').val();
+                var val_surname = $('input[name=\"author_surname[$idauthor]\"]').val();
+                var val_date_1 = $('input[name=\"author_date_1[$idauthor]\"]').val();
+    	        var val_date_2 = $('input[name=\"author_date_2[$idauthor]\"]').val();
     	        $('.nameAuthor').attr('value',val_name);
-    	        $('.surnameAuthor').attr('value',val_surname);
+                $('.surnameAuthor').attr('value',val_surname);
+                $('input[name=\"sDate1\"]').attr('value',val_date_1);
+                $('input[name=\"sDate2\"]').attr('value',val_date_2);
     	        var val_type = $('input[name=\"author_type[$idauthor]\"]').val();
     	        $('.NewtypeAuthor option[value='+val_type+']').attr('selected',true);
     			if (val_type==0){
     				$('.label_01').html('Nombre: ');
-    				$('.label_02').html('Apellido: ');
+                    $('.label_02').html('Apellido: ');
+                    $('.label_03').html('Fecha Asociada: ');
+    				$('.label_04').html('Termino de Referencia: ');
     			}
     			else{
     				$('.label_01').html('Institución: ');
     				$('.label_02').html('Pais: ');
+                    $('.label_03').html('Unidad Subordinada: ');
+                    $('.label_04').html('Afiliación: ');
     			}
     			$('.NewtypeAuthor').change(function(){
     				opt_sel = $(this).val();
     				if (opt_sel==0) {
     					$('.label_01').html('Nombre: ');
     					$('.label_02').html('Apellido: ');
+                        $('.label_03').html('Fecha Asociada: ');
+                        $('.label_04').html('Termino de Referencia: ');
     				}
     				else{
     					$('.label_01').html('Institución: ');
     					$('.label_02').html('Pais: ');
+                        $('.label_03').html('Unidad Subordinada: ');
+                        $('.label_04').html('Afiliación: ');
     				}
     			});
     			");
@@ -2677,9 +2693,8 @@
     }
     function updateAuthor($form,$id,$action="",$catAuthor=""){
     	$objResponse = new xajaxResponse();
-    	$result = updateAuthor_sql($form);
-    	if ($result["Error"]==0) {
-    		$html.="<p class='msj'> El Author fue actualizado correctamente</p>";
+    	if (updateAuthor_sql($form)) {
+    		$html.="<p class='msj'> Los datos del author fue actualizado correctamente</p>";
     		$objResponse->script("xajax_auxAuthorShow(5000,1,\"$form\",'".$action."','','".$catAuthor."')");
     	}
     	else{
@@ -2736,8 +2751,10 @@
     	}
     	$html="<form name='nFrmAuthor' id='nFrmAuthor'>
     	".$html_type."
-    	<label class='label_01' for='nAuthor'>Nombre: </label><input type='text' class='nameAuthor' name='author_name' id='author_name' value=''>
-    	<label class='label_02' for='sAuthor'>Apellido: </label><input type='text' class='surnameAuthor' name='author_surname' id='author_surname'>
+    	<label class='label_01' for='nAuthor'>Nombre: </label><input type='text' class='nameAuthor span5' name='author_name' id='author_name' value=''>
+    	<label class='label_02' for='sAuthor'>Apellido: </label><input type='text' class='surnameAuthor span5' name='author_surname' id='author_surname'>
+        <label class='label_03' for='sAuthor'>Fecha Asociada: </label><input type='text' class='span5' name='sDate1' id='sAuthor'>
+        <label class='label_04' for='sAuthor'>Térrmino de Referencia: </label><input type='text' class='span5' name='sDate2' id='sAuthor'>
     	<div class='btnActions'>
               <input type=\"button\" value=\"Guardar\" class='btn'
               onclick=\"xajax_saveAuthor(xajax.getFormValues('nFrmAuthor'),'".$catAuthor."','".$action."')\">
@@ -2750,20 +2767,28 @@
     		if ("'.$catAuthor.'"=="AuthorPer"){
     			$(".label_01").html("Nombres: ");
     			$(".label_02").html("Apellidos: ");
+                $(".label_03").html("Fecha Asociada: ");
+                $(".label_04").html("Termino de Referencia: ");
     		}
     		else if ("'.$catAuthor.'"=="AuthorInst"){
     			$(".label_01").html("Institución: ");
     			$(".label_02").html("Pais: ");
+                $(".label_03").html("Unidad Subordinada: ");
+                $(".label_04").html("Afiliación: ");
     		}
     		$(".NewtypeAuthor").change(function(){
     			opt_sel = $(this).val();
     			if (opt_sel==0) {
     				$(".label_01").html("Nombres: ");
     				$(".label_02").html("Apellidos: ");
+                    $(".label_03").html("Fecha Asociada: ");
+                    $(".label_04").html("Termino de Referencia: ");
     			}
     			else{
     				$(".label_01").html("Institución: ");
     				$(".label_02").html("Pais: ");
+                    $(".label_03").html("Unidad Subordinada: ");
+                    $(".label_04").html("Afiliación: ");
     			}
     		});
     		$(".btnCancel").click(function(){
