@@ -220,8 +220,8 @@
 				// 	$class_list = "list_block_0";
 				// }
 				$class_list = (($i+1)%2==0) ? "list_block" : "list_block_0";
-                $result_sede = query_sede($result["sede"][0]);
-                $sede=$result_sede!=-100?$result_sede["descripcion"]:"-";
+                $result_sede = query_sede($result["sede"][$i]);
+                $sede=$result_sede!=-100?$result_sede["descripcion"]:" ";
                 $sede = "<p>Sede: ".$sede."</p>";
 				$html.="<div class='resultado-busqueda ".$class_list."'>";
 				$pag=($currentPage-1)*$pageSize+($i+1);
