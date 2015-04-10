@@ -114,6 +114,11 @@ function editBook($idbook=0,$currentPage){
 
 		        	foreach ($Theme as $key => $value) {
 		        	 	$Theme[$key] =(array)$xmlt->Theme->$key;
+                        foreach ($Theme[$key] as $key1 => $value1) {
+                            if (empty($value1)) {
+                                unset($Theme[$key][$key1]);
+                            }
+                        }
 		        	}
 		        }
 		        if (isset($xmlt->FxIng)) {
@@ -463,6 +468,7 @@ function editBook($idbook=0,$currentPage){
 		}
 		$_SESSION["editar"]=1;
 		$_SESSION["edit"]["sede"]=$result["sede"][0];
+        // $objResponse->alert(print_r($_SESSION,TRUE));
 		$objResponse->script("xajax_formPonenciasShow(".$idbook.")");
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");
@@ -1908,11 +1914,13 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
 	unset($form["listAuthor_length"]);//de paginacion author
 	unset($form["listtable_per_length"]);//de paginacion author
 	unset($form["listtable_inst_length"]);//de paginacion author
+    unset($form["author_date_1"]);//Fechas asociadas / Unidad Subordinada
+    unset($form["author_date_2"]);//Termino de relación / Afiliación
 
 	//temporalmente
 	// unset($form["Descriptor"]);
 
-	$objResponse->alert(print_r($form["Theme"], TRUE));
+	// $objResponse->alert(print_r($form["Theme"], TRUE));
 	// if (isset($form["ax-files"]) && !empty($form["ax-files"])) {
 	//    // $objResponse->alert(print_r("hola mundo", TRUE));
 	//    $form["ax_files"] = $form["ax-files"];
@@ -1940,19 +1948,19 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
     if (isset($form["Theme"]) ) {
     	foreach ($form["Theme"] as $key => $value) {
     		if (trim($form["Theme"][$key]["detalle"])=="") {
-    			$form["Theme"][$key]["detalle"]="-";
+    			$form["Theme"][$key]["detalle"]="&nbsp";
     		}
     		if (isset($form["Theme"][$key]["secundary"])) {
 	    		if (is_array($form["Theme"][$key]["secundary"])) {
 	    			foreach ($form["Theme"][$key]["secundary"] as $key_1 => $value_1) {
 		    			if (trim($value_1)=="") {
-		    				$form["Theme"][$key]["secundary"][$key_1]="-";
+		    				$form["Theme"][$key]["secundary"][$key_1]="&nbsp";
 		    			}
 		    		}
 	    		}
 	    		else{
 	    			if (trim($form["Theme"][$key]["secundary"])=="") {
-	    				$form["Theme"][$key]["secundary"]="-";
+	    				$form["Theme"][$key]["secundary"]="&nbsp";
 	    			}
 	    		}
 	    	}
@@ -2037,8 +2045,7 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
 		}
 	$i++;
 	}
-
-
+    // $objResponse->alert(print_r($error,true));
 	if (!(in_array(-100,$error))) {
 
 		if (isset($_SESSION["publicaciones"])) {

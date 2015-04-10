@@ -513,11 +513,10 @@
 		    unset($_SESSION["tmp"]);
 		    unset($_SESSION["publicaciones"]);
 		}
-        // $objResponse->alert(print_r($_SESSION,TRUE));
+
 		$result_book = searchBookSQL("","","");
-
+        // $objResponse->alert(print_r($_SESSION,TRUE));
 		if(isset($_SESSION["editar"])){
-
 		    if($_SESSION["editar"]==1){
 		        $action="UPD";
 		        $tituloBoton="ACTUALIZAR Y NUEVO";
