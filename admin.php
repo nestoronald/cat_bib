@@ -1030,8 +1030,9 @@
 	    $objResponse->Assign("titulo_tipo_prepor","innerHTML",$html);
         $state_select = "
                         <select name='state[]' >
-                            <option value='1'>Disponible</option>
-                            <option value='0'>No Disponible</option>
+                            <option value='100'>Disponible</option>
+                            <option value='1'>Reservado</option>
+                            <option value='2'>Prestado</option>
                          </select>";
 
         $state_select = eregi_replace("[\n|\r|\n\r]", ' ', $state_select);
