@@ -10,9 +10,9 @@
 	 $sql = "Select * from book";
      $sede = " AND sede = '".$_SESSION['users_sede']."'";
 	 if (isset($form) and !empty($form)) {
-	 	$form["tituloSearch"]=trim($form["tituloSearch"]);
+	 	$form["tituloSearch"]=trim($form["tituloSearch"]); //original
+	 	$form["tituloSearch_1"]= sanear_string($form["tituloSearch"]); //sin caracteres especiales
 	 }
-
 		// buscar simple
 	  if ($form["search_option"]=="s_simple") {
 	  		if (isset($form["search_cat"])) {
@@ -47,7 +47,9 @@
 					if (isset($form["query_type"])) {
 							//Titulo
 						if ($form["query_type"]=="title") {
-								$sql .=	" AND (ExtractValue(book_data,'book/title') like '%".$form["tituloSearch"]."%') ";
+								// $sql .=	" AND (ExtractValue(book_data,'book/title') like '%".$form["tituloSearch"]."%') ";
+								$sql .=	" AND  ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch"]."[[:>:]]' ";
+								// $sql .=	" or ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch_1"]."[[:>:]]'   )";
 						}
 							//Autor
 						elseif ($form["query_type"]=="author") {
@@ -280,6 +282,63 @@
 		$result["Query"]=$sql;
 
 		return $result;
+	}
+	function search_str($str){
+		// $str = substr("",$tr);
+		// if (substr("",$tr)) {
+		// 	# code...
+		// }
+
+	}
+	function sanear_string($string){
+
+	    $string = trim($string);
+
+	    $string = str_replace(
+	        array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+	        array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+	        $string
+	    );
+
+	    $string = str_replace(
+	        array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+	        array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+	        $string
+	    );
+
+	    $string = str_replace(
+	        array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+	        array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+	        $string
+	    );
+
+	    $string = str_replace(
+	        array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+	        array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+	        $string
+	    );
+
+	    $string = str_replace(
+	        array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+	        array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+	        $string
+	    );
+
+	    $string = str_replace(
+	        array('ñ', 'Ñ', 'ç', 'Ç'),
+	        array('n', 'N', 'c', 'C',),
+	        $string
+	    );
+
+	    // //Esta parte se encarga de eliminar cualquier caracter extraño     //
+		// $string = str_replace(     //     array("\\", "¨", "º", "-", "~",     //
+		// "#", "@", "|", "!", "\"",     //          "·", "$", "%", "&", "/",     //
+		// "(", ")", "?", "'", "¡",     //          "¿", "[", "^", "`", "]",     //
+		// "+", "}", "{", "¨", "´",     //          ">", "< ", ";", ",", ":",     //
+		// ".", " "),     //     '',     //     $string     // );
+
+
+	    return $string;
 	}
 	function rangue_year($asc, $desc){
 		$years_result = array();
