@@ -49,22 +49,33 @@
 							case 'title':
 								switch ($r["s"]) {
 									case '*':
-										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]."% ' )";
+										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]."% ' ";
+										$sql .=	" OR ExtractValue(book_data,'book/title') like '".$r["str"]."% ' )";
 										break;
 									case '-':
-										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
-												  AND ExtractValue(book_data,'book/title') not like '% ".$r["str_1"]." %' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/title') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/title') not like '% ".$r["str_1"]." %'
+												      OR ExtractValue(book_data,'book/title') not like '".$r["str_1"]." %')
+												   )";
 										break;
 									case '+':
-										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
-												  AND ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/title') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %'
+													  OR ExtractValue(book_data,'book/title') like '".$r["str_1"]." %')
+												   )";
 										break;
 									case '"':
-										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]." %' )";
+										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]." %' ";
+										$sql .=	"  OR ExtractValue(book_data,'book/title') like '".$r["str"]." %' )";
 										break;
 									case 'NEAR':
-										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
-												  AND ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/title') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %'
+													  OR ExtractValue(book_data,'book/title') like '".$r["str_1"]." %' )
+												   )";
 										break;
 									default:
 										# code...
@@ -77,21 +88,33 @@
 							case 'tema':
 								switch ($r["s"]) {
 									case '*':
-										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]."% ' )";
+										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]."% ' ";
+										$sql .=	" OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str"]."% ' )";
 										break;
 									case '-':
-										$sql .= " AND  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
-												  AND ExtractValue(book_data,'book/Theme/*/child::*') not like '% ".$r["str_1"]." %' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/title') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/title') not like '% ".$r["str_1"]." %'
+												      OR ExtractValue(book_data,'book/title') not like '".$r["str_1"]." %')
+												   )";
 										break;
 									case '+':
-										$sql .= " AND  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
-												  AND ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_1"]." %' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_1"]." %'
+													  OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str_1"]." %')
+												   )";
 										break;
 									case '"':
-										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]." %' )";
+										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]." %' ";
+										$sql .=	"  OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str"]." %' )";
 										break;
 									case 'NEAR':
-										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]."%' )";
+										$sql .= " AND(  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
+											            OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str_0"]." %')
+												  AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_1"]." %'
+													  OR ExtractValue(book_data,'book/Theme/*/child::*') like '".$r["str_1"]." %' )
+												   )";
 										break;
 									default:
 										# code...
@@ -113,10 +136,12 @@
 												  AND ExtractValue(book_data,'book/FxIng') like '% ".$r["str_1"]." %' )";
 										break;
 									case '"':
-										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]." %' )";
+										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]." %' ";
+										$sql .=	"  OR ExtractValue(book_data,'book/FxIng') like '".$r["str"]." %' )";
 										break;
 									case 'NEAR':
-										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]."%' )";
+										$sql .= " AND  (ExtractValue(book_data,'book/FxIng') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/FxIng') like '% ".$r["str_1"]." %' )";
 										break;
 									default:
 										# code...
@@ -133,12 +158,20 @@
 								//Titulo
 							if ($form["query_type"]=="title") {
 									$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]." %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"]." %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].", %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"].", %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."; %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"]."; %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].". %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"].". %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].": %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"].": %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."- %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"]."- %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."\_ %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"]."\_ %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '".$form["tituloSearch"]."/ %' ";
 									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."/ %' )";
 									// $sql .=	" AND  ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch"]."[[:>:]]' ";
 									// $sql .=	" or ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch_1"]."[[:>:]]'   )";
@@ -419,10 +452,17 @@
 				$result["error"]=-100;
 			}
 		}
-		elseif($pos_n!==false){
+		elseif($pos_n!==false && $pos_n>0){
 			$str_1 =explode("NEAR", $str);
 			$str = $str_1[0];
 			$result["s"]="NEAR";
+			if (strlen($str_1[1])>0) {
+				$result["str_0"] = trim($str_1[0]);
+				$result["str_1"] = trim($str_1[1]);
+			}
+			else{
+				$result["error"]=-100;
+			}
 		}
 		else{
 			$result["error"]=-100;

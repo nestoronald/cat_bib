@@ -1071,7 +1071,8 @@
 
     		<div class="block_1">
     		<h2>Búsqueda Avanzada</h2>
-    		<p>Por favor rellene las casillas, seleccione los límites, y haga click en BUSCAR</p>
+            <p>Por favor rellene las casillas, seleccione los límites, y haga click en BUSCAR </p>
+    		<p><small class="muted">(*) Campos obligatorios </small></p>
 
     		<form class="form-horizontal" name="frm_search_ad" id="frm_search_ad">
     		<div class="control-group">
@@ -1095,7 +1096,7 @@
     				<option value="a_tema">Tema</option>
     				<option value="a_editor">Editor</option>
     			</select>
-    			<input type="text" name="a_text1">
+    			<input type="text" name="a_text1"> <small class="muted">(*)</small>
     			<select name="a_oper_1" class="span2">
     				<option value="a_oper">Operadores</option>
     				<option value="a_and">Y</option>
@@ -1111,7 +1112,7 @@
     				<option value="a_tema">Tema</option>
     				<option value="a_editor">Editor</option>
     			</select>
-    			<input type="text" name="a_text2">
+    			<input type="text" name="a_text2"> <small class="muted">(*)</small>
     			<select name="a_oper_2" class="span2">
     				<option value="a_oper">Operadores</option>
     				<option value="a_and">Y</option>
