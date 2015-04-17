@@ -75,7 +75,7 @@
 		$result_exact = search_exact($form,$result);
 
 		$html = "<div class='clear'></div>";
-		// $sql = $result["Query"];
+		$sql = $result["Query"];
 		if ($form["search_cat"]=='b_libros' or $form["a_category"]=='a_libros') {
 			$ht["title"] = "Libros";
 		}
@@ -230,7 +230,7 @@
 						</span>
 						<span class='span10'>
 
-							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem.$sede.$sql;
+							".$titulo.$author.$Edition_html.$NumDewey.$ClassIGP.$ejem.$sede."<span class='none'>".$sql."</span>";
 				$html.="</span>
 						<span class='span1 state'>".$estado.$del_order."</span>
 						<span class='msj-loan'></span>

@@ -43,66 +43,157 @@
 
 			if(isset($form["tituloSearch"])){
 				if(strlen(trim($form["tituloSearch"]))>0){
-
-					if (isset($form["query_type"])) {
-							//Titulo
-						if ($form["query_type"]=="title") {
-								// $sql .=	" AND (ExtractValue(book_data,'book/title') like '%".$form["tituloSearch"]."%') ";
-								$sql .=	" AND  ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch"]."[[:>:]]' ";
-								// $sql .=	" or ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch_1"]."[[:>:]]'   )";
-						}
-							//Autor
-						elseif ($form["query_type"]=="author") {
-
-								$author_flag=-100;
-								$result = searchAuthorID($author_flag,"",$form["tituloSearch"]);
-								if ($result["Count"]>0) {
-									$id_format= "(";
-									foreach ($result["idauthor"] as $value) {
-										$id_format .="'".$value."',";
-									}
-									$id_format = substr($id_format, 0,-1);
-									$id_format .= ")";
-									$sql .=	" AND (ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format )";
+					$r = search_str($form["tituloSearch"]);
+					if ($r["error"]!=-100){
+						switch ($form["query_type"]) {
+							case 'title':
+								switch ($r["s"]) {
+									case '*':
+										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]."% ' )";
+										break;
+									case '-':
+										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/title') not like '% ".$r["str_1"]." %' )";
+										break;
+									case '+':
+										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %' )";
+										break;
+									case '"':
+										$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$r["str"]." %' )";
+										break;
+									case 'NEAR':
+										$sql .= " AND  (ExtractValue(book_data,'book/title') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/title') like '% ".$r["str_1"]." %' )";
+										break;
+									default:
+										# code...
+										break;
 								}
-								else{
-								 	//$sql .= $result["Query"];
-                                    $sql .= " AND (ExtractValue(book_data,'book/authorPRI/idauthor0') in -100 )";
-								 }
 
+								break;
+							case 'author':
+								#consulta por author
+							case 'tema':
+								switch ($r["s"]) {
+									case '*':
+										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]."% ' )";
+										break;
+									case '-':
+										$sql .= " AND  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/Theme/*/child::*') not like '% ".$r["str_1"]." %' )";
+										break;
+									case '+':
+										$sql .= " AND  (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str_1"]." %' )";
+										break;
+									case '"':
+										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]." %' )";
+										break;
+									case 'NEAR':
+										$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '% ".$r["str"]."%' )";
+										break;
+									default:
+										# code...
+										break;
+								}
+							default:
 
-						}
-						elseif ($form["query_type"]=="tema") {
-								$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '%".$form["tituloSearch"]."%')";
-						}
-						// elseif ($form["query_type"]=="resp_pub") {
-						// 	$sql .=	" WHERE (ExtractValue(book_data,'book/MatEnt') like '%".$form["tituloSearch"]."%' ";
-						// }
-						// elseif ($form["query_type"]=="reg_geo") {
-						// 	$sql .=	" WHERE (ExtractValue(book_data,'book/Descriptor_geo') like '%".$form["tituloSearch"]."%' ";
-						// }
-						elseif ($form["query_type"]=="anio") {
-							$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '%".$form["tituloSearch"]."%')";
-						}
-
-						//Otros
-						else /* ($form["query_type"]=="b_all")*/ {
-							$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
-                            $sql .= " AND (
-                               (ExtractValue(book_data,'book/title') != '".$form["tituloSearch"]."') AND
-                                   (
-                                    (ExtractValue(book_data,'book/child::*') like '%".$form["tituloSearch"]."%')";
-                            $sql .= " ";
-                            $sql .= " OR (ExtractValue(book_data,'book/*/child::*') like '%".$form["tituloSearch"]."%')";
-							$sql .=	" OR (ExtractValue(book_data,'book/*/*/child::*') like '%".$form["tituloSearch"]."%')
-                                   )
-                                )";
+							case 'anio':
+								switch ($r["s"]) {
+									case '*':
+										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]."% ' )";
+										break;
+									case '-':
+										$sql .= " AND  (ExtractValue(book_data,'book/FxIng') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/FxIng') not like '% ".$r["str_1"]." %' )";
+										break;
+									case '+':
+										$sql .= " AND  (ExtractValue(book_data,'book/FxIng') like '% ".$r["str_0"]." %'
+												  AND ExtractValue(book_data,'book/FxIng') like '% ".$r["str_1"]." %' )";
+										break;
+									case '"':
+										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]." %' )";
+										break;
+									case 'NEAR':
+										$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '% ".$r["str"]."%' )";
+										break;
+									default:
+										# code...
+										break;
+								}
+								#consulta por anio
+							default:
+								# code...
+								break;
 						}
 					}
+					else {
+						if (isset($form["query_type"])) {
+								//Titulo
+							if ($form["query_type"]=="title") {
+									$sql .=	" AND (ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]." %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].", %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."; %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].". %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"].": %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."- %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."\_ %' ";
+									$sql .=	" or ExtractValue(book_data,'book/title') like '% ".$form["tituloSearch"]."/ %' )";
+									// $sql .=	" AND  ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch"]."[[:>:]]' ";
+									// $sql .=	" or ExtractValue(book_data,'book/title') REGEXP '[[:<:]]".$form["tituloSearch_1"]."[[:>:]]'   )";
+							}
+								//Autor
+							elseif ($form["query_type"]=="author") {
 
+									$author_flag=-100;
+									$result = searchAuthorID($author_flag,"",$form["tituloSearch"]);
+									if ($result["Count"]>0) {
+										$id_format= "(";
+										foreach ($result["idauthor"] as $value) {
+											$id_format .="'".$value."',";
+										}
+										$id_format = substr($id_format, 0,-1);
+										$id_format .= ")";
+										$sql .=	" AND (ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format )";
+									}
+									else{
+									 	//$sql .= $result["Query"];
+	                                    $sql .= " AND (ExtractValue(book_data,'book/authorPRI/idauthor0') in -100 )";
+									 }
+
+
+							}
+							elseif ($form["query_type"]=="tema") {
+									$sql .=	" AND (ExtractValue(book_data,'book/Theme/*/child::*') like '%".$form["tituloSearch"]."%')";
+							}
+							// elseif ($form["query_type"]=="resp_pub") {
+							// 	$sql .=	" WHERE (ExtractValue(book_data,'book/MatEnt') like '%".$form["tituloSearch"]."%' ";
+							// }
+							// elseif ($form["query_type"]=="reg_geo") {
+							// 	$sql .=	" WHERE (ExtractValue(book_data,'book/Descriptor_geo') like '%".$form["tituloSearch"]."%' ";
+							// }
+							elseif ($form["query_type"]=="anio") {
+								$sql .=	" AND (ExtractValue(book_data,'book/FxIng') like '%".$form["tituloSearch"]."%')";
+							}
+
+							//Otros
+							else /* ($form["query_type"]=="b_all")*/ {
+								$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
+	                            $sql .= " AND (
+	                               (ExtractValue(book_data,'book/title') != '".$form["tituloSearch"]."') AND
+	                                   (
+	                                    (ExtractValue(book_data,'book/child::*') like '%".$form["tituloSearch"]."%')";
+	                            $sql .= " ";
+	                            $sql .= " OR (ExtractValue(book_data,'book/*/child::*') like '%".$form["tituloSearch"]."%')";
+								$sql .=	" OR (ExtractValue(book_data,'book/*/*/child::*') like '%".$form["tituloSearch"]."%')
+	                                   )
+	                                )";
+							}
+						}
+					}
 				}
 			}
-
 	  }
 	  //opciones avanzadas
 	  elseif ($form["search_option"]=="s_advanced") {
@@ -283,12 +374,61 @@
 
 		return $result;
 	}
-	function search_str($str){
-		// $str = substr("",$tr);
-		// if (substr("",$tr)) {
-		// 	# code...
-		// }
+	function search_str($str=""){
+		$result["error"]=100;
+		$pos_as = strrpos($str, "*");
+		$pos_co = strrpos($str, "\"");
+		$pos_or = strrpos($str, "-");
+		$pos_and = strrpos($str, "+");
+		$pos_n = strpos($str, "NEAR");
 
+		if ( $pos_as!==false && $pos_as==(strlen($str)-1) ) {
+			$str = str_replace("*","",$str);
+			$result["s"]="*";
+		}
+		elseif ($pos_co!==false && $pos_co==0) {
+		    $str_1 = substr($str, 1);
+		    $pos=strpos($str_1,"\"");
+		    $len = strlen($str_1);
+		    if ($pos !== false && $pos==($len-1)) {
+		        $str = str_replace("\"","",$str);
+		        $result["s"]='"';
+		    }else{
+		        $result["error"]=-100;
+		    }
+		}
+		elseif ($pos_or!==false && $pos_or>0) {
+			$str_1 =explode("-", $str);
+			$result["s"]="-";
+			if (strlen($str_1[1])>0) {
+				$result["str_0"] = trim($str_1[0]);
+				$result["str_1"] = trim($str_1[1]);
+			}
+			else{
+				$result["error"]=-100;
+			}
+		}
+		elseif ($pos_and!==false && $pos_and>0) {
+			$str_1 =explode("+", $str);
+			$result["s"]="+";
+			if (strlen($str_1[1])>0) {
+				$result["str_0"] = trim($str_1[0]);
+				$result["str_1"] = trim($str_1[1]);
+			}
+			else{
+				$result["error"]=-100;
+			}
+		}
+		elseif($pos_n!==false){
+			$str_1 =explode("NEAR", $str);
+			$str = $str_1[0];
+			$result["s"]="NEAR";
+		}
+		else{
+			$result["error"]=-100;
+		}
+		$result["str"]=$str;
+		return $result;
 	}
 	function sanear_string($string){
 
