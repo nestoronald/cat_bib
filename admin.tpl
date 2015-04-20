@@ -119,6 +119,7 @@
                                     </table>
                                 </div>
                             <div id="author_section"></div>
+                            <div id="dictionary_section"></div>
                             <div id="paginatorAuthor"></div>
                             <div id="ListReserva"></div>
                             <div id="DivReserva" style="display:none">

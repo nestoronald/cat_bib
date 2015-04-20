@@ -865,6 +865,7 @@
 	        $objResponse->assign("option_category", "style.display", "none");
 	        $objResponse->assign("consultas", "style.display", "none");
 	        $objResponse->assign("author_section", "style.display", "none");
+	        $objResponse->assign("dictionary_section", "style.display", "none");
 	        $objResponse->assign("paginatorAuthor", "style.display", "none");
 	        $objResponse->assign("conte_details", "style.display", "none");
             $objResponse->assign("ListReserva","style.display","none");
@@ -941,7 +942,7 @@
 				<div class="clear"></div>
 				<div>
                     <div id="div_tituloSearch" class="contenedor-caja-buscador-1">
-                        <input id="tituloSearch" name="tituloSearch" type="text" size="30" autocomplete="off" class="caja-buscador-1">
+                        <input id="tituloSearch" name="tituloSearch" type="text" size="30" class="caja-buscador-1">
                     </div>
 				</div>
                 <button id="btn-search">Buscar</button>
@@ -986,6 +987,7 @@
 		$sug = substr($sug, 0,-1);
 		$sug .= "]";
 		// $objResponse->alert(print_r( $sug, TRUE));
+		$dic = dictionary_sug();
 
 	    //$objResponse->assign('botonGuardarEditar', 'innerHTML',$comboYear);
 	    $objResponse->script('
@@ -1007,6 +1009,8 @@
 	    		// 	var sug = typesugerencias("'.$id.'",subcat);
 	    		// 	$("#tituloSearch").typeahead({source: sug});
 	    		// });
+				dic = ["sismos","lima"]
+	    		$("#tituloSearch").typeahead({source:'.$dic.'});
 	    		$("#btn-search").button({
                     icons: {
                         primary: "ui-icon-search"
@@ -1029,7 +1033,16 @@
 		');
 		return $objResponse;
 	}
-
+	function dictionary_sug(){
+		$result= QueryDictionary("");
+        $dictionary = "[";        
+        for($i=0;$i<$result["Count"];$i++) {
+            $dictionary .= "'".$result[$i]['data']."',";
+        }       
+        $dictionary = substr($dictionary, 0,-1);
+        $dictionary .= "]";
+        return $dictionary;
+    }
 	function submenu_items($type){
 	    $objResponse = new xajaxResponse();
 	    $diccionary = file_get_contents("js/diccionary.json");

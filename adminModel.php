@@ -727,5 +727,85 @@
 		$dbh = null;
 		return $result;
 	}
+	function QueryDictionary($id=""){
+	    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+	    $dbh->query("SET NAMES 'utf8'");
+	    if ($id!="") {
+	    	$q1="WHERE id = ?";
+	    }
+	    else{
+	        $q1="";
+	    }	    
+	    if ($stmt = $dbh->prepare("SELECT * FROM dictionary $q1 ")) {
+	    	if ($id!="") {
+	    		$stmt->execute(array($id));
+	    	}else{
+	    		$stmt->execute();
+	    	}	    		       
+	        //$result=$stmt->fetch(PDO::FETCH_ASSOC);
+	        $result=$stmt->fetchAll();
+	        if($stmt->rowCount() >= 1) {// member existe
+	           $result["Count"] =$stmt->rowCount();
+	           return $result;
+	        }
+	        else{
+	           return -100;
+	        }
+	    }
+	    else{
+	        return -100;
+	    }
+	    $dbh = null;
+	}
+    function NewDictionaryQuery($form="") {
+        // Using prepared Statements means that SQL injection is not possible.
+        $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+        if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
+            $stmt->execute(array($form["id"])); // Execute the prepared query.
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);            
+            if($stmt->rowCount() == 0) { // If the user not exists
+                $stmt = $dbh->prepare("INSERT INTO dictionary(data) VALUES(?) ");
+                $stmt->execute(array($form["data"]));
+                return true;
+            } else {
+                // No user exists.
+                return false;
+            }
+        }
+    }
+    function updateDictionaryQuery($form="") {
+	    // Using prepared Statements means that SQL injection is not possible.
+	    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+	    if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
 
+	        $stmt->execute(array($form["id"])); // Execute the prepared query.	        
+	        if($stmt->rowCount() == 1) { // If the user exists	            
+	            $stmt = $dbh->prepare("UPDATE dictionary SET data = ? WHERE id = ?");
+	            $stmt->execute(array($form["data"], $form["id"]));
+	            return true;	            
+	        } else {
+	            // No user exists.
+	            return false;
+	        }
+	    }
+	}
+
+	function deleteDictionaryQuery($id=""){
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");			
+		if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
+	        $stmt->execute(array($id)); // Execute the prepared query.	        
+	        if($stmt->rowCount() == 1) { // If the user exists
+	            $stmt = $dbh->prepare("DELETE FROM dictionary WHERE id=?");
+                $stmt->execute(array($id));
+                return true;            
+	        } else {
+	            // No user exists.
+	            return false;
+	        }
+	    }
+		$dbh = null;		
+	}
 ?>

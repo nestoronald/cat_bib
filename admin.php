@@ -100,6 +100,7 @@
         $html= $smarty->fetch('tpl/about.tpl');
         $respuesta->assign("imghome","style.display","none");
         $respuesta->assign("author_section","style.display","none");
+        $respuesta->assign("dictionary_section","style.display","none");
         $respuesta->assign("paginatorAuthor","style.display","none");
         $respuesta->assign("ListReserva","style.display","none");
         $respuesta->assign("DivReserva","style.display","none");
@@ -350,6 +351,7 @@
             $menu.="<li><a href='#Lista-reserva' onclick='xajax_ListReserva(); return false;' >Reservas</a></li>";
             $form["demo"]="12";
             $menu.="<li><a href='#autores' onclick='xajax_auxAuthorShow(5000,1,\"$form\"); return false;' > Autores</a></li>";
+            $menu.="<li><a href='#terminologia' onclick='xajax_auxDictionaryShow(\"\"); return false;' >Terminologia de sugerencias</a></li>";
             $medu_rigth.='<li class="fright"><a href="Instructivo_uso_Administrador.pdf" target="__blank"><b> ? </b> </a></li>';
             $medu_rigth.='<li class="fright"><a href="#" onclick="xajax_cerrarSesion(); return false">Cerrar sesión</a></li>';
             $medu_rigth.='<li class="fright"><a href="#perfil" onclick="xajax_aboutAdmin(); return false;">'.$_SESSION["admin"].'</a></li>';
@@ -456,7 +458,8 @@
 		$respuesta->Assign("author_section","style.display","none");
         $respuesta->Assign("paginatorAuthor","style.display","none");
         $respuesta->Assign("conte_details","style.display","none");
-		$respuesta->Assign("about_admin","style.display","none");
+        $respuesta->Assign("about_admin","style.display","none");
+		$respuesta->Assign("dictionary_section","style.display","none");
 		$respuesta->Assign("option_category","style.display","block");
 		$respuesta->Assign("option_category","innerHTML",$html);
 
@@ -2101,6 +2104,7 @@
         //fin new codng
 
         $objResponse->assign("author_section","style.display","none");
+        $objResponse->assign("dictionary_section","style.display","none");
         $objResponse->assign("imghome","style.display","none");
         $objResponse->assign("option_category","style.display","none");
         $objResponse->assign("formulario","style.display","none");
@@ -2523,7 +2527,8 @@
     	$objResponse->assign("resultSearch1","style.display", "none");
         $objResponse->assign("paginator","style.display", "none");
         $objResponse->assign("conte_details","style.display", "none");
-    	$objResponse->assign("about_admin","style.display", "none");
+        $objResponse->assign("about_admin","style.display", "none");
+    	$objResponse->assign("dictionary_section","style.display", "none");
     	// $objResponse->assign("author_section","style.display", "block");
 
 
@@ -2796,7 +2801,7 @@
     			});
     	');
     	return $objResponse;
-    		}
+    }
     function saveAuthor($form="",$catAuthor="",$action=""){
     		$objResponse= new xajaxResponse();
     		$result = registraAuthorSQL($form);
@@ -2812,8 +2817,235 @@
     		$objResponse->assign("divNewAuthor","innerHTML",$html);
     		return $objResponse;
     }
+    function auxDictionaryShow($id=""){
+        $objResponse = new xajaxResponse();
+        $result= QueryDictionary($id);
+        $html_search="
+            <input type='text' name='searchDictionary'/>
+            <input type='button' class='btn' value='Buscar'/>
+            ";
+        $html= '
+                <a href="#" id="newDictionary" class="openNewADictionary fright"><span class="icon-plus-sign"></span>Nuevo</a>                
+                <table id="tableDictionary" width="100%" class="listAuthor tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">
+                <thead>
+                <tr class="cab">
+                    <th>N°</th>
+                    <th>Termino</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody>';
+        
+        for($i=0;$i<$result["Count"];$i++){
+            $nro=$i+1;
+            $html.= "<tr class='impar'>";
+            $html.= "<td class='span1'>".$nro."</td>";            
+            
+            $html.= "<td>
+                        <input type='hidden' name='id[".$result[$i]["id"]."]' value='".$result[$i]["id"]."'>
+                        <input type='hidden' name='data[".$result[$i]["id"]."]' value='".$result[$i]["data"]."'>
+                        ".$result[$i]["data"]."                        
+                    </td>                    
+                    ";           
+            $html.= "<td class='span1'>
+                        <a href=\"#formulario\" class='editDictionary' style=\"cursor: pointer;\"><img alt=\"editar autor\"  onclick=\"xajax_editDictionary(".$result[$i]["id"]."); return false;\" src=\"img/iconos/editar.gif\" />
+                        </a>
+                     </td>";
+            $html.= "<td class='span1'>
+                     <a href=\"#formulario\" class='delDictinary' style=\"cursor: pointer;\">
+                        <img alt=\"autor secundario\" style=\"cursor: pointer;border:0;\" onclick=\"xajax_deleteDictionary(".$result[$i]["id"]."); return false;\" src=\"img/iconos/incorrecto.png\" />
+                     </a>
+                   </td>";
+            $html.= "</tr>";
+        }
+        $html.= "</tbody>
+                </table>
+                <div id='eDictionary'></div>
+                <div id='dDictionary'></div>
+                <div id='divNewDictionary'></div>";
 
+        $objResponse->assign("imghome","style.display", "none");
+        //$objResponse->assign("option_category","style.display", "none");
+        // $objResponse->assign("formulario","style.display", "none");
+        $objResponse->assign("ListReserva","style.display", "none");
+        $objResponse->assign("searchCat","style.display", "none");
+        $objResponse->assign("consultas","style.display", "none");
+        $objResponse->assign("resultSearch1","style.display", "none");
+        $objResponse->assign("paginator","style.display", "none");
+        $objResponse->assign("conte_details","style.display", "none");
+        $objResponse->assign("about_admin","style.display", "none");
+        // $objResponse->assign("author_section","style.display", "block");      
+        $objResponse->assign("option_category","style.display", "none");
+        $objResponse->assign("formulario","style.display", "none");
+        $objResponse->assign("dictionary_section","style.display", "block");
+        $objResponse->assign("dictionary_section","innerHTML", $html);
+        
 
+        $objResponse->script("                        
+                        $.fn.DataTable.ext.type.search.string = function ( data ) {
+                                           return ! data ?
+                                               '' :
+                                               typeof data === 'string' ?
+                                                   data
+                                                       .replace(/\\n/g,' ')
+                                                       .replace( /[áàâ]/g, 'a' )
+                                                       .replace( /[éèê]/g, 'e' )
+                                                       .replace( /[íìî]/g, 'i' )
+                                                       .replace( /[óòô]/g, 'o' )
+                                                       .replace( /[úùû]/g, 'u' ) :
+                                                   data;
+                        }
+
+                        $('#tableDictionary').dataTable({
+                            // 'fnDrawCallback': function () {
+                            // alert( 'Pagina N: '+ this.fnPagingInfo().iTotal );
+                            //},
+                            // $.fn.dataTableExt.sErrMode = 'throw',
+                            'bJQueryUI': true,
+                            'bSort': false,
+                            'bPaginate': true,
+                            'sPaginationType': 'full_numbers',
+                            'iDisplayLength': 10,
+                            'aoColumnDefs': [
+                                { 'sType': 'string', 'aTargets': [1] }
+                            ],
+                            // 'bLengthChange': false,
+                            'oLanguage': {'sUrl': 'js/js_DataTables1.9.4/es_ES.txt'}
+                        });
+
+        ");
+        $objResponse->script("
+                $('#eDictionary, #dDictionary, #divNewDictionary').dialog({
+                            autoOpen: false,
+                            modal: true,
+                            show: 'fade',
+                            hide: 'fade',
+                            height: 'auto',
+                            width: 500
+                        });
+                $('#eDictionary').dialog({title:'Editar Término'});
+                $('#dDictionary').dialog({title:'Eliminar Término'});
+                $('#divNewDictionary').dialog({title:'Nuevo Término'});               
+                
+                $('.editDictionary').click(function() {
+                        $('#eDictionary').dialog('open');
+                        return false;
+                    });
+                $('.delDictinary').click(function() {
+                        $('#dDictionary').dialog('open');
+                        return false;
+                    });
+                $('#newDictionary').click(function() {
+                        $('#divNewDictionary').dialog('open');                        
+                        xajax_NewDictionary();
+                        return false;
+                    });                
+        ");
+        return $objResponse;
+    }
+    function NewDictionary(){
+        $objResponse= new xajaxResponse();        
+        $html="<form name='nFrmDictionary' id='nFrmDictionary'>
+                <label class='label_01' for='nAuthor'>Termino de Sugerencia: </label>                    
+                    <input type='text' class='span5' name='data' value=''>
+                <div class='btnActions'>
+                <input type=\"button\" value=\"Guardar\" class='btn' onclick=\"xajax_saveDictionary(xajax.getFormValues('nFrmDictionary'))\">
+                <input type=\"button\" value=\"Cancelar\" class=\"btnCancel btn\">
+                </div>
+                </form>";
+        $objResponse->assign("divNewDictionary","innerHTML",$html);
+        $objResponse->script('
+                $(".btnCancel").click(function(){
+                    $("#divNewDictionary").dialog("close")
+                });
+        ');
+        return $objResponse;
+    }
+    function saveDictionary($form=""){
+        $objResponse= new xajaxResponse();
+        $result = NewDictionaryQuery($form);
+        if ($result===true) {
+            $html="<p class='msj'>Datos guardados correctamente </p>";
+            $objResponse->script("xajax_auxDictionaryShow('')");
+        }
+        else {
+            $html="<p class='msjdel'>No fue posible insertar datos</p>";
+        }
+            //$objResponse->alert(print_r($formUM,TRUE));
+        $objResponse->assign("divNewDictionary","innerHTML",$html);
+        return $objResponse;
+    }
+    function editDictionary($id=""){
+        $objResponse = new xajaxResponse();
+        //  $objResponse->alert(print_r($form, TRUE));        
+        $html = "<form name='eFrmDictionary' id='eFrmDictionary'>
+                <label for='tAuthor'>Tipo </label>                
+                <input type='hidden' value='$id' name='id' READONLY>
+                <label class='label_01' for='nAuthor'>Nombre: </label>
+                    <input type='text' class='span5' name='data' value=''>
+                <div class='btnActions'>
+                <input type=\"button\" value=\"Guardar\" class='btn'
+                onclick=\"xajax_updateDictionary(xajax.getFormValues('eFrmDictionary'))\">
+                <input type=\"button\" value=\"Cancelar\" class=\"btnCancel btn\">
+                </div>
+                </form>";
+        $objResponse->assign("eDictionary","innerHTML","$html");
+        $objResponse->script("
+                    
+                    var data = $('input[name=\"data[$id]\"]').val();
+                    $('input[name=\"data\"]').val(data);                   
+                    
+                    $('.btnCancel').click(function(){
+                        $('#eDictionary').dialog('close')
+                    });
+                
+                ");
+        return $objResponse;
+    }
+    function updateDictionary($form=""){
+        $objResponse = new xajaxResponse();
+
+        if (updateDictionaryQuery($form)) {
+            $html="<p class='msj'> Los datos fueron actualizado correctamente</p>";
+            $objResponse->script("xajax_auxDictionaryShow('')");
+        }
+        else{
+            $html.="<p class='msjdel'> Debió ocurrir un error, intentalo mas tarde</p>";
+        }
+        $objResponse->assign("eDictionary","innerHTML",$html);
+        //$objResponse->alert(print_r($form, TRUE));
+        return $objResponse;
+    }
+
+    function deleteDictionary($id=""){
+        $objResponse = new xajaxResponse();
+        $html="<p class='msj'>Está seguro que desea eliminar el término</p>
+           <div class='btnActions'>
+            <input type='button' class='btn' value='Eliminar' onclick='xajax_ConfirmdeleteDictionary(".$id."); return false;'>
+            <input type='button' value='Cancelar' class='btn btnCancel'>
+           </div>";
+
+        $objResponse->assign("dDictionary","innerHTML",$html);
+        $objResponse->script("$('.btnCancel').click(function(){
+                    $('#dDictionary').dialog('close')
+                });");
+        return $objResponse;
+    }
+
+    function ConfirmdeleteDictionary($id=""){
+        $objResponse = new xajaxResponse();
+        $result = deleteDictionaryQuery($id);
+        if ($result===true) {
+            $html="<p class='msj'>Se ha eliminado el término</p>";
+            $objResponse->script("xajax_auxDictionaryShow('')");
+        }
+        else{
+            $html="<p class='msjdel'>No se ha podido eliminar el término</p>";
+        }
+        $objResponse->assign("dDictionary","innerHTML",$html);
+        return $objResponse;
+    }
     function carga_archivo($img_portada=""){
         $respuesta = new xajaxResponse();
         if(isset($_SESSION["edit"])){
@@ -3142,12 +3374,18 @@
     $xajax->registerFunction('PubLanguaje');
 
     $xajax->registerFunction('auxAuthorShow');
+    $xajax->registerFunction('auxDictionaryShow');
     $xajax->registerFunction('editAuthor');
+    $xajax->registerFunction('editDictionary');
     $xajax->registerFunction('updateAuthor');
+    $xajax->registerFunction('updateDictionary');
     $xajax->registerFunction('deleteAuthor');
+    $xajax->registerFunction('deleteDictionary');
     $xajax->registerFunction('ConfirmdeleteAuthor');
+    $xajax->registerFunction('ConfirmdeleteDictionary');
     $xajax->registerFunction('NewAuthor');
-    $xajax->registerFunction('saveAuthor');
+    $xajax->registerFunction('NewDictionary');
+    $xajax->registerFunction('saveDictionary');
     $xajax->registerFunction('delBook');
     $xajax->registerFunction('ConfirmDelBook');
     $xajax->registerFunction('ListReserva');
