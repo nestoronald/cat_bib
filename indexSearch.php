@@ -98,6 +98,7 @@
 
 		if($result["Count"]>0){
 			$_SESSION["r_count"] = $result["Count"];
+            //aumentar el diccionario de
             if ($form["tituloSearch"]!="") {
                 $form["data"]=$form["tituloSearch"];
                 DictionaryQuery($form);
