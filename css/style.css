@@ -2181,7 +2181,7 @@ float:none;
     text-align: right;
     width: 108px;
 }
-.main-bibblio #div_tituloSearch select{
+.main-bibblio #div_tituloSearch select[name="cbosede"]{
     float: right;
     width: 125px;
 }
