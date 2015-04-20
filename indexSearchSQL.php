@@ -407,6 +407,27 @@
 
 		return $result;
 	}
+	function DictionaryQuery($form="") {
+        // Using prepared Statements means that SQL injection is not possible.
+        $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+        $form["data"] = trim($form["data"]);
+        if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE data = ? LIMIT 1")) {
+            $stmt->execute(array($form["data"])); // Execute the prepared query.
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);
+            if($stmt->rowCount() == 0) { // If the user not exists
+                $stmt = $dbh->prepare("INSERT INTO dictionary(data) VALUES(?) ");
+                $stmt->execute(array($form["data"]));
+                return true;
+            } else {
+                // No user exists.
+                $stmt = $dbh->prepare("UPDATE dictionary SET frecuency = ? WHERE id = ?");
+                $f=$result["frecuency"]+1;
+	            $stmt->execute(array($f, $result["id"]));
+                return true;
+            }
+        }
+    }
 	function search_str($str=""){
 		$result["error"]=100;
 		$pos_as = strrpos($str, "*");

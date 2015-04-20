@@ -730,18 +730,14 @@
 	function QueryDictionary($id=""){
 	    $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 	    $dbh->query("SET NAMES 'utf8'");
-	    if ($id!="") {
-	    	$q1="WHERE id = ?";
-	    }
-	    else{
-	        $q1="";
-	    }	    
+	    $q1=$id!="" ? "WHERE id = ?":"";
+	    $q2 = $state==1 ? "WHERE state = ?" : "";
 	    if ($stmt = $dbh->prepare("SELECT * FROM dictionary $q1 ")) {
 	    	if ($id!="") {
 	    		$stmt->execute(array($id));
 	    	}else{
 	    		$stmt->execute();
-	    	}	    		       
+	    	}
 	        //$result=$stmt->fetch(PDO::FETCH_ASSOC);
 	        $result=$stmt->fetchAll();
 	        if($stmt->rowCount() >= 1) {// member existe
@@ -761,9 +757,10 @@
         // Using prepared Statements means that SQL injection is not possible.
         $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
-        if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
-            $stmt->execute(array($form["id"])); // Execute the prepared query.
-            $result=$stmt->fetch(PDO::FETCH_ASSOC);            
+        $form["data"] = trim($form["data"]);
+        if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE data = ? LIMIT 1")) {
+            $stmt->execute(array($form["data"])); // Execute the prepared query.
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);
             if($stmt->rowCount() == 0) { // If the user not exists
                 $stmt = $dbh->prepare("INSERT INTO dictionary(data) VALUES(?) ");
                 $stmt->execute(array($form["data"]));
@@ -780,11 +777,11 @@
 		$dbh->query("SET NAMES 'utf8'");
 	    if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
 
-	        $stmt->execute(array($form["id"])); // Execute the prepared query.	        
-	        if($stmt->rowCount() == 1) { // If the user exists	            
+	        $stmt->execute(array($form["id"])); // Execute the prepared query.
+	        if($stmt->rowCount() == 1) { // If the user exists
 	            $stmt = $dbh->prepare("UPDATE dictionary SET data = ? WHERE id = ?");
 	            $stmt->execute(array($form["data"], $form["id"]));
-	            return true;	            
+	            return true;
 	        } else {
 	            // No user exists.
 	            return false;
@@ -794,18 +791,18 @@
 
 	function deleteDictionaryQuery($id=""){
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
-		$dbh->query("SET NAMES 'utf8'");			
+		$dbh->query("SET NAMES 'utf8'");
 		if ($stmt = $dbh->prepare("SELECT * FROM dictionary WHERE id = ? LIMIT 1")) {
-	        $stmt->execute(array($id)); // Execute the prepared query.	        
+	        $stmt->execute(array($id)); // Execute the prepared query.
 	        if($stmt->rowCount() == 1) { // If the user exists
 	            $stmt = $dbh->prepare("DELETE FROM dictionary WHERE id=?");
                 $stmt->execute(array($id));
-                return true;            
+                return true;
 	        } else {
 	            // No user exists.
 	            return false;
 	        }
 	    }
-		$dbh = null;		
+		$dbh = null;
 	}
 ?>

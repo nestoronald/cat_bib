@@ -1916,6 +1916,8 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
 	unset($form["listtable_inst_length"]);//de paginacion author
     unset($form["author_date_1"]);//Fechas asociadas / Unidad Subordinada
     unset($form["author_date_2"]);//Termino de relación / Afiliación
+    unset($form["data"]);//
+    unset($form["id"]);//
 
 	//temporalmente
 	// unset($form["Descriptor"]);

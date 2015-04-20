@@ -2825,7 +2825,7 @@
             <input type='button' class='btn' value='Buscar'/>
             ";
         $html= '
-                <a href="#" id="newDictionary" class="openNewADictionary fright"><span class="icon-plus-sign"></span>Nuevo</a>                
+                <a href="#" id="newDictionary" class="openNewADictionary fright"><span class="icon-plus-sign"></span>Nuevo</a>
                 <table id="tableDictionary" width="100%" class="listAuthor tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">
                 <thead>
                 <tr class="cab">
@@ -2836,18 +2836,18 @@
                 </tr>
                 </thead>
                 <tbody>';
-        
+
         for($i=0;$i<$result["Count"];$i++){
             $nro=$i+1;
             $html.= "<tr class='impar'>";
-            $html.= "<td class='span1'>".$nro."</td>";            
-            
+            $html.= "<td class='span1'>".$nro."</td>";
+
             $html.= "<td>
                         <input type='hidden' name='id[".$result[$i]["id"]."]' value='".$result[$i]["id"]."'>
                         <input type='hidden' name='data[".$result[$i]["id"]."]' value='".$result[$i]["data"]."'>
-                        ".$result[$i]["data"]."                        
-                    </td>                    
-                    ";           
+                        ".$result[$i]["data"]."
+                    </td>
+                    ";
             $html.= "<td class='span1'>
                         <a href=\"#formulario\" class='editDictionary' style=\"cursor: pointer;\"><img alt=\"editar autor\"  onclick=\"xajax_editDictionary(".$result[$i]["id"]."); return false;\" src=\"img/iconos/editar.gif\" />
                         </a>
@@ -2875,14 +2875,14 @@
         $objResponse->assign("paginator","style.display", "none");
         $objResponse->assign("conte_details","style.display", "none");
         $objResponse->assign("about_admin","style.display", "none");
-        // $objResponse->assign("author_section","style.display", "block");      
+        $objResponse->assign("author_section","style.display", "none");
         $objResponse->assign("option_category","style.display", "none");
         $objResponse->assign("formulario","style.display", "none");
         $objResponse->assign("dictionary_section","style.display", "block");
         $objResponse->assign("dictionary_section","innerHTML", $html);
-        
 
-        $objResponse->script("                        
+
+        $objResponse->script("
                         $.fn.DataTable.ext.type.search.string = function ( data ) {
                                            return ! data ?
                                                '' :
@@ -2926,8 +2926,8 @@
                         });
                 $('#eDictionary').dialog({title:'Editar Término'});
                 $('#dDictionary').dialog({title:'Eliminar Término'});
-                $('#divNewDictionary').dialog({title:'Nuevo Término'});               
-                
+                $('#divNewDictionary').dialog({title:'Nuevo Término'});
+
                 $('.editDictionary').click(function() {
                         $('#eDictionary').dialog('open');
                         return false;
@@ -2937,17 +2937,17 @@
                         return false;
                     });
                 $('#newDictionary').click(function() {
-                        $('#divNewDictionary').dialog('open');                        
+                        $('#divNewDictionary').dialog('open');
                         xajax_NewDictionary();
                         return false;
-                    });                
+                    });
         ");
         return $objResponse;
     }
     function NewDictionary(){
-        $objResponse= new xajaxResponse();        
+        $objResponse= new xajaxResponse();
         $html="<form name='nFrmDictionary' id='nFrmDictionary'>
-                <label class='label_01' for='nAuthor'>Termino de Sugerencia: </label>                    
+                <label class='label_01' for='nAuthor'>Termino de Sugerencia: </label>
                     <input type='text' class='span5' name='data' value=''>
                 <div class='btnActions'>
                 <input type=\"button\" value=\"Guardar\" class='btn' onclick=\"xajax_saveDictionary(xajax.getFormValues('nFrmDictionary'))\">
@@ -2978,9 +2978,9 @@
     }
     function editDictionary($id=""){
         $objResponse = new xajaxResponse();
-        //  $objResponse->alert(print_r($form, TRUE));        
+        //  $objResponse->alert(print_r($form, TRUE));
         $html = "<form name='eFrmDictionary' id='eFrmDictionary'>
-                <label for='tAuthor'>Tipo </label>                
+                <label for='tAuthor'>Tipo </label>
                 <input type='hidden' value='$id' name='id' READONLY>
                 <label class='label_01' for='nAuthor'>Nombre: </label>
                     <input type='text' class='span5' name='data' value=''>
@@ -2992,14 +2992,14 @@
                 </form>";
         $objResponse->assign("eDictionary","innerHTML","$html");
         $objResponse->script("
-                    
+
                     var data = $('input[name=\"data[$id]\"]').val();
-                    $('input[name=\"data\"]').val(data);                   
-                    
+                    $('input[name=\"data\"]').val(data);
+
                     $('.btnCancel').click(function(){
                         $('#eDictionary').dialog('close')
                     });
-                
+
                 ");
         return $objResponse;
     }

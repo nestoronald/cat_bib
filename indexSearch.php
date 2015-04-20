@@ -98,6 +98,10 @@
 
 		if($result["Count"]>0){
 			$_SESSION["r_count"] = $result["Count"];
+            if ($form["tituloSearch"]!="") {
+                $form["data"]=$form["tituloSearch"];
+                DictionaryQuery($form);
+            }
 			foreach ($result["book_data"] as $xmldata){
 
 				//libxml_use_internal_errors(true);
@@ -1035,10 +1039,10 @@
 	}
 	function dictionary_sug(){
 		$result= QueryDictionary("");
-        $dictionary = "[";        
+        $dictionary = "[";
         for($i=0;$i<$result["Count"];$i++) {
             $dictionary .= "'".$result[$i]['data']."',";
-        }       
+        }
         $dictionary = substr($dictionary, 0,-1);
         $dictionary .= "]";
         return $dictionary;
