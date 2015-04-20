@@ -1475,7 +1475,7 @@ a.blue{ color:blue; text-decoration:none;}
 .combo-buscador-400{border:1px solid #cd840f; background-color:#FFF; width:400px; }
 
 
-.contenedor-caja-buscador-1{float:left; width:400px; margin-bottom:5px;}
+.contenedor-caja-buscador-1{float:left; width:500px; margin-bottom:5px;}
 /*.contenedor-caja-buscador-2{float:left; width:500px; margin-bottom:5px;}*/
 .contenedor-caja-buscador-2{float:left; padding-right: 5px; margin-bottom:5px;}
 .contenedor-caja-buscador-3{float:left; width:200px; margin-bottom:5px;}
@@ -2183,5 +2183,5 @@ float:none;
 }
 .main-bibblio #div_tituloSearch select{
     float: right;
-    width: 100px;
+    width: 125px;
 }

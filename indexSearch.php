@@ -928,7 +928,7 @@
 			<div id="submenu_bar" class="nav_page">
 
 			</div>
-			<div class="span8 offset3">
+			<div class="span10 offset2">
 
 			<h2 class="txt-azul">'.$html["title"].'</h2>
 			<form id="formSearch">'.$formArea.'
@@ -1042,9 +1042,9 @@
         $sede_all = QuerySedeAll();
         $html ="";
         if ($sede_all!=-100) {
-           $html .= "<select class='span3' name='cbosede'><option value='-100'>Todos</option>";
+           $html .= "<select class='span3' name='cbosede'><option value='-100'>Todas las sedes</option>";
            for ($i=0; $i < $sede_all["Count"]; $i++) {
-               $html .="<option value=".$sede_all[$i]["id"].">".$sede_all[$i]["descripcion"]." </option>";
+               $html .="<option value=".$sede_all[$i]["id"].">Sede ".$sede_all[$i]["descripcion"]." </option>";
            }
            $html .= "</select>";
         }
