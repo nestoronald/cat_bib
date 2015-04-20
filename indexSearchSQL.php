@@ -9,7 +9,7 @@
 	 $dbh->query("SET NAMES 'utf8'");
 	 $sql = "Select * from book";
      $sede = " AND sede = '".$_SESSION['users_sede']."'";
-     if ($from["origin"]=="frond") {
+     if ($_SESSION["origin"]=="frond") {
      	if ($form['cbosede']!=-100) {
      		$sede = " AND sede = '".$form['cbosede']."'";
      	}
