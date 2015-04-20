@@ -924,12 +924,11 @@
 		}
 
 		$html='
-
 			<div id="divformSearch">
 			<div id="submenu_bar" class="nav_page">
 
 			</div>
-			<div class="span7 offset3">
+			<div class="span8 offset3">
 
 			<h2 class="txt-azul">'.$html["title"].'</h2>
 			<form id="formSearch">'.$formArea.'
@@ -947,11 +946,12 @@
 				<div class="clear"></div>
 				<div>
                     <div id="div_tituloSearch" class="contenedor-caja-buscador-1">
-                        <input id="tituloSearch" name="tituloSearch" type="text" size="30" class="caja-buscador-1">
+                        <input id="tituloSearch" class="span9" autoComplete="Off" name="tituloSearch" type="text" size="30" class="caja-buscador-1">
+                        '.cboSede().'
                     </div>
 				</div>
-                <button id="btn-search">Buscar</button>
-                <button id="btn-clear">Limpiar</button>
+                <button id="btn-search" class="btn">Buscar</button>
+                <button id="btn-clear" class="btn">Limpiar</button>
 
 				<div class="clear"></div>
 				<div id="msj_query_type">
@@ -1038,6 +1038,19 @@
 		');
 		return $objResponse;
 	}
+    function cboSede(){
+        $sede_all = QuerySedeAll();
+        $html ="";
+        if ($sede_all!=-100) {
+           $html .= "<select class='span3' name='cbosede'><option value='-100'>Todos</option>";
+           for ($i=0; $i < $sede_all["Count"]; $i++) {
+               $html .="<option value=".$sede_all[$i]["id"].">".$sede_all[$i]["descripcion"]." </option>";
+           }
+           $html .= "</select>";
+        }
+        return $html;
+    }
+
 	function dictionary_sug(){
 		$result= QueryDictionary("");
         $dictionary = "[";

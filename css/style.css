@@ -2181,3 +2181,7 @@ float:none;
     text-align: right;
     width: 108px;
 }
+.main-bibblio #div_tituloSearch select{
+    float: right;
+    width: 100px;
+}

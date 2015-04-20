@@ -9,6 +9,20 @@
 	 $dbh->query("SET NAMES 'utf8'");
 	 $sql = "Select * from book";
      $sede = " AND sede = '".$_SESSION['users_sede']."'";
+     if ($from["origin"]=="frond") {
+     	if ($form['cbosede']!=-100) {
+     		$sede = " AND sede = '".$form['cbosede']."'";
+     	}
+     	else{
+     		$sede = " ";
+     	}
+
+     }
+     else{
+     	$sede = " AND sede = '".$_SESSION['users_sede']."'";
+     	$sede = isset($_SESSION["users_sede"])?$sede:"";
+     }
+
 	 if (isset($form) and !empty($form)) {
 	 	$form["tituloSearch"]=trim($form["tituloSearch"]); //original
 	 	$form["tituloSearch_1"]= sanear_string($form["tituloSearch"]); //sin caracteres especiales
@@ -37,7 +51,7 @@
 							  and  ExtractValue(book_data,'book/tipo') not like '%mapas%'";
 				}
 				$sql .=")";
-                $sql .= isset($_SESSION["users_sede"])?$sede:"";
+                $sql .= $sede;
 
 	  		}
 
@@ -253,7 +267,7 @@
 						and  ExtractValue(book_data,'book/tipo') not like '%mapas%  ";
 		  	}
 		  	$sql .=")";
-            $sql .= isset($_SESSION["users_sede"])?$sede:"";
+            $sql .= $sede;
 		}
 		$sql .= "and (";
 		if (isset($form["a_fields_01"]) and !empty($form["a_fields_01"])) {
@@ -1788,5 +1802,24 @@
 	    }
 		$dbh = null;
       }
+    function QuerySedeAll(){
+        $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+        $dbh->query("SET NAMES 'utf8'");
+        if ($stmt = $dbh->prepare("SELECT * FROM sede ")) {
+            $stmt->execute();
+            $result=$stmt->fetchAll();
+            if($stmt->rowCount() >= 1) {
+            	$result["Count"] =$stmt->rowCount();
+                return $result;
+            }
+            else{
+                return -100;
+            }
+        }
+        else{
+            return -100;
+        }
+        $dbh = null;
+    }
 
 ?>
