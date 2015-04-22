@@ -39,7 +39,7 @@ a.menu:hover{color:#cd8310; text-decoration:none;}
 
 /* FORMATOS DE TEXTO Y SUBT�TULOS */
 
-.txt-azul{color:#0d648c;}
+.txt-azul {color: #40B4E3;}
 
 /*.txt-rojo{color:#ff0000; font-weight:bold;}*/
 
@@ -53,7 +53,7 @@ a.menu:hover{color:#cd8310; text-decoration:none;}
 
 a{  text-decoration:none;}/*color:#FF0000;*/
 
-a:hover{ color:#BD852D; text-decoration:none;}
+a:hover{ color:#40B4E3; text-decoration:none;}
 
 a.azul{ color:#0d648c; text-decoration:none;}
 
@@ -471,7 +471,7 @@ tr.presidencia td{background-color:#FF99FF; padding:6px; font-family: Arial; fon
 }
 
 .paginate{
-    color:#BD852D;
+    color:#40B4E3;
     font-weight: bold;
     font-size: 14px;
 }
@@ -724,7 +724,7 @@ ul, li{
 a {
     text-decoration: none;
 }
-.cabecera, .main-title{ background-image:url(../img/001c.jpg);background-repeat:repeat-x;}
+.cabecera{ background-image:url(../img/001c.jpg);background-repeat:repeat-x; padding: 1em 0}
 .main-title {background-position: 0 -170px; }
 .main-title h1 {margin-top: 0.5em;}
 .cabecera1{height:120px; background-image:url(../img/001c.jpg);background-repeat:repeat-x;}
@@ -834,13 +834,11 @@ body .tabactive a{
 .fright {
     float: right;
 }
-#msj_query_type
-{
+#msj_query_type{
     font-size: .9em;
     margin-bottom: 1.875em;
     line-height: 1.875em;
-    color: #bd852d;
-    }
+}
 .list_block{
     background-color: #f5f5f5;
     border: 1px solid #ccc;
@@ -1105,7 +1103,7 @@ span.label{
 }
 
 .searchSelect li a{
-    background: #BD852D;
+    /*background: #BD852D;
     background: -moz-linear-gradient(top,#BD852D 0%,#CA851B 100%);
     background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#BD852D),color-stop(100%,#CA851B));
     background: -webkit-linear-gradient(top,#BD852D 0%,#CA851B 100%);
@@ -1117,14 +1115,16 @@ span.label{
     -moz-box-shadow: inset 1px 1px 0 #D88D19,1px 0 3px rgba(0,0,0,0.29);
     -ms-box-shadow: inset 1px 1px 0 #D88D19,1px 0 3px rgba(0,0,0,0.29);
     -o-box-shadow: inset 1px 1px 0 #D88D19,1px 0 3px rgba(0,0,0,0.29);
-    box-shadow: inset 1px 1px 0 #D88D19,1px 0 3px rgba(0,0,0,0.29);
+    box-shadow: inset 1px 1px 0 #D88D19,1px 0 3px rgba(0,0,0,0.29);*/
     padding: 10px 16px;
     font-size: 1.4em;
     line-height: 1.5em;
     color: #fff;
     text-align: center;
     margin: 5px 15px;
-    /*display: inline-block;*/s
+    /*display: inline-block;*/
+    background: #40B4E3;
+    box-shadow: inset 1px 1px 0 #40B4E3,1px 0 3px rgba(0,0,0,0.29);
 }
 .searchSelect li a:hover{
     background: #53524d;
@@ -1413,7 +1413,7 @@ a.menu:hover{color:#cd8310; text-decoration:none;}
 
 a{  text-decoration:none;}/*color:#FF0000;*/
 
-a:hover{ color:#BD852D; text-decoration:none;}
+a:hover{ color:#40B4E3; text-decoration:none;}
 
 a.azul{ color:#0d648c; text-decoration:none;}
 
@@ -2136,6 +2136,7 @@ float:none;
     background-image: url("../img/007.jpg");
     background-repeat: repeat-x;
     border: 0;
+    border-top: 5px solid #40B4E3;
 }
 .main-bibblio .modal{
     width: auto;
@@ -2184,4 +2185,21 @@ float:none;
 .main-bibblio #div_tituloSearch select[name="cbosede"]{
     float: right;
     width: 125px;
+}
+
+/*diseno celeste*/
+body {
+    background: url("../img/bg-body.png") repeat top center fixed;
+}
+#header .span6  {
+    margin-left: 0px;
+}
+#header h1 {
+    text-transform: uppercase;
+    margin-top: 20px;
+    font-size: 220%;
+    font-weight: bold;
+}
+.main-bibblio {
+    background: #FFFDFD;
 }

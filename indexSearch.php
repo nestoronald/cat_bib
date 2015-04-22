@@ -954,7 +954,7 @@
                 <button id="btn-clear" class="btn">Limpiar</button>
 
 				<div class="clear"></div>
-				<div id="msj_query_type">
+				<div id="msj_query_type" class="txt-azul">
 					<span>(Puede omitir las tildes y/o mayúsculas)</span>
 					<span id="search-advanced"><a href="#search-advanced"  onclick="xajax_search_advanced(); return false;" title="Clik aquí para una búsqueda avanzada">Búsqueda avanzada</a></span>
 				</div>

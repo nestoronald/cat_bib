@@ -60,10 +60,11 @@
     <div class = "container main-bibblio">
 
 	    <div id="header" class="cabecera">
-            <div class="row">
-	    		<div class="span5"><br><img src="img/logo-minan-igp_2012.png"></div>
-
-	    		<div class="span2 offset5"><img src="img/igp-trans.png"></div>
+            <div class="container">
+                <div class="span4"><br><img src="img/logo-minan-igp_2012.png"></div>
+                <div class="span6"> <h1 class="fcenter"> Catálogo Virtual - Biblioteca </h1>
+                </div>
+                <div class="span2"><img src="img/igp-trans.png"></div>
             </div>
 
             <div class="container main-menu">
@@ -80,26 +81,11 @@
                             </div>
                         </div>
                     </div>
-
-
 			</div>
-                        <div id="saludo"></div>
 
-        </div>
-        <div class="container main-title">
-                            <div class="row" >
-
-                                        <div class="span12">
-                                            <div class="container-fluid"> <h1 class="cblanco fcenter"> Catálogo Virtual - Biblioteca </h2></div>
-                                        </div>
-
-                            </div>
         </div>
         <div class="container div-login-main">
-
-
                 <div id="divformlogin"  name="formlogin">
-
                 </div>
 	    </div>
 	      <hr class="space">
