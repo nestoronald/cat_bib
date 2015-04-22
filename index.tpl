@@ -91,7 +91,7 @@
         <div class="container main-title">
             <div class="row" >
                 <div class="span12">
-                    <div class="container-fluid"> <h1 class="cblanco fcenter"> Catálogo Virtual - Biblioteca Central</h1>
+                    <div class="container-fluid"> <h1 class="cblanco fcenter"> Catálogo Virtual - Biblioteca </h1>
                     </div>
                 </div>
             </div>
