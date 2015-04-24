@@ -925,7 +925,7 @@
 
 		$html='
 			<div id="divformSearch">
-			<div id="submenu_bar" class="nav_page">
+			<div id="submenu_bar">
 
 			</div>
 			<div class="span10 offset2">

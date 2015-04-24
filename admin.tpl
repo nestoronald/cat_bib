@@ -13,13 +13,7 @@
     <!-- <link href="css/estilos.css" rel="stylesheet" type="text/css" /> -->
 
     <link href="css/ui-lightness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" type="text/css" />
-
-    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
-
-
     <!-- Import fancy-type plugin for the sample page. -->
-    <link rel="stylesheet" href="css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
     <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
     <script type="text/javascript" src="js/jquery.maskedinput-1.2.2-co.min.js"></script>
@@ -88,13 +82,11 @@
                 <div id="divformlogin"  name="formlogin">
                 </div>
 	    </div>
-	      <hr class="space">
 
 	      <div class="last container-fluid">
                 <div class="row-fluid">
 
                     <div class=" span12">
-                                <hr class="space">
                                 <div id="imghome">
                                     <table>
                                         <tr>
