@@ -514,21 +514,17 @@
             if ($form["editAuthor_type"]==0) {
                 $fx_asoc = $form["sDate1"];
                 $tag_relation = $form["sDate2"];
-<<<<<<< HEAD
-		$unid_sub = "";
-=======
+
                 $unid_sub = "";
->>>>>>> 34801ad748b73dbb7224d6bfc812c8a03fbc0597
+
                 $affiliate = "";
             }
             else{
                 $unid_sub = $form["sDate1"];
                 $affiliate = $form["sDate2"];
-<<<<<<< HEAD
-		$fx_asoc = "";
-=======
+
                 $fx_asoc = "";
->>>>>>> 34801ad748b73dbb7224d6bfc812c8a03fbc0597
+
                 $tag_relation = "";
             }
             $stmt->execute(array($form["sidauthor"])); // Execute the prepared query.

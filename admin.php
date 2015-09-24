@@ -2804,11 +2804,7 @@
     }
     function saveAuthor($form="",$catAuthor="",$action=""){
     		$objResponse= new xajaxResponse();
-<<<<<<< HEAD
-=======
     		// $result = registraAuthorSQL($form);
-
->>>>>>> 34801ad748b73dbb7224d6bfc812c8a03fbc0597
     		 if (registraAuthorSQL($form)===true) {
     		 	$html="<p class='msj'>Datos guardados correctamente";
     		  	$objResponse->script("xajax_auxAuthorShow(5000,1,\"$form\",'".$action."','','".$catAuthor."')");
