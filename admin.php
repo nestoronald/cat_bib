@@ -2444,7 +2444,7 @@
     	$html= '
     			<a href="#" id="newAuthor_'.$catAuthor.'" class="openNewAuthor fright"><span class="icon-plus-sign"></span>Nuevo</a>
                 <span style="display:none">'.$result["query_autor"].'</span>
-    			<table id="'.$idtable.'" width="100%" class="listAuthor tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">
+    			<table id="'.$idtable.'" width="100%" class="listAuthor tablacebra-2 table" cellspacing="0" cellpadding="0" border="0" width="380px">
     			<thead>
     			<tr class="cab">
     				<th>N°</th>

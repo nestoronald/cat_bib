@@ -763,7 +763,7 @@ body .tabactive {
     box-shadow: 0 0 0 0px, 0 -8px 3px 0px, 0 0;
     }
 body .tabactive a{
-    color:#BD852D;
+    color:#40B4E6;
 }
 
 .txt-verde {
@@ -2139,4 +2139,10 @@ body {
 }
 .main-bibblio {
     background: #FFFDFD;
+}
+#imghome {
+    width: 100%;
+}
+#imghome table {
+    margin: 0 auto;
 }
