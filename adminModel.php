@@ -201,81 +201,34 @@
 	    return $result;
 	}
 
-	function registraAuthorSQL($form_entrada){
-
+	function registraAuthorSQL($form_entrada=""){
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
         $dbh->query("SET NAMES 'utf8'");
-
-	    $author_name=$form_entrada["author_name"];
-	    $author_surname=$form_entrada["author_surname"];
-
-	    /******Verificar si existe autor******/
-	    $campo=' where author_name = "'.$author_name.'" and author_surname = "'.$author_surname.'"  ';
-	    $sql='select * from author '.$campo;
-
-	    $i=0;
-	    if($dbh->query($sql)){
-
-	        foreach($dbh->query($sql) as $row) {
-	            $result["idauthor"][$i]= $row["idauthor"];
-	            $i++;
-	        }
-
-	        if(isset($result["idauthor"])){
-	                for($i=0;$i<count($result["idauthor"]);$i++){
-	                        $result["idauthor"]=$result["idauthor"][$i];
-	                }
-	                $result["Count"]=count($result["idauthor"]);
-	        }
-
-	        else{
-	                $result["Count"]=0;
-	        }
-
-
-		    if($result["Count"]==0){
+        if ($stmt = $dbh->prepare("SELECT * FROM author WHERE author_name = ? AND author_surname = ? LIMIT 1")) {
+            $stmt->execute(array($form_entrada["author_name"],$form_entrada["author_surname"])); // Execute the prepared query.
+            if($stmt->rowCount() == 0) {
                 if ($form_entrada["newAuthor_type"]==0) {
-                    $fx_asoc = $form_entrada["sDate1"];
-                    $tag_relation = $form_entrada["sDate2"];
+                	$fx_asoc = $form_entrada["sDate1"];
+                	$tag_relation = $form_entrada["sDate2"];
+                	$unid_sub = "";
+                	$affiliate = "";
                 }
                 else{
-                    $unid_sub = $form_entrada["sDate1"];
-                    $affiliate = $form_entrada["sDate2"];
+                	$unid_sub = $form_entrada["sDate1"];
+                	$affiliate = $form_entrada["sDate2"];
+                	$fx_asoc = "";
+                	$tag_relation = "";
                 }
-		        $sql='insert into author(author_name,author_surname,author_type,author_enabled, fx_asoc, tag_relation, unid_sub, affiliate )
-		        values ("'.$author_name.'","'.$author_surname.'","'.$form_entrada["newAuthor_type"].'",1,"'.$fx_asoc.'","'.$tag_relation.'","'.$unid_sub.'","'.$affiliate.'")';
-
-		        $dbh->query($sql);
-
-				/************/
-		        foreach($dbh->query("SELECT * FROM author order by idauthor desc limit 1") as $row) {
-		            $result["idauthorultimo"][0]= $row["idauthor"];
-		            $i++;
-		        }
-
-		        if(isset($result["idauthorultimo"])){
-		          $result["idauthorultimo"]=$result["idauthorultimo"][0];
-		        }
-				/************/
-
-		        $dbh = null;
-		        $result["Error"]="registrado";
-		        $result["Msg"]="Registrado Correctamente";
-		        $result["author_surname"]=$author_surname;
-		  	}
-			else{
-		        //$result["Error"]=3;
-		        $result["Error"]="existe";
-                $result["Msg"]="Existe Autor";
-		    }
-	    }
-	    else{
-	        $result["Error"]=4;
-            $result["Msg"]="Error en la consulta de existencia";
-	    }
-	    $dbh = null;
-	    $result["Query"]=$sql;
-	    return $result;
+                $stmt = $dbh->prepare("INSERT INTO author(author_name,author_surname,author_type,author_enabled, fx_asoc, tag_relation, unid_sub, affiliate)
+                			VALUES(?,?,?,?,?,?,?,?) ");$en=1;
+            	$stmt->execute(array($form_entrada["author_name"],$form_entrada["author_surname"],$form_entrada["newAuthor_type"],$en,$fx_asoc,$tag_relation,$unid_sub,$affiliate));
+                $dbh = null;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 	}
 
 	function searchPublication_iddataSQL($iddata=0){
@@ -562,10 +515,14 @@
             if ($form["editAuthor_type"]==0) {
                 $fx_asoc = $form["sDate1"];
                 $tag_relation = $form["sDate2"];
+                $unid_sub = "";
+                $affiliate = "";
             }
             else{
                 $unid_sub = $form["sDate1"];
                 $affiliate = $form["sDate2"];
+                $fx_asoc = "";
+                $tag_relation = "";
             }
             $stmt->execute(array($form["sidauthor"])); // Execute the prepared query.
             $result=$stmt->fetch(PDO::FETCH_ASSOC);
