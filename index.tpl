@@ -11,11 +11,8 @@
     <!-- Framework CSS -->
     <link href="css/ui-lightness/jquery-ui-1.8.17.custom.css" rel="Stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
-
+    <!-- <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection"> -->
     <!-- Import fancy-type plugin for the sample page. -->
-    <link rel="stylesheet" href="css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
     <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
     <script type="text/javascript" src="js/jquery.maskedinput-1.2.2-co.min.js"></script>
@@ -46,9 +43,11 @@
 <div id="form" name="form"></div>
 <div class = "container main-bibblio">
         <div id="header" class="cabecera">
-            <div class="row">
-                <div class="span5"><br><img src="img/logo-minan-igp_2012.png"></div>
-                <div class="span2 offset5"><img src="img/igp-trans.png"></div>
+            <div class="container">
+                <div class="span4"><br><img src="img/logo-minan-igp_2012.png"></div>
+                <div class="span6"> <h1 class="fcenter"> Catálogo Virtual - Biblioteca </h1>
+                </div>
+                <div class="span2"><img src="img/igp-trans.png"></div>
             </div>
             <div class="container main-menu">
                     <div class="navbar navbar-inverse">
@@ -88,15 +87,6 @@
                     </div>
             </div>
         </div>
-        <div class="container main-title">
-            <div class="row" >
-                <div class="span12">
-                    <div class="container-fluid"> <h1 class="cblanco fcenter"> Catálogo Virtual - Biblioteca </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr class="space">
         <div class="last container-fluid">
                 <div class="row-fluid">
                     <div class=" span12">

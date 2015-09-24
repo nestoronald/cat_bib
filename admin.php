@@ -2804,6 +2804,11 @@
     }
     function saveAuthor($form="",$catAuthor="",$action=""){
     		$objResponse= new xajaxResponse();
+<<<<<<< HEAD
+=======
+    		// $result = registraAuthorSQL($form);
+
+>>>>>>> 34801ad748b73dbb7224d6bfc812c8a03fbc0597
     		 if (registraAuthorSQL($form)===true) {
     		 	$html="<p class='msj'>Datos guardados correctamente";
     		  	$objResponse->script("xajax_auxAuthorShow(5000,1,\"$form\",'".$action."','','".$catAuthor."')");
@@ -2811,7 +2816,7 @@
     		  else {
     		  	$html="<p class='msjdel'>No fue posible insertar el nuevo Author";
     		  }
-    		//$objResponse->alert(print_r($formUM,TRUE));
+    		$objResponse->alert(print_r($form,TRUE));
     		$objResponse->assign("divNewAuthor","innerHTML",$html);
     		return $objResponse;
     }
