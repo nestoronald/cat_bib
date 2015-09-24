@@ -2146,3 +2146,8 @@ body {
 #imghome table {
     margin: 0 auto;
 }
+span#type h3{
+    font-size: 13px;
+    line-height: 1;
+    margin: 5px;
+}
