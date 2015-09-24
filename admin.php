@@ -2804,9 +2804,7 @@
     }
     function saveAuthor($form="",$catAuthor="",$action=""){
     		$objResponse= new xajaxResponse();
-    		$result = registraAuthorSQL($form);
-
-    		 if ($result["Error"]=="registrado") {
+    		 if (registraAuthorSQL($form)===true) {
     		 	$html="<p class='msj'>Datos guardados correctamente";
     		  	$objResponse->script("xajax_auxAuthorShow(5000,1,\"$form\",'".$action."','','".$catAuthor."')");
     		  }
@@ -3384,6 +3382,7 @@
     $xajax->registerFunction('ConfirmdeleteAuthor');
     $xajax->registerFunction('ConfirmdeleteDictionary');
     $xajax->registerFunction('NewAuthor');
+    $xajax->registerFunction('saveAuthor');
     $xajax->registerFunction('NewDictionary');
     $xajax->registerFunction('saveDictionary');
     $xajax->registerFunction('delBook');
@@ -3393,7 +3392,6 @@
     $xajax->registerFunction('delete_reserva');
     $xajax->registerFunction('aboutAdmin');
     $xajax->registerFunction('editPassAdmin');
-
     $xajax->registerFunction('cambiar_estado');
     $xajax->registerFunction('show_details_back');
     $xajax->registerFunction('editDataSede');
