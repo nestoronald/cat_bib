@@ -7,7 +7,7 @@
 	function searchBookSQL($form, $currentPage="", $pageSize="",$idauthor=0,$idbook=0,$theme_tag="") {
 	 $dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 	 $dbh->query("SET NAMES 'utf8'");
-	 $sql = "Select * from book";
+	 $sql = "Select * from book ";
      $sede = " AND sede = '".$_SESSION['users_sede']."'";
      if ($_SESSION["origin"]=="frond") {
      	if ($form['cbosede']!=-100) {
@@ -380,7 +380,7 @@
 	  // 		$sql .= " AND sede =  '".$_SESSION["users_sede"]."'";
 	  // 	}
 	  // }
-
+	  $sql .= " ORDER BY  idbook DESC ";
 
 		//paginar
 		if($currentPage<>"" and $pageSize<>""){

@@ -820,19 +820,6 @@
 				            </div>
 				            <div id="referencia" style="display:none"></div>
 
-				            <div id="area_tema" style="display:none">
-				                <div class="txt-azul" id="conte_temas"></div>
-								<div  class="linea-separacion"></div>
-								<a class="showdiv txt-azul" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-right"></i>  Nuevo Tema</a>
-								<a class="showdiv hide txt-azul divactive" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-down"></i> Nuevo Tema</a>
-				                <div class="hide showdiv" id="nuevo_tema_publicacion"></div>
-				            </div>
-
-							<div id="fecha_permisos" style="display:none">
-								<div id="fechasTesis"></div>
-								<div  class="linea-separacion"></div>
-
-							</div>
 							<div id="archivo" style="display:none"></div>
 						</form>
 					</div>
@@ -964,8 +951,19 @@
 
 			$html .= "<div id='009_c'></div>
                       <div id='010_c'></div>
-					  <div id='011_c'></div>
-					  <div id='012_c'></div>";
+					  <div id='011_c'></div>";
+            if ($form_1["type_material"]=="tesis") {
+                $html .= "
+                <div class='control-group none'>
+                    <label class='control-label' for='title'>Tabla de contenidos</label>
+                    <div class='controls'>
+                    <textarea name='tabla_contenidos' class='textarea span7' placeholder='Escribe título…'>".$input["title"]."</textarea>
+                    <span id='tb_cont_error' class='msg_error color_red'></span>
+                    </div>
+                </div>
+                ";
+            }
+			$html .= "<div id='012_c'></div>";
 			if ($form_1["type_material"]=="pub_perio") {
 				$NoteContent1 = Query_input('013');
 				$html .= $NoteContent1["html"];
