@@ -1769,7 +1769,8 @@
 		}
 		$span = "span3";
 		$i=0;
-                $html.=tags_temas_html();
+        $html.=tags_temas_html();
+        //editar
 		if (isset($recuperar[$idinput])) {
 			$html_table="";
 			$h=0;
@@ -1790,7 +1791,7 @@
 							}
 							else{
 								$html_table .= "
-								<td id='idtd1'><input type='text' name='".$idinput."[".$key."][secundary][]' value='".$value_1."' placeholder='Principal'>
+								<td id='idtd1'><input type='text' name='".$idinput."[".$key."][secundary][]' value='".$value_1."' placeholder='Secundario' class='span11'>
 								<a href='#' title='Agregar nuevo tema secundario' onclick='xajax_AddInput($(this).parents(\"td\").attr(\"id\"),\"".$label."\",\"".$idinput."\",".$labelSec."); return false;'>
 								<span class='ui-icon ui-icon-circle-plus inline'></span>
 								</a></td>";
@@ -1802,7 +1803,7 @@
 							$html_table.="<td id='idtd".($i+1)."'>";
 							foreach ($value_1 as $key_2 => $value_2) {
 								$html_table.="<div id='idtd".($h+1)."_".($key_2+1)."'>
-									<input type='text' name='".$idinput."[".$key."][secundary][]' value='".$value_2."' placeholder='Secundario'>";
+									<input type='text' name='".$idinput."[".$key."][secundary][]' value='".$value_2."' placeholder='Secundario' class='span11'>";
 								if ($key_2==0) {
 									$html_table.=" <a href='#' title='Agregar nuevo tema secundario' onclick='xajax_AddInput($(this).parents(\"td\").attr(\"id\"),\"".$label."\",\"".$idinput."\",".$labelSec."); return false;'>
 										<span class='ui-icon ui-icon-circle-plus inline'></span>
@@ -1825,7 +1826,7 @@
 			$html .= $html_table;
 		}
 
-		//temp
+		//nuevo
 		else{
 			$html .= "
 					    <tr>
@@ -1834,7 +1835,7 @@
 					    </td>
 					    <td><input class='span11' type='text' name='".$idinput."[pri01][detalle]' placeholder='Principal' value=''></td>
 					    <td id='idtd1'>
-					    	<input  type='text' name='".$idinput."[pri01][secundary][]' placeholder='Secundario' value=''>
+					    	<input  type='text' name='".$idinput."[pri01][secundary][]' placeholder='Secundario' value='' class='span11'>
 					    	<a href='#' title='Agregar nuevo tema secundario' onclick='xajax_AddInput($(this).parents(\"td\").attr(\"id\"),\"".$label."\",\"".$idinput."\",".$labelSec."); return false;'>
 								<span class='ui-icon ui-icon-circle-plus inline'></span>
 							</a>
@@ -1890,7 +1891,7 @@
 					    </td>
 					    <td><input class='span10' type='text' name='".$idinput."[principal][]' placeholder='Principal' value=''></td>
 					    <td>
-					    	<input  type='text' name='".$idinput."[secundary][]' placeholder='Secundario' value=''>
+					    	<input  type='text' name='".$idinput."[secundary][]' placeholder='Secundario' value='' class='span11'>
 					    	<a href='#' title='Aumentar nuevo tema secundario' onclick='xajax_AddInput($(this).parents(\"td\").attr(\"id\"),\"\",\"Theme\",\"\"); return false;'>
 								<span class='ui-icon ui-icon-circle-plus inline'></span>
 							</a>
@@ -1899,7 +1900,7 @@
 		}
 		elseif (eregi("idtd", $id)) {
 			$html = "<div>
-							<input type='text'  value=''  name='".$idinput."[secundary][]' placeholder='Secundario' />
+							<input type='text'  value=''  name='".$idinput."[secundary][]' placeholder='Secundario' class='span11' />
 							<span>
 								<a href='#' title='Elimine este tema secundario' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\");return false;'>
 									<span class='ui-icon ui-icon-circle-minus inline'></span>
@@ -1962,13 +1963,7 @@
             $('.ui-icon').parents('a').tooltip();
             $('#themes_bib input').typeahead({source:".$theme_dictionary."});
 			");
-		// if (eregi("idtd", $id)) {
-		// 	$objResponse->script("
-		// 		$('td#".$id." > div').each(function(index){
-		// 				$(this).attr('id','".$id."_'+(index+1));
-		// 			})
-		// 	");
-		// }
+
 		return $objResponse;
 	}
 	function delInput($idDiv="",$labelinput="",$idinput=""){
@@ -2759,7 +2754,6 @@
     		  else {
     		  	$html="<p class='msjdel'>No fue posible insertar el nuevo Author";
     		  }
-    		$objResponse->alert(print_r($form,TRUE));
     		$objResponse->assign("divNewAuthor","innerHTML",$html);
     		return $objResponse;
     }
@@ -3194,7 +3188,7 @@
 
     function DeleteImg($namefile="",$id=""){
         $objResponse = new xajaxResponse();
-        $html = "<p class='msj'>Está seguro que desea eliminar el programa.</p>
+        $html = "<p class='msj'>Está seguro que desea eliminar la imagen.</p>
     		   <div class='btnActions'>
     		   	<input type='button' value='Eliminar' onclick='xajax_ConfirmDeleteImg(\"".$namefile."\", \"".$id."\")' class='btn btnCancel'>
     		   	<input type='button' value='Cancelar' class='btn btnCancel'>
