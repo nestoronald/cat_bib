@@ -633,60 +633,20 @@
 					      		<input class="ActionInput" type="checkbox" value="013" '.$NoteConte_ch.'> Notas de Contenido
 					    	</label>';
 							}
-						   	$html .='
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="id_0250" '.$Edition_ch.'> Publicación
-					    	</label-->
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="id_0920" '.$FxIng_ch.'> Fecha de Ingreso
-					    	</label-->
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="id_0924" '.$UbicFis_ch.'> Ubicación Física
-					    	</label-->
-					    	';
 					    	if ($form_1["type_material"]!="pub_perio") {
 					    		$html.='
 					    		<label class="checkbox">
 					      		<input class="ActionInput" type="checkbox" value="id_0520" '.$Resumen_ch.'> Resumen
-					    		</label>
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="014" '.$DesPersonal_ch.'> Tema como Persona
-					    	</label>
-					    	<label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="017" '.$Descriptor_geo_ch.'> Tema Geográfico
-					    	</label>
-					    	<label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="015" '.$MatEntidad_ch.'> Tema como entidad
-					    	</label-->';
+					    		</label>';
 					    	}
 
 					    	$html .='
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="id_0925" '.$NumReg_ch.'> Número de Registro
-					    	</label-->
-
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="id_0300" '.$Description_ch.'> Descripción
-					    	</label-->
-
-					    	<!--label class="checkbox checkbox1">
-					      		<input class="ActionInput" type="checkbox" value="004" '.$NumDewey_ch.'> Número de Clasificación Dewey
-					    	</label-->
-					    	<!--label class="checkbox checkbox1">
-					      		<input class="ActionInput" type="checkbox" value="007" '.$OtherTitles_ch.'> Otros Títulos
-					    	</label-->
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="008" '.$Periodicidad_ch.'> Periodicidad
-					    	</label-->
                             <label class="checkbox">
     					      	<input class="ActionInput" type="checkbox" value="009" '.$Serie_ch.'> Serie
     					    </label>
 					    	<label class="checkbox checkbox1">
 					      		<input class="ActionInput" type="checkbox" value="010" '.$NoteGeneral_ch.'> Notas Generales
 					    	</label>
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="011" '.$NoteTesis_ch.'> Notas Tesis
-					    	</label-->
 					    	';
 					    	if ($form_1["type_material"]!="pub_perio") {
 					    		$html .= '<!--label class="checkbox">
@@ -703,17 +663,9 @@
 					    	</label>';
 					    	}
 					    	$html .='
-					    	<!--label class="checkbox">
-					      		<input class="ActionInput" type="checkbox" value="020" '.$Fuente_ch.'> Fuente
-					    	</label-->
 					    	<label class="checkbox">
 					      		<input class="ActionInput" type="checkbox" value="021" '.$NumIng_ch.'> Número de Ingreso
 					    	</label>
-
-
-					    	<!--label>
-					      		<input class="ActionInput" type="checkbox" value="023" '.$ModAdqui_ch.'> Modalidad Adquisición
-					    	</label-->
 					    	<label class="checkbox">
 					      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador
 					    	</label>
@@ -826,7 +778,7 @@
 
 		            <div class="action-btn">
 		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'),1);" value="'.$tituloBoton.'"  />
-		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'),2);" value="'.$tituloBoton_sec.'"/>
+		            	<!--input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'),2);" value="'.$tituloBoton_sec.'"/-->
 		            </div>
 		        </div>
 
@@ -937,7 +889,7 @@
 
 			$html .= "<div id='005_c'></div>
 			<div class='control-group'>
-				<label class='control-label' for='title'>Título</label>
+				<label class='control-label' for='title'>Título (*)</label>
 				<div class='controls'>
 				<textarea name='title' class='textarea span7' placeholder='Escribe título…'>".$input["title"]."</textarea>
 				<span id='title_error' class='msg_error color_red'></span>
@@ -955,7 +907,7 @@
             if ($form_1["type_material"]=="tesis") {
                 $html .= "
                 <div class='control-group none'>
-                    <label class='control-label' for='title'>Tabla de contenidos</label>
+                    <label class='control-label' for='tabla_contenidos'>Tabla de contenidos</label>
                     <div class='controls'>
                     <textarea name='tabla_contenidos' class='textarea span7' placeholder='Escribe título…'>".$input["title"]."</textarea>
                     <span id='tb_cont_error' class='msg_error color_red'></span>
@@ -973,15 +925,6 @@
 			}
 			//resumen
 			$html .= "<div id='id_0520_c'></div>";
-            /*temas borrador
-            $html .= "
-                    <div class='control-group'>
-                        <label class='control-label' for='title'>temas(borrador)</label>
-                        <div class='controls'>
-                        <textarea class='textarea span7' >".$input["temas_recovery"]."</textarea>
-                        <span id='title_error' class='msg_error color_red'></span>
-                        </div>
-                    </div>";*/
 
             $Themes_1 = Query_input('016');
             $html .= $Themes_1["html"];
@@ -1436,8 +1379,8 @@
 		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
 		$repetibles = array("id_0250","002","006","007","009","010","014","015","016","017","019","020","021");
 		$textarea = array("013","012","010","id_0520","011");
+        $req =" (*)";
 		switch ($id) {
-
 				case 'id_020':
 					$respuesta["idinput"] = "ISBN";
 					$respuesta["labelinput"] = "ISBN";
@@ -1461,11 +1404,13 @@
 					break;
 				case 'id_0920':
 					$respuesta["idinput"] = "FxIng";
-					$respuesta["labelinput"] = "Fecha de ingreso";
+                    $respuesta["labelinput"] = "Fecha de ingreso ";
+					$respuesta["required"] = $req;
 					break;
 				case 'id_0924':
 					$respuesta["idinput"] = "UbicFis";
-					$respuesta["labelinput"] = "Ubicación física";
+					$respuesta["labelinput"] = "Ubicación física ";
+                    $respuesta["required"] = $req;
 					break;
 				case 'id_0925':
 					$respuesta["idinput"] = "NumReg";
@@ -1484,17 +1429,18 @@
 
 				case '003':
 					$respuesta["idinput"] = "NumLC";
-					$respuesta["labelinput"] = "N° clasificación LC";
+					$respuesta["labelinput"] = "N° clas. LC";
 					break;
 
 				case '004':
 					$respuesta["idinput"] = "NumDewey";
-					$respuesta["labelinput"] = "N° de Clasificación Dewey";
+					$respuesta["labelinput"] = "N° de clas. Dewey ";
+                    $respuesta["required"] = $req;
 					break;
 
 				case '005':
 					$respuesta["idinput"] = "Class_IGP";
-					$respuesta["labelinput"] = "N° de clasificación IGP";
+					$respuesta["labelinput"] = "N° de clas. IGP";
 					break;
 
 				case '006':
@@ -1585,7 +1531,8 @@
 
 				case '023':
 					$respuesta["idinput"] = "ModAdqui";
-					$respuesta["labelinput"] = "Modalidad adquisición";
+					$respuesta["labelinput"] = "Modalidad adquisición ";
+                    $respuesta["required"] = $req;
 					break;
 
 				case '024':
@@ -1594,11 +1541,13 @@
                     break;
                 case '025':
 					$respuesta["idinput"] = "NumEjem";
-					$respuesta["labelinput"] = "Número de ejemplares";
+					$respuesta["labelinput"] = "Número de ejemplares ";
+                    $respuesta["required"] = $req;
 					break;
 
 				default:
 					$respuesta["html"] = "";
+                    $respuesta["required"] =" ";
 					break;
 			}
 
@@ -1607,7 +1556,7 @@
 			if (is_array($recuperar[$idinput])) {
 
 				if (isset($recuperar[$idinput])) {
-						$respuesta["html"] .= "<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>";
+						$respuesta["html"] .= "<label class='control-label' for='$idinput'>".$respuesta["labelinput"].$respuesta["required"]."</label>";
 						if ($id=="id_0250" ) {
 							$respuesta["html"] .= optionEdition($id,$idinput,$respuesta["labelinput"],$respuesta["labelSec"]);
 						}
@@ -1656,7 +1605,7 @@
 
 					else{
 						$respuesta["html"] .= "
-							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>
+							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"].$respuesta["required"]."</label>
 							    <div class='controls' id='".$id."_".($k+1)."'>
 							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value=''>
 							      <span><a href='#' title='Aumentar ".$respuesta["labelinput"]."' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>
@@ -1670,7 +1619,7 @@
 				//new register
 				if (in_array($id, $repetibles)) {
 						//case edition
-					$respuesta["html"].= "<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> ";
+					$respuesta["html"].= "<label class='control-label' for='$idinput'>".$respuesta["labelinput"].$respuesta["required"]."</label> ";
 						if ($id=="id_0250") {
 							$respuesta["html"].= optionEdition($id,$idinput,$respuesta["labelinput"],$respuesta["labelSec"]);
 						}
@@ -1699,7 +1648,7 @@
 				elseif ($id=="id_0300") {
 						$recuperar[$idinput] =array("Paginación"=>"","Ilustración"=>"","Dimensión"=>"");
 						$respuesta["html"].="
-							<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>
+							<label class='control-label' for='$idinput'>".$respuesta["labelinput"].$respuesta["required"]."</label>
 							<div class='controls'>";
 							foreach ($recuperar[$idinput] as $key => $value) {
 								$respuesta["html"] .= "<input class='span3' placeholder='".$key."' name='".$idinput."[".$key."]' type='text' value='$value'> ";
@@ -1711,7 +1660,7 @@
 				else{
 					$val_input=(isset($recuperar[$idinput])?$recuperar[$idinput]:"");
 					$respuesta["html"] .="
-								<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>
+								<label class='control-label' for='$idinput'>".$respuesta["labelinput"].$respuesta["required"]."</label>
 								<div class='controls'>";
 
 						if (in_array($id, $textarea)) {
@@ -2266,7 +2215,7 @@
             $html["details"] .= "<p class='res'> Dewey >>".$data_array["NumDewey"]."</p>";
         }
         if (isset($data_array["Resumen"])) {
-            $html["details"] .= "<p class='res'> Fecha de ingreso >> ".$data_array["Resumen"]."</p>";
+            $html["details"] .= "<p class='res'> Resumen >> ".$data_array["Resumen"]."</p>";
         }
         if (isset($data_array["FxIng"])) {
             $html["details"] .= "<p class='res'> Fecha de ingreso >> ".$data_array["FxIng"]."</p>";

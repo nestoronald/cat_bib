@@ -997,18 +997,18 @@
 	    //$objResponse->assign('botonGuardarEditar', 'innerHTML',$comboYear);
 	    $objResponse->script('
             xajax_submenu_items("'.$id.'");
-	    		function typesugerencias(cat,subcat){
-	    			var sugerencias = new Array();
-			    	$.getJSON("js/susgerencias.json", function(datos) {
-		                $.each(datos[cat][subcat], function(idx,item) {
-		                	sugerencias.push(item);
-		                });
-		            });
-		            return sugerencias;
-	    		}
-	    		var subcat= $("input[name=query_type]").val();
+	    		// function typesugerencias(cat,subcat){
+	    		// 	var sugerencias = new Array();
+			    // 	$.getJSON("js/susgerencias.json", function(datos) {
+		     //            $.each(datos[cat][subcat], function(idx,item) {
+		     //            	sugerencias.push(item);
+		     //            });
+		     //        });
+		     //        return sugerencias;
+	    		// }
+	    		// var subcat= $("input[name=query_type]").val();
 
-	    		sug = typesugerencias("'.$id.'",subcat);
+	    		//sug = typesugerencias("'.$id.'",subcat);
 	    		// $("input[name=query_type]").change(function(){
 	    		// 	var subcat= $(this).val();
 	    		// 	var sug = typesugerencias("'.$id.'",subcat);
