@@ -1365,7 +1365,8 @@
 
 		return $objResponse;
 	}
-
+    // global $textarea;
+    $textarea = array("013","012","010","id_0520","011","019");
 	function Query_input($id="") {
 
 		// $recuperar = (isset($_SESSION["edit"])?$_SESSION["edit"]:"");
@@ -1378,7 +1379,7 @@
 		// $respuest["add"] = "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
 		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
 		$repetibles = array("id_0250","002","006","007","009","010","014","015","016","017","019","020","021");
-		$textarea = array("013","012","010","id_0520","011");
+        // $textarea = array("013","012","010","id_0520","011","019");
         $req =" (*)";
 		switch ($id) {
 				case 'id_020':
@@ -1552,6 +1553,7 @@
 			}
 
 			$idinput = $respuesta["idinput"];
+            $textarea= $GLOBALS["textarea"];
 			//para campos repetidos
 			if (is_array($recuperar[$idinput])) {
 
@@ -1578,7 +1580,7 @@
 								$respuesta["html"] .= "
 									    <div class='controls' id='".$id."_".($k+1)."'>";
 								if (in_array($id, $textarea)) {
-									$respuesta["html"].="<textarea class='textarea' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'>$val_input</textarea>";
+									$respuesta["html"].="<textarea class='textarea span7' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'>$val_input</textarea>";
 								}
 								else{
 									$respuesta["html"].="<input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'  value='$val_input'>";
@@ -1855,15 +1857,11 @@
 	}
 	function AddInput($id="",$labelinput="",$idinput="",$labelSec){
 		$objResponse = new xajaxResponse();
-		// $objResponse->alert(print_r($labelSec, TRUE));
 		$span= "span3";
+        $textarea=$GLOBALS["textarea"];
+        // Publicación
 		if ($id=="id_0250") {
-			if ($id=="id_0250") {
-			    $labelSec = array("country"=>"Pais","editorial"=>"Editorial","year"=>"Año");
-			}
-			else{
-				$labelSec = array("Principal"=>"Principal","secundary1"=>"Secundario","secundary2"=>"Secundario");
-			}
+			$labelSec = array("country"=>"Pais","editorial"=>"Editorial","year"=>"Año");
 			$html = "<div class='controls'>";
 			foreach ($labelSec as $key => $value) {
 				if ($key=='year') {
@@ -1881,6 +1879,7 @@
 						<span  class='msg_error color_red'></span>
 						</div>";
 		}
+        //temas
 		elseif ($id=="016") {
 			$html ="<tr>
 					    <td>
@@ -1898,6 +1897,7 @@
 					   </td>
 					 </tr>";
 		}
+        //temas secundario solamente
 		elseif (eregi("idtd", $id)) {
 			$html = "<div>
 							<input type='text'  value=''  name='".$idinput."[secundary][]' placeholder='Secundario' class='span11' />
@@ -1911,8 +1911,16 @@
 					";
 		}
 		else{
-			$html = "<div class='controls' >
-						<input type='text'  value=''  name='".$idinput."[]'  />
+			$html = "<div class='controls' >";
+            if (in_array($id, $textarea)) {
+                $html.="<textarea class='textarea span7' name='".$idinput."[]' ></textarea>";
+            }
+            else{
+                $html.="<input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."'  value=''>";
+            }
+            $html .="
+
+						<!--input type='text'  value=''  name='".$idinput."[]'  /-->
 						<span><a href='#' title='Elimine ".$labelinput."' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\");return false;'>
 							<span class='ui-icon ui-icon-circle-minus inline'></span></a>
 						</span>
@@ -1962,6 +1970,12 @@
 			}
             $('.ui-icon').parents('a').tooltip();
             $('#themes_bib input').typeahead({source:".$theme_dictionary."});
+            //aumentar el alto de un textarea
+            $('.textarea').focus(function(){
+                                    $(this).addClass('focus');
+                                  }).focusout(function(){
+                                    $(this).removeClass('focus');
+                                  });
 			");
 
 		return $objResponse;
