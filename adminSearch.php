@@ -2021,7 +2021,7 @@ function newRegisterBiblio($iddata, $action=0, $form, $btn_action=""){
 					$valid_dewey = search_dewey($form["NumDewey"],$iddata);
 					if ($valid_dewey["Count"]>0) {
 						array_push($error, -100);
-						$objResponse->assign($key."_error","innerHTML","El número Dewey ya existe");
+						$objResponse->assign($key."_error","innerHTML","El número Dewey ya existe cambie otro");
 					}
 					else{
 						$objResponse->assign($key."_error","innerHTML","");
